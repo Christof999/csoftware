@@ -3,48 +3,43 @@ import { fadeInUp, staggerContainer } from '../../lib/motion'
 
 export function HomeManifesto() {
   return (
-    <section className="border-b border-gallery-line bg-gallery-bg py-16 sm:py-24">
-      <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
+    <section className="bg-gallery-ink py-20 sm:py-28">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
           variants={staggerContainer}
+          className="grid gap-10 sm:grid-cols-[1fr_2fr] sm:gap-20 sm:items-start"
         >
-          <motion.h2
+          <motion.p
             custom={0}
             variants={fadeInUp}
-            className="font-display text-2xl font-semibold leading-snug tracking-tight text-gallery-ink sm:text-3xl sm:leading-tight"
+            className="text-xs font-medium uppercase tracking-widest text-stone-500 pt-1"
           >
-            Schneller live. Ruhig wachsen. Klar messbar.
-          </motion.h2>
-          <motion.p
-            custom={1}
-            variants={fadeInUp}
-            className="mt-6 text-base leading-relaxed text-shell-muted sm:text-lg"
-          >
-            Wir verbinden Strategie, Gestaltung und Technik in einem durchgängigen
-            Ablauf — nicht als lose Einzelteile. So wird aus Ihrer Idee eine
-            Website, die zu Ihrer Marke passt und im Alltag wartbar bleibt.
+            Unser Ansatz
           </motion.p>
-          <motion.div
-            custom={2}
-            variants={fadeInUp}
-            className="mx-auto mt-10 max-w-md"
-          >
-            <p className="mb-2 text-[11px] font-medium uppercase tracking-wider text-shell-muted">
-              Scroll-Animation
-            </p>
-            <div className="h-1.5 w-full overflow-hidden rounded-full bg-gallery-line">
-              <motion.div
-                initial={{ width: 0 }}
-                whileInView={{ width: '100%' }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                className="h-full rounded-full bg-gallery-ink dark:bg-stone-200"
-              />
-            </div>
-          </motion.div>
+          <div>
+            <motion.h2
+              custom={1}
+              variants={fadeInUp}
+              className="font-display text-3xl font-semibold leading-tight tracking-tight text-stone-100 sm:text-4xl sm:leading-[1.12]"
+            >
+              Schneller live.{' '}
+              <span className="text-stone-500">Ruhig wachsen.</span>{' '}
+              Klar messbar.
+            </motion.h2>
+            <motion.p
+              custom={2}
+              variants={fadeInUp}
+              className="mt-6 text-base leading-relaxed text-stone-400 sm:text-lg"
+            >
+              Wir verbinden Strategie, Gestaltung und Technik in einem
+              durchgängigen Ablauf — nicht als lose Einzelteile. So wird aus
+              Ihrer Idee eine Website, die zu Ihrer Marke passt und im Alltag
+              wartbar bleibt.
+            </motion.p>
+          </div>
         </motion.div>
       </div>
     </section>

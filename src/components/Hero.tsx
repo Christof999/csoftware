@@ -6,8 +6,8 @@ import { TiltCard } from './home/tech/TiltCard'
 
 export function Hero() {
   return (
-    <section className="border-b border-gallery-line bg-gallery-surface">
-      <div className="mx-auto max-w-6xl px-4 pb-16 pt-16 sm:px-6 sm:pb-20 sm:pt-20 lg:px-8">
+    <section className="border-b border-gallery-line bg-gallery-surface overflow-hidden">
+      <div className="mx-auto max-w-6xl px-4 pb-20 pt-20 sm:px-6 sm:pb-28 sm:pt-28 lg:px-8">
         <motion.div
           initial="hidden"
           animate="visible"
@@ -15,26 +15,29 @@ export function Hero() {
             hidden: {},
             visible: { transition: { staggerChildren: 0.08 } },
           }}
-          className="max-w-3xl"
+          className="max-w-4xl"
         >
           <motion.p
             custom={0}
             variants={fadeInUp}
-            className="text-sm font-medium text-shell-muted"
+            className="inline-flex items-center gap-3 text-xs font-medium uppercase tracking-widest text-shell-muted"
           >
-            Websites, Sichtbarkeit & Media
+            <span className="h-px w-8 bg-shell-subtle inline-block" aria-hidden />
+            Websites · Sichtbarkeit · Media
           </motion.p>
           <motion.h1
             custom={1}
             variants={fadeInUp}
-            className="mt-4 font-display text-4xl font-semibold tracking-tight text-gallery-ink sm:text-5xl sm:leading-[1.12]"
+            className="mt-7 font-display text-5xl font-semibold tracking-tight text-gallery-ink sm:text-6xl sm:leading-[1.06] lg:text-7xl lg:leading-[1.04]"
           >
-            Eine Website, auf die Sie sich freuen
+            Eine Website,{' '}
+            <br className="hidden sm:block" />
+            <span className="text-shell-muted">auf die Sie sich freuen.</span>
           </motion.h1>
           <motion.p
             custom={2}
             variants={fadeInUp}
-            className="mt-6 text-lg leading-relaxed text-shell-muted"
+            className="mt-8 max-w-xl text-lg leading-relaxed text-shell-muted"
           >
             Wir gestalten und bauen Ihren Auftritt so, dass Besucher sofort
             verstehen, was Sie tun — und Sie sich beim Anschauen denken:{' '}
@@ -49,14 +52,14 @@ export function Hero() {
           >
             <Link
               to="/kontakt"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 px-6 py-3.5 text-sm font-medium text-white transition hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
             >
               Unverbindlich anfragen
               <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
             <Link
               to="/leistungen"
-              className="inline-flex items-center justify-center rounded-lg border border-gallery-line bg-gallery-bg px-5 py-3 text-sm font-medium text-gallery-ink transition hover:border-stone-400 dark:hover:border-stone-600"
+              className="inline-flex items-center justify-center rounded-lg border border-gallery-line bg-gallery-bg px-6 py-3.5 text-sm font-medium text-gallery-ink transition hover:border-stone-400 dark:hover:border-stone-600"
             >
               Leistungen ansehen
             </Link>
@@ -64,10 +67,10 @@ export function Hero() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.45 }}
-          className="mt-16 grid gap-4 border-t border-gallery-line pt-12 sm:grid-cols-3"
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="mt-20 grid gap-4 border-t border-gallery-line pt-14 sm:grid-cols-3"
         >
           {[
             {
@@ -84,8 +87,8 @@ export function Hero() {
             },
           ].map((item) => (
             <TiltCard key={item.t} className="bg-gallery-bg">
-              <div className="p-5">
-                <p className="text-sm font-medium text-gallery-ink">{item.t}</p>
+              <div className="p-6">
+                <p className="text-sm font-semibold text-gallery-ink">{item.t}</p>
                 <p className="mt-2 text-sm leading-relaxed text-shell-muted">
                   {item.d}
                 </p>
