@@ -1,17 +1,25 @@
 import { Hero } from '../components/Hero'
+import { HomeCapabilities } from '../components/home/HomeCapabilities'
+import { HomeCta } from '../components/home/HomeCta'
+import { HomeManifesto } from '../components/home/HomeManifesto'
+import { HomeMediaIdeas } from '../components/home/HomeMediaIdeas'
+import { HomeProcess } from '../components/home/HomeProcess'
+import { HomeProjectStrip } from '../components/home/HomeProjectStrip'
+import { HomeTrust } from '../components/home/HomeTrust'
+import { HomeValueProps } from '../components/home/HomeValueProps'
 
 export function HomePage() {
   return (
     <>
       <Hero />
-      <section className="border-t border-gallery-line bg-gallery-bg py-14">
-        <div className="mx-auto max-w-2xl px-4 text-center sm:px-6 lg:px-8">
-          <p className="text-sm leading-relaxed text-shell-muted">
-            Ob neuer Auftritt oder eine kleine Anwendung im Hintergrund: Sie
-            erhalten etwas, das zu Ihnen passt — und das Sie gern weitergeben.
-          </p>
-        </div>
-      </section>
+      <HomeProjectStrip />
+      <HomeValueProps />
+      <HomeManifesto />
+      <HomeProcess />
+      <HomeTrust />
+      <HomeCapabilities />
+      <HomeMediaIdeas />
+      <HomeCta />
     </>
   )
 }
