@@ -8,10 +8,10 @@
   }
 
   body {
-    @apply bg-craft-950 text-craft-100 antialiased;
+    @apply bg-gallery-bg text-gallery-ink antialiased;
   }
 
   ::selection {
-    @apply bg-tech-500/30 text-white;
+    @apply bg-stone-300/50 text-gallery-ink;
   }
 }

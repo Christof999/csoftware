@@ -1,112 +1,101 @@
 import { motion } from 'framer-motion'
-import { ArrowRight, Hammer, Sparkles } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { fadeInUp } from '../lib/motion'
 
 export function Hero() {
   return (
-    <section
-      id="hero"
-      className="relative min-h-[100svh] overflow-hidden border-b border-white/5 bg-craft-950 bg-hero-glow bg-grid-fine [background-size:100%_100%,64px_64px]"
-    >
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-navy-950/40 via-transparent to-craft-950" />
-
-      <div className="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-center px-4 pb-24 pt-28 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden border-b border-gallery-line bg-gallery-bg">
+      <div
+        className="pointer-events-none absolute inset-0 bg-gallery-dots [background-size:20px_20px] opacity-[0.55]"
+        aria-hidden
+      />
+      <div className="relative mx-auto max-w-6xl px-4 pb-20 pt-24 sm:px-6 sm:pb-28 sm:pt-28 lg:px-8">
         <motion.div
           initial="hidden"
           animate="visible"
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.12 } },
+            visible: { transition: { staggerChildren: 0.1 } },
           }}
-          className="max-w-3xl"
+          className="max-w-2xl"
         >
-          <motion.div
+          <motion.p
             custom={0}
             variants={fadeInUp}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-craft-200 backdrop-blur-sm sm:text-sm"
+            className="text-xs font-medium uppercase tracking-[0.25em] text-gallery-muted"
           >
-            <Sparkles className="h-3.5 w-3.5 text-tech-400" aria-hidden />
-            Craft meets Code — Software für den Mittelstand
-          </motion.div>
-
+            Handwerk & Digital
+          </motion.p>
           <motion.h1
             custom={1}
             variants={fadeInUp}
-            className="font-display text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl"
+            className="mt-5 font-display text-4xl font-semibold tracking-tight text-gallery-ink sm:text-5xl"
           >
-            Traditionelles Handwerk trifft auf{' '}
-            <span className="bg-gradient-to-r from-tech-400 via-forest-400 to-gold-400 bg-clip-text text-transparent">
-              maßgeschneiderte Software
-            </span>
+            Ruhige Oberflächen.
+            <br />
+            Klare Wirkung.
           </motion.h1>
-
           <motion.p
             custom={2}
             variants={fadeInUp}
-            className="mt-6 max-w-2xl text-lg leading-relaxed text-craft-300 sm:text-xl"
+            className="mt-6 max-w-xl text-lg leading-relaxed text-stone-600"
           >
-            Weniger Papierkram, mehr Zeit auf der Baustelle: Wir machen Ihr
-            Unternehmen digital sichtbar und Ihre Abläufe klar — von der
-            professionellen Website bis zu Tools, die wirklich zu Ihrem Betrieb
-            passen.
+            Websites und Software für den Mittelstand — weniger Lärm, mehr
+            Struktur: Sichtbarkeit für Kundinnen und Kunden, Ordnung in
+            Aufträgen und Zeiten.
           </motion.p>
-
           <motion.div
             custom={3}
             variants={fadeInUp}
             className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
           >
-            <a
-              href="#kontakt"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-navy-600 to-navy-700 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-navy-900/50 transition hover:from-navy-500 hover:to-navy-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tech-400"
+            <Link
+              to="/kontakt"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-gallery-ink bg-gallery-ink px-5 py-2.5 text-sm font-medium text-gallery-surface transition hover:bg-stone-800"
             >
-              Unverbindlich sprechen
+              Kontakt
               <ArrowRight className="h-4 w-4" aria-hidden />
-            </a>
-            <a
-              href="#leistungen"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-6 py-3.5 text-sm font-medium text-craft-100 backdrop-blur-sm transition hover:border-tech-400/40 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tech-400"
+            </Link>
+            <Link
+              to="/arbeiten"
+              className="inline-flex items-center justify-center rounded-md border border-gallery-line bg-gallery-surface px-5 py-2.5 text-sm font-medium text-gallery-ink transition hover:border-stone-300"
             >
-              <Hammer className="h-4 w-4 text-gold-400" aria-hidden />
-              Leistungen ansehen
-            </a>
+              Arbeiten ansehen
+            </Link>
           </motion.div>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.55, duration: 0.6 }}
-          className="mt-16 grid gap-4 sm:grid-cols-3"
+          transition={{ delay: 0.35, duration: 0.5 }}
+          className="mt-20 grid gap-px bg-gallery-line sm:grid-cols-3"
         >
           {[
             {
-              label: 'Sichtbarkeit',
-              value: 'Klar & vertrauenswürdig',
-              hint: 'Websites, die Aufträge bringen',
+              t: 'Sichtbarkeit',
+              d: 'Auftritt, der Vertrauen schafft — ohne Schnickschnack.',
             },
             {
-              label: 'Prozesse',
-              value: 'Strukturiert statt chaotisch',
-              hint: 'Zeiten, Aufträge, Daten am richtigen Ort',
+              t: 'Prozesse',
+              d: 'Zeiten und Aufträge dort, wo das Team sie wiederfindet.',
             },
             {
-              label: 'Partnerschaft',
-              value: 'Persönlich & nah',
-              hint: 'Wir sprechen Ihre Sprache — nicht nur IT-Slang',
+              t: 'Partnerschaft',
+              d: 'Gespräch auf Augenhöhe — ohne Technik-Vokabular.',
             },
           ].map((item) => (
             <div
-              key={item.label}
-              className="rounded-2xl border border-white/10 bg-navy-950/40 p-5 backdrop-blur-sm"
+              key={item.t}
+              className="bg-gallery-surface p-6 sm:p-8"
             >
-              <p className="text-xs font-medium uppercase tracking-wider text-tech-400/90">
-                {item.label}
+              <p className="text-xs font-medium uppercase tracking-wider text-gallery-muted">
+                {item.t}
               </p>
-              <p className="mt-2 font-display text-lg font-semibold text-white">
-                {item.value}
+              <p className="mt-3 text-sm leading-relaxed text-stone-600">
+                {item.d}
               </p>
-              <p className="mt-1 text-sm text-craft-400">{item.hint}</p>
             </div>
           ))}
         </motion.div>

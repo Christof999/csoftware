@@ -12,7 +12,7 @@ export function Contact() {
   }
 
   return (
-    <section id="kontakt" className="scroll-mt-24 bg-craft-950 py-24">
+    <section className="bg-gallery-bg py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -24,72 +24,58 @@ export function Contact() {
           <motion.p
             custom={0}
             variants={fadeInUp}
-            className="text-sm font-semibold uppercase tracking-widest text-gold-400"
+            className="text-xs font-medium uppercase tracking-[0.2em] text-gallery-muted"
           >
             Kontakt
           </motion.p>
           <motion.h2
             custom={1}
             variants={fadeInUp}
-            className="mt-3 font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl"
+            className="mt-4 font-display text-3xl font-semibold tracking-tight text-gallery-ink sm:text-4xl"
           >
-            Lassen Sie uns über Ihr nächstes Projekt sprechen
+            Kurz schreiben, wir melden uns
           </motion.h2>
           <motion.p
             custom={2}
             variants={fadeInUp}
-            className="mt-4 text-lg text-craft-300"
+            className="mt-4 text-lg text-stone-600"
           >
-            Kurz beschreiben, was Sie brauchen — wir melden uns mit einem
-            klaren nächsten Schritt. Ohne Druck, ohne Fachchinesisch.
+            Beschreiben Sie Ihr Anliegen in eigenen Worten — ohne technisches
+            Vokabular.
           </motion.p>
         </motion.div>
 
-        <div className="mt-16 grid gap-10 lg:grid-cols-5">
+        <div className="mt-16 grid gap-12 lg:grid-cols-5">
           <motion.aside
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={staggerContainer}
-            className="space-y-6 lg:col-span-2"
+            className="space-y-8 lg:col-span-2"
           >
-            <motion.div
-              custom={0}
-              variants={fadeInUp}
-              className="rounded-2xl border border-white/10 bg-navy-950/40 p-6"
-            >
-              <h3 className="font-display text-lg font-semibold text-white">
+            <motion.div custom={0} variants={fadeInUp}>
+              <h3 className="font-display text-lg font-semibold text-gallery-ink">
                 Csoftware
               </h3>
-              <p className="mt-2 text-sm text-craft-400">
-                Software & Web für Handwerksbetriebe — regional verwurzelt,
-                digital aufgestellt.
+              <p className="mt-3 text-sm leading-relaxed text-stone-600">
+                Web & Software für Handwerksbetriebe.
               </p>
             </motion.div>
             <motion.ul
               custom={1}
               variants={fadeInUp}
-              className="space-y-4 text-sm text-craft-300"
+              className="space-y-4 text-sm text-stone-600"
             >
               <li className="flex gap-3">
-                <Mail
-                  className="mt-0.5 h-5 w-5 shrink-0 text-tech-400"
-                  aria-hidden
-                />
+                <Mail className="mt-0.5 h-5 w-5 shrink-0 text-gallery-muted" aria-hidden />
                 <span>hallo@csoftware.example</span>
               </li>
               <li className="flex gap-3">
-                <Phone
-                  className="mt-0.5 h-5 w-5 shrink-0 text-tech-400"
-                  aria-hidden
-                />
+                <Phone className="mt-0.5 h-5 w-5 shrink-0 text-gallery-muted" aria-hidden />
                 <span>+49 (0) 000 0000000</span>
               </li>
               <li className="flex gap-3">
-                <MapPin
-                  className="mt-0.5 h-5 w-5 shrink-0 text-tech-400"
-                  aria-hidden
-                />
+                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-gallery-muted" aria-hidden />
                 <span>Musterstadt & Umgebung</span>
               </li>
             </motion.ul>
@@ -105,34 +91,34 @@ export function Contact() {
           >
             <form
               onSubmit={handleSubmit}
-              className="rounded-3xl border border-white/10 bg-gradient-to-br from-navy-950/60 to-craft-950/80 p-6 shadow-xl sm:p-8"
+              className="border border-gallery-line bg-gallery-surface p-6 sm:p-8"
             >
               <div className="grid gap-5 sm:grid-cols-2">
                 <label className="block sm:col-span-1">
-                  <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-craft-500">
+                  <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-gallery-muted">
                     Name
                   </span>
                   <input
                     name="name"
                     required
                     autoComplete="name"
-                    className="w-full rounded-xl border border-white/10 bg-craft-950/80 px-4 py-3 text-sm text-white placeholder:text-craft-600 focus:border-tech-500/50 focus:outline-none focus:ring-2 focus:ring-tech-500/20"
+                    className="w-full border border-gallery-line bg-gallery-bg px-3 py-2.5 text-sm text-gallery-ink placeholder:text-stone-400 focus:border-stone-400 focus:outline-none focus:ring-1 focus:ring-stone-400"
                     placeholder="Max Mustermann"
                   />
                 </label>
                 <label className="block sm:col-span-1">
-                  <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-craft-500">
+                  <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-gallery-muted">
                     Firma
                   </span>
                   <input
                     name="company"
                     autoComplete="organization"
-                    className="w-full rounded-xl border border-white/10 bg-craft-950/80 px-4 py-3 text-sm text-white placeholder:text-craft-600 focus:border-tech-500/50 focus:outline-none focus:ring-2 focus:ring-tech-500/20"
+                    className="w-full border border-gallery-line bg-gallery-bg px-3 py-2.5 text-sm text-gallery-ink placeholder:text-stone-400 focus:border-stone-400 focus:outline-none focus:ring-1 focus:ring-stone-400"
                     placeholder="Mustermann GmbH"
                   />
                 </label>
                 <label className="block sm:col-span-2">
-                  <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-craft-500">
+                  <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-gallery-muted">
                     E-Mail
                   </span>
                   <input
@@ -140,45 +126,43 @@ export function Contact() {
                     type="email"
                     required
                     autoComplete="email"
-                    className="w-full rounded-xl border border-white/10 bg-craft-950/80 px-4 py-3 text-sm text-white placeholder:text-craft-600 focus:border-tech-500/50 focus:outline-none focus:ring-2 focus:ring-tech-500/20"
+                    className="w-full border border-gallery-line bg-gallery-bg px-3 py-2.5 text-sm text-gallery-ink placeholder:text-stone-400 focus:border-stone-400 focus:outline-none focus:ring-1 focus:ring-stone-400"
                     placeholder="kontakt@firma.de"
                   />
                 </label>
                 <label className="block sm:col-span-2">
-                  <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-craft-500">
-                    Ihr Anliegen
+                  <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-gallery-muted">
+                    Nachricht
                   </span>
                   <textarea
                     name="message"
                     required
                     rows={5}
-                    className="w-full resize-y rounded-xl border border-white/10 bg-craft-950/80 px-4 py-3 text-sm text-white placeholder:text-craft-600 focus:border-tech-500/50 focus:outline-none focus:ring-2 focus:ring-tech-500/20"
-                    placeholder="z. B. neue Website, Zeiterfassung für 12 Mitarbeitende, Übersicht über Aufträge …"
+                    className="w-full resize-y border border-gallery-line bg-gallery-bg px-3 py-2.5 text-sm text-gallery-ink placeholder:text-stone-400 focus:border-stone-400 focus:outline-none focus:ring-1 focus:ring-stone-400"
+                    placeholder="Ihr Projekt oder Ihre Frage …"
                   />
                 </label>
               </div>
 
               {sent ? (
                 <p
-                  className="mt-6 rounded-xl border border-forest-600/40 bg-forest-900/30 px-4 py-3 text-sm text-forest-200"
+                  className="mt-6 border border-gallery-line bg-stone-50 px-4 py-3 text-sm text-stone-700"
                   role="status"
                 >
-                  Danke — das ist ein Demo-Formular. Anbindung an ein
-                  E-Mail-Backend folgt bei Bedarf.
+                  Danke — Demo-Formular ohne Backend.
                 </p>
               ) : null}
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-xs text-craft-500">
-                  Mit dem Absenden stimmen Sie der kontextbezogenen
-                  Kontaktaufnahme zu (Platzhalter).
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-xs text-stone-400">
+                  Absenden = Kontaktaufnahme (Platzhalter).
                 </p>
                 <button
                   type="submit"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-forest-600 to-forest-700 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-black/30 transition hover:from-forest-500 hover:to-forest-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tech-400"
+                  className="inline-flex items-center justify-center gap-2 border border-gallery-ink bg-gallery-ink px-5 py-2.5 text-sm font-medium text-gallery-surface transition hover:bg-stone-800"
                 >
                   <Send className="h-4 w-4" aria-hidden />
-                  Nachricht senden
+                  Senden
                 </button>
               </div>
             </form>
