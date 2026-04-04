@@ -27,6 +27,24 @@ export function HomeManifesto() {
             Ablauf — nicht als lose Einzelteile. So wird aus Ihrer Idee eine
             Website, die zu Ihrer Marke passt und im Alltag wartbar bleibt.
           </motion.p>
+          <motion.div
+            custom={2}
+            variants={fadeInUp}
+            className="mx-auto mt-10 max-w-md"
+          >
+            <p className="mb-2 text-[11px] font-medium uppercase tracking-wider text-shell-muted">
+              Scroll-Animation
+            </p>
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-gallery-line">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: '100%' }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                className="h-full rounded-full bg-gallery-ink dark:bg-stone-200"
+              />
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

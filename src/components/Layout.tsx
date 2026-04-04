@@ -8,7 +8,6 @@ import { ThemeToggle } from './ThemeToggle'
 const nav = [
   { to: '/', label: 'Start', end: true },
   { to: '/leistungen', label: 'Leistungen' },
-  { to: '/arbeiten', label: 'Beispiele' },
   { to: '/kontakt', label: 'Kontakt' },
 ]
 

@@ -1,13 +1,29 @@
-import { type CSSProperties, type MouseEvent, useCallback, useRef } from 'react'
+import {
+  type CSSProperties,
+  type MouseEvent,
+  type ReactNode,
+  useCallback,
+  useRef,
+} from 'react'
 
 type Props = {
-  title: string
-  description: string
+  title?: string
+  description?: string
+  /** Wenn gesetzt, wird dieser Inhalt statt Titel/Text gerendert (z. B. ganze Sektionen). */
+  children?: ReactNode
   className?: string
+  /** Standard: nur bei title/description */
+  showDemoLabel?: boolean
 }
 
-/** Radialer Spotlight folgt der Maus — typisch für moderne Marketing-Sites. */
-export function SpotlightCard({ title, description, className = '' }: Props) {
+/** Radialer Spotlight folgt der Maus — auf der ganzen Seite wiederverwendbar. */
+export function SpotlightCard({
+  title,
+  description,
+  children,
+  className = '',
+  showDemoLabel = true,
+}: Props) {
   const ref = useRef<HTMLDivElement>(null)
 
   const onMove = useCallback((e: MouseEvent<HTMLDivElement>) => {
@@ -27,6 +43,8 @@ export function SpotlightCard({ title, description, className = '' }: Props) {
     el.style.setProperty('--sy', '50%')
   }, [])
 
+  const hasDefaultCopy = Boolean(title && description)
+
   return (
     <div
       ref={ref}
@@ -38,7 +56,7 @@ export function SpotlightCard({ title, description, className = '' }: Props) {
           '--sy': '50%',
         } as CSSProperties
       }
-      className={`group relative overflow-hidden rounded-2xl border border-gallery-line bg-gallery-surface p-6 ${className}`}
+      className={`group relative overflow-hidden rounded-2xl border border-gallery-line bg-gallery-surface ${className}`}
     >
       <div
         className="pointer-events-none absolute -in-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -49,15 +67,27 @@ export function SpotlightCard({ title, description, className = '' }: Props) {
         aria-hidden
       />
       <div className="relative">
-        <p className="text-[11px] font-medium uppercase tracking-wider text-shell-muted">
-          Interaktion
-        </p>
-        <h3 className="mt-2 font-display text-base font-semibold text-gallery-ink">
-          {title}
-        </h3>
-        <p className="mt-2 text-sm leading-relaxed text-shell-muted">
-          {description}
-        </p>
+        {children ? (
+          children
+        ) : (
+          <>
+            {showDemoLabel && hasDefaultCopy ? (
+              <p className="text-[11px] font-medium uppercase tracking-wider text-shell-muted">
+                Interaktion
+              </p>
+            ) : null}
+            {title ? (
+              <h3 className="mt-2 font-display text-base font-semibold text-gallery-ink">
+                {title}
+              </h3>
+            ) : null}
+            {description ? (
+              <p className="mt-2 text-sm leading-relaxed text-shell-muted">
+                {description}
+              </p>
+            ) : null}
+          </>
+        )}
       </div>
     </div>
   )

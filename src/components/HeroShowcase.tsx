@@ -120,7 +120,7 @@ export function HeroShowcase() {
         </div>
       </div>
       <p className="mt-4 text-center text-xs text-stone-500 dark:text-stone-400">
-        Beispiel: so kann eine ruhige Marken-Seite aussehen — mit Ihren Inhalten.
+        So setzen wir ruhige Marken-Auftritte um — mit Ihren Inhalten.
       </p>
     </motion.div>
   )

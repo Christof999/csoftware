@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Eye, MessageCircle, Zap } from 'lucide-react'
 import { fadeInUp, staggerContainer } from '../../lib/motion'
+import { SpotlightCard } from './tech/SpotlightCard'
 
 const items = [
   {
@@ -32,19 +33,21 @@ export function HomeValueProps() {
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
           variants={staggerContainer}
-          className="grid gap-10 sm:grid-cols-3 sm:gap-8"
+          className="grid gap-6 sm:grid-cols-3 sm:gap-8"
         >
           {items.map((item, i) => (
             <motion.li key={item.title} custom={i} variants={fadeInUp}>
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-gallery-line bg-gallery-bg text-gallery-ink">
-                <item.icon className="h-5 w-5" strokeWidth={1.5} aria-hidden />
-              </div>
-              <h3 className="mt-4 font-display text-lg font-semibold text-gallery-ink">
-                {item.title}
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-shell-muted">
-                {item.text}
-              </p>
+              <SpotlightCard className="h-full p-5 sm:p-6" showDemoLabel={false}>
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-gallery-line bg-gallery-bg text-gallery-ink">
+                  <item.icon className="h-5 w-5" strokeWidth={1.5} aria-hidden />
+                </div>
+                <h3 className="mt-4 font-display text-lg font-semibold text-gallery-ink">
+                  {item.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-shell-muted">
+                  {item.text}
+                </p>
+              </SpotlightCard>
             </motion.li>
           ))}
         </motion.ul>

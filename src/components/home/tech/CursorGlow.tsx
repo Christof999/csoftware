@@ -1,14 +1,20 @@
 import {
   type CSSProperties,
   type MouseEvent,
+  type ReactNode,
   useCallback,
   useRef,
   useState,
 } from 'react'
 import { usePrefersReducedMotion } from './usePrefersReducedMotion'
 
-/** Sanfter Glow folgt dem Cursor innerhalb der Karte (wie viele moderne UIs). */
-export function CursorGlowDemo() {
+type Props = {
+  children: ReactNode
+  className?: string
+}
+
+/** Sanfter Glow folgt dem Cursor innerhalb des Containers. */
+export function CursorGlow({ children, className = '' }: Props) {
   const wrap = useRef<HTMLDivElement>(null)
   const reduced = usePrefersReducedMotion()
   const [on, setOn] = useState(false)
@@ -39,7 +45,7 @@ export function CursorGlowDemo() {
           '--cy': '50%',
         } as CSSProperties
       }
-      className="relative overflow-hidden rounded-2xl border border-gallery-line bg-gallery-surface p-6"
+      className={`relative overflow-hidden ${className}`}
     >
       {!reduced && (
         <div
@@ -52,18 +58,7 @@ export function CursorGlowDemo() {
           aria-hidden
         />
       )}
-      <div className="relative">
-        <p className="text-[11px] font-medium uppercase tracking-wider text-shell-muted">
-          Cursor
-        </p>
-        <h3 className="mt-2 font-display text-base font-semibold text-gallery-ink">
-          Licht folgt der Maus
-        </h3>
-        <p className="mt-2 text-sm leading-relaxed text-shell-muted">
-          Ein dezenter Schein unterstreicht, wo Nutzer hinsehen — reines CSS &
-          React, ohne schwere Bibliotheken.
-        </p>
-      </div>
+      <div className="relative">{children}</div>
     </div>
   )
 }

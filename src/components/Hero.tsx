@@ -3,6 +3,8 @@ import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { fadeInUp } from '../lib/motion'
 import { HeroShowcase } from './HeroShowcase'
+import { SpotlightCard } from './home/tech/SpotlightCard'
+import { TiltCard } from './home/tech/TiltCard'
 
 export function Hero() {
   return (
@@ -50,21 +52,23 @@ export function Hero() {
             >
               <Link
                 to="/kontakt"
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-stone-800"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
               >
                 Unverbindlich anfragen
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
               <Link
-                to="/arbeiten"
-                className="inline-flex items-center justify-center rounded-lg border border-gallery-line bg-gallery-bg px-5 py-3 text-sm font-medium text-gallery-ink transition hover:border-gallery-line dark:hover:border-stone-600"
+                to="/leistungen"
+                className="inline-flex items-center justify-center rounded-lg border border-gallery-line bg-gallery-bg px-5 py-3 text-sm font-medium text-gallery-ink transition hover:border-stone-400 dark:hover:border-stone-600"
               >
-                Beispiele ansehen
+                Leistungen ansehen
               </Link>
             </motion.div>
           </motion.div>
 
-          <HeroShowcase />
+          <SpotlightCard className="p-0 shadow-soft" showDemoLabel={false}>
+            <HeroShowcase />
+          </SpotlightCard>
         </div>
 
         <motion.div
@@ -87,10 +91,14 @@ export function Hero() {
               d: 'Sie sprechen mit Menschen, nicht mit einem Ticketsystem.',
             },
           ].map((item) => (
-            <div key={item.t} className="rounded-xl border border-gallery-line bg-gallery-bg p-5">
-              <p className="text-sm font-medium text-gallery-ink">{item.t}</p>
-              <p className="mt-2 text-sm leading-relaxed text-shell-muted">{item.d}</p>
-            </div>
+            <TiltCard key={item.t} className="bg-gallery-bg">
+              <div className="p-5">
+                <p className="text-sm font-medium text-gallery-ink">{item.t}</p>
+                <p className="mt-2 text-sm leading-relaxed text-shell-muted">
+                  {item.d}
+                </p>
+              </div>
+            </TiltCard>
           ))}
         </motion.div>
       </div>

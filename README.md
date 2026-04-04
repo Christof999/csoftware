@@ -1,6 +1,6 @@
 # csoftware
 
-Portfolio-Grundgerüst: React (Vite), Tailwind CSS, Framer Motion, Lucide.
+Website: React (Vite), Tailwind CSS, Framer Motion, Lucide, React Router.
 
 ```bash
 npm install

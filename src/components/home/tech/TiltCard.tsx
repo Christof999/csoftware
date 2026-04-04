@@ -1,15 +1,22 @@
-import { type MouseEvent, useCallback, useRef } from 'react'
+import { type MouseEvent, type ReactNode, useCallback, useRef } from 'react'
 import { usePrefersReducedMotion } from './usePrefersReducedMotion'
 
 type Props = {
-  title: string
-  description: string
+  title?: string
+  description?: string
+  children?: ReactNode
+  className?: string
 }
 
 const MAX = 7
 
 /** 3D-Tilt per Maus — CSS transform, kein WebGL. */
-export function TiltCard({ title, description }: Props) {
+export function TiltCard({
+  title,
+  description,
+  children,
+  className = '',
+}: Props) {
   const ref = useRef<HTMLDivElement>(null)
   const reduced = usePrefersReducedMotion()
 
@@ -29,7 +36,8 @@ export function TiltCard({ title, description }: Props) {
   const onLeave = useCallback(() => {
     const el = ref.current
     if (!el) return
-    el.style.transform = 'perspective(900px) rotateY(0deg) rotateX(0deg) scale3d(1,1,1)'
+    el.style.transform =
+      'perspective(900px) rotateY(0deg) rotateX(0deg) scale3d(1,1,1)'
   }, [])
 
   return (
@@ -41,17 +49,25 @@ export function TiltCard({ title, description }: Props) {
         transformStyle: 'preserve-3d',
         transition: reduced ? undefined : 'transform 0.15s ease-out',
       }}
-      className="rounded-2xl border border-gallery-line bg-gallery-elevated p-6 shadow-card will-change-transform"
+      className={`rounded-2xl border border-gallery-line bg-gallery-elevated shadow-card will-change-transform ${className}`}
     >
-      <p className="text-[11px] font-medium uppercase tracking-wider text-shell-muted">
-        Bewegung
-      </p>
-      <h3 className="mt-2 font-display text-base font-semibold text-gallery-ink">
-        {title}
-      </h3>
-      <p className="mt-2 text-sm leading-relaxed text-shell-muted">
-        {description}
-      </p>
+      {children ?? (
+        <div className="p-6">
+          <p className="text-[11px] font-medium uppercase tracking-wider text-shell-muted">
+            Bewegung
+          </p>
+          {title ? (
+            <h3 className="mt-2 font-display text-base font-semibold text-gallery-ink">
+              {title}
+            </h3>
+          ) : null}
+          {description ? (
+            <p className="mt-2 text-sm leading-relaxed text-shell-muted">
+              {description}
+            </p>
+          ) : null}
+        </div>
+      )}
     </div>
   )
 }
