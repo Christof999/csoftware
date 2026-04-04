@@ -7,7 +7,7 @@ import { fadeInUp, staggerContainer } from '../lib/motion'
 
 export function Portfolio() {
   return (
-    <section className="border-b border-gallery-line bg-gallery-surface py-20 sm:py-24">
+    <section className="border-b border-white/[0.06] bg-gallery-surface py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -19,23 +19,24 @@ export function Portfolio() {
           <motion.p
             custom={0}
             variants={fadeInUp}
-            className="text-xs font-medium uppercase tracking-[0.2em] text-gallery-muted"
+            className="text-[11px] font-medium uppercase tracking-[0.2em] text-indigo-300/90"
           >
             Arbeiten
           </motion.p>
           <motion.h2
             custom={1}
             variants={fadeInUp}
-            className="mt-4 font-display text-3xl font-semibold tracking-tight text-gallery-ink sm:text-4xl"
+            className="mt-4 font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl"
           >
-            Galerie
+            Ausgewählte Projekte
           </motion.h2>
           <motion.p
             custom={2}
             variants={fadeInUp}
-            className="mt-4 text-lg text-stone-600"
+            className="mt-4 text-lg text-zinc-400"
           >
-            Ausgewählte Projekte — Klick öffnet die Detailseite mit Screenshots.
+            Klick öffnet Details und Screenshots — ruhig präsentiert, wie in
+            einer Galerie.
           </motion.p>
         </motion.div>
 
@@ -52,28 +53,28 @@ export function Portfolio() {
               <motion.li key={project.slug} custom={i} variants={fadeInUp}>
                 <Link
                   to={`/arbeiten/${project.slug}`}
-                  className="group block overflow-hidden border border-gallery-line bg-gallery-bg transition hover:border-stone-300"
+                  className="group block overflow-hidden rounded-2xl border border-white/[0.08] bg-gallery-elevated/60 shadow-panel transition hover:border-indigo-500/25 hover:shadow-glow"
                 >
-                  <div className="aspect-[16/10] bg-stone-100">
+                  <div className="aspect-[16/10] bg-zinc-900">
                     <ImageWithFallback
                       src={screenshotUrl(project.slug, thumb)}
                       alt={project.title}
                       className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.02]"
                     />
                   </div>
-                  <div className="flex items-start justify-between gap-4 border-t border-gallery-line bg-gallery-surface p-5">
+                  <div className="flex items-start justify-between gap-4 border-t border-white/[0.06] bg-gallery-bg/40 p-5 backdrop-blur-sm">
                     <div>
-                      <p className="text-xs uppercase tracking-wider text-gallery-muted">
+                      <p className="text-[11px] uppercase tracking-wider text-zinc-500">
                         {project.kind}
                       </p>
-                      <h3 className="mt-1 font-display text-lg font-semibold text-gallery-ink">
+                      <h3 className="mt-1 font-display text-lg font-semibold text-white">
                         {project.title}
                       </h3>
-                      <p className="mt-2 text-sm text-stone-600">
+                      <p className="mt-2 text-sm text-zinc-400">
                         {project.subtitle}
                       </p>
                     </div>
-                    <span className="mt-1 shrink-0 text-gallery-muted transition group-hover:text-gallery-ink">
+                    <span className="mt-1 shrink-0 text-zinc-500 transition group-hover:text-indigo-300">
                       <ArrowUpRight className="h-5 w-5" strokeWidth={1.5} aria-hidden />
                     </span>
                   </div>

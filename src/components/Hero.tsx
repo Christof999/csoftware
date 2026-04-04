@@ -2,100 +2,109 @@ import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { fadeInUp } from '../lib/motion'
+import { HeroPreview } from './HeroPreview'
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-gallery-line bg-gallery-bg">
+    <section className="relative overflow-hidden border-b border-white/[0.06] bg-gallery-bg">
       <div
-        className="pointer-events-none absolute inset-0 bg-gallery-dots [background-size:20px_20px] opacity-[0.55]"
+        className="pointer-events-none absolute inset-0 bg-mesh"
         aria-hidden
       />
-      <div className="relative mx-auto max-w-6xl px-4 pb-20 pt-24 sm:px-6 sm:pb-28 sm:pt-28 lg:px-8">
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: {},
-            visible: { transition: { staggerChildren: 0.1 } },
-          }}
-          className="max-w-2xl"
-        >
-          <motion.p
-            custom={0}
-            variants={fadeInUp}
-            className="text-xs font-medium uppercase tracking-[0.25em] text-gallery-muted"
-          >
-            Handwerk & Digital
-          </motion.p>
-          <motion.h1
-            custom={1}
-            variants={fadeInUp}
-            className="mt-5 font-display text-4xl font-semibold tracking-tight text-gallery-ink sm:text-5xl"
-          >
-            Ruhige Oberflächen.
-            <br />
-            Klare Wirkung.
-          </motion.h1>
-          <motion.p
-            custom={2}
-            variants={fadeInUp}
-            className="mt-6 max-w-xl text-lg leading-relaxed text-stone-600"
-          >
-            Websites und Software für den Mittelstand — weniger Lärm, mehr
-            Struktur: Sichtbarkeit für Kundinnen und Kunden, Ordnung in
-            Aufträgen und Zeiten.
-          </motion.p>
+      <div
+        className="pointer-events-none absolute inset-0 bg-dot-grid [background-size:24px_24px] opacity-[0.35]"
+        aria-hidden
+      />
+
+      <div className="relative mx-auto max-w-6xl px-4 pb-20 pt-20 sm:px-6 sm:pb-28 sm:pt-24 lg:px-8">
+        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-12">
           <motion.div
-            custom={3}
-            variants={fadeInUp}
-            className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.1 } },
+            }}
+            className="max-w-xl"
           >
-            <Link
-              to="/kontakt"
-              className="inline-flex items-center justify-center gap-2 rounded-md border border-gallery-ink bg-gallery-ink px-5 py-2.5 text-sm font-medium text-gallery-surface transition hover:bg-stone-800"
+            <motion.p
+              custom={0}
+              variants={fadeInUp}
+              className="inline-flex items-center rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.2em] text-zinc-400"
             >
-              Kontakt
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
-            <Link
-              to="/arbeiten"
-              className="inline-flex items-center justify-center rounded-md border border-gallery-line bg-gallery-surface px-5 py-2.5 text-sm font-medium text-gallery-ink transition hover:border-stone-300"
+              Software Studio
+            </motion.p>
+            <motion.h1
+              custom={1}
+              variants={fadeInUp}
+              className="mt-6 font-display text-4xl font-semibold tracking-tight text-gallery-ink sm:text-5xl lg:text-[2.75rem] lg:leading-[1.1]"
             >
-              Arbeiten ansehen
-            </Link>
+              Klar. Schnell.{' '}
+              <span className="bg-gradient-to-r from-indigo-300 via-white to-cyan-200 bg-clip-text text-transparent">
+                Lieferbar.
+              </span>
+            </motion.h1>
+            <motion.p
+              custom={2}
+              variants={fadeInUp}
+              className="mt-6 text-lg leading-relaxed text-zinc-400"
+            >
+              Wir entwickeln Websites und Software, die sich wie ein gutes Tool
+              anfühlen: ruhig, präzise, ohne Überladung — für Teams, die liefern
+              wollen.
+            </motion.p>
+            <motion.div
+              custom={3}
+              variants={fadeInUp}
+              className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
+            >
+              <Link
+                to="/kontakt"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-500 px-5 py-2.5 text-sm font-medium text-white shadow-glow transition hover:bg-indigo-400"
+              >
+                Projekt starten
+                <ArrowRight className="h-4 w-4" aria-hidden />
+              </Link>
+              <Link
+                to="/arbeiten"
+                className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/[0.1] bg-white/[0.03] px-5 py-2.5 text-sm font-medium text-zinc-200 transition hover:border-white/[0.18] hover:bg-white/[0.06]"
+              >
+                Arbeiten
+              </Link>
+            </motion.div>
           </motion.div>
-        </motion.div>
+
+          <HeroPreview />
+        </div>
 
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35, duration: 0.5 }}
-          className="mt-20 grid gap-px bg-gallery-line sm:grid-cols-3"
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="mt-20 grid gap-4 sm:grid-cols-3"
         >
           {[
             {
-              t: 'Sichtbarkeit',
-              d: 'Auftritt, der Vertrauen schafft — ohne Schnickschnack.',
+              t: 'Ruhige UI',
+              d: 'Weniger Lärm, mehr Orientierung — damit Entscheidungen leichter fallen.',
             },
             {
-              t: 'Prozesse',
-              d: 'Zeiten und Aufträge dort, wo das Team sie wiederfindet.',
+              t: 'Tempo',
+              d: 'Schnelle Builds, klare Schnitte — von der Idee bis zum Release.',
             },
             {
               t: 'Partnerschaft',
-              d: 'Gespräch auf Augenhöhe — ohne Technik-Vokabular.',
+              d: 'Direkter Draht, ehrliche Priorität — ohne Buzzword-Bingo.',
             },
           ].map((item) => (
             <div
               key={item.t}
-              className="bg-gallery-surface p-6 sm:p-8"
+              className="rounded-xl border border-white/[0.06] bg-gallery-elevated/80 p-5 backdrop-blur-sm"
             >
-              <p className="text-xs font-medium uppercase tracking-wider text-gallery-muted">
+              <p className="text-[11px] font-medium uppercase tracking-wider text-indigo-300/90">
                 {item.t}
               </p>
-              <p className="mt-3 text-sm leading-relaxed text-stone-600">
-                {item.d}
-              </p>
+              <p className="mt-3 text-sm leading-relaxed text-zinc-400">{item.d}</p>
             </div>
           ))}
         </motion.div>

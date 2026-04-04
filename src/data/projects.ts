@@ -14,37 +14,37 @@ export const projects: ProjectMeta[] = [
   {
     slug: 'website-1',
     title: 'Website 1',
-    subtitle: 'Handwerksbetrieb — Auftritt & Kontakt',
+    subtitle: 'Markenauftritt & Lead-Flow',
     kind: 'Web',
     summary:
-      'Fokus auf klare Leistungsdarstellung und schnellen Kontakt — für Kundinnen und Kunden verständlich, für das Team wartungsarm.',
+      'Klare Story, schnelle Ladezeit und ein Kontaktpfad, der konvertiert — ohne visuelles Rauschen.',
     screenshots: ['screenshot-1.png', 'screenshot-2.png'],
   },
   {
     slug: 'website-2',
     title: 'Website 2',
-    subtitle: 'Regionaler Betrieb — Vertrauen sichtbar machen',
+    subtitle: 'Produkt erklären, Vertrauen aufbauen',
     kind: 'Web',
     summary:
-      'Ruhige Bildsprache, starke Typografie und eine Struktur, die auf dem Smartphone genauso funktioniert wie im Büro.',
+      'Typografie und Layout mit Ruhe im Fokus — auf dem Handy genauso überzeugend wie am Desktop.',
     screenshots: ['screenshot-1.png'],
   },
   {
     slug: 'zeiterfassung',
     title: 'Zeiterfassung',
-    subtitle: 'Erfassung, die im Alltag mitgeht',
+    subtitle: 'Erfassung, die Teams nicht bremst',
     kind: 'Software',
     summary:
-      'Stunden und Einsätze nachvollziehbar — weniger Rückfragen, klarere Abrechnung, ohne die Crew zu bremsen.',
+      'Stunden und Einsätze transparent — damit Planung und Abrechnung zusammenpassen.',
     screenshots: ['dashboard.png', 'mobile.png'],
   },
   {
     slug: 'erp',
     title: 'ERP',
-    subtitle: 'Aufträge & Überblick im Team',
+    subtitle: 'Operative Übersicht für wachsende Teams',
     kind: 'Software',
     summary:
-      'Daten zusammenführen, die sonst in Tabellen verteilt sind — übersichtlich genug für Entscheidungen im Tagesgeschäft.',
+      'Daten aus Auftrag, Bestand und Kommunikation zusammenführen — lesbar für Menschen, nutzbar für Entscheidungen.',
     screenshots: ['overview.png'],
   },
 ]

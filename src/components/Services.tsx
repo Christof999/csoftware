@@ -13,36 +13,36 @@ const blocks = [
   {
     title: 'Webdesign & Landing Pages',
     subtitle:
-      'Klare Struktur, schnelle Ladezeiten — damit Kundinnen und Kunden Sie finden und verstehen.',
+      'Schnelle, präzise Oberflächen — damit Besucher verstehen, was Sie anbieten, und den nächsten Schritt gehen.',
     icon: Globe,
     items: [
       {
         icon: LayoutTemplate,
-        title: 'Auftritt',
-        text: 'Leistungen, Referenzen, Kontakt — übersichtlich gebündelt.',
+        title: 'Struktur',
+        text: 'Inhalte, Referenzen, Kontakt — logisch geführt, ohne Ballast.',
       },
       {
         icon: Smartphone,
-        title: 'Überall nutzbar',
-        text: 'Vom Smartphone bis zum Büro: lesbar und bedienbar.',
+        title: 'Überall stark',
+        text: 'Vom ersten Pixel an für Mobilgeräte gedacht — schnell und lesbar.',
       },
     ],
   },
   {
-    title: 'Individuelle Softwarelösungen',
+    title: 'Individuelle Software',
     subtitle:
-      'Wenn Standardtools nicht reichen: Zeiterfassung, Übersichten, ERP — passend zu Ihrem Betrieb.',
+      'Wenn Standardtools nicht passen: interne Tools, Dashboards und Workflows — so, dass Ihr Team sie wirklich nutzt.',
     icon: Workflow,
     items: [
       {
         icon: Clock,
-        title: 'Zeiterfassung',
-        text: 'Erfassung, die im Alltag mitgeht — mit klaren Summen.',
+        title: 'Zeit & Einsätze',
+        text: 'Erfassungen, die im Alltag funktionieren — mit klaren Summen.',
       },
       {
         icon: BarChart3,
-        title: 'ERP & Daten',
-        text: 'Aufträge und Material im Blick — ohne Tabellen-Chaos.',
+        title: 'Daten & Übersicht',
+        text: 'Komplexität reduzieren: KPIs, Aufträge, Bestände — an einem Ort.',
       },
     ],
   },
@@ -50,7 +50,7 @@ const blocks = [
 
 export function Services() {
   return (
-    <section className="border-b border-gallery-line bg-gallery-bg py-20 sm:py-24">
+    <section className="border-b border-white/[0.06] bg-gallery-bg py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -62,28 +62,28 @@ export function Services() {
           <motion.p
             custom={0}
             variants={fadeInUp}
-            className="text-xs font-medium uppercase tracking-[0.2em] text-gallery-muted"
+            className="text-[11px] font-medium uppercase tracking-[0.2em] text-indigo-300/90"
           >
             Leistungen
           </motion.p>
           <motion.h2
             custom={1}
             variants={fadeInUp}
-            className="mt-4 font-display text-3xl font-semibold tracking-tight text-gallery-ink sm:text-4xl"
+            className="mt-4 font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl"
           >
-            Was wir für Handwerksbetriebe tun
+            Von der Oberfläche bis ins System
           </motion.h2>
           <motion.p
             custom={2}
             variants={fadeInUp}
-            className="mt-4 text-lg text-stone-600"
+            className="mt-4 text-lg text-zinc-400"
           >
-            Zwei Bereiche — ein Anspruch: ruhige Oberflächen, die im Betrieb
-            wirklich helfen.
+            Zwei Schwerpunkte — ein Anspruch: klare UX, saubere Technik, messbarer
+            Fortschritt.
           </motion.p>
         </motion.div>
 
-        <div className="mt-16 grid gap-12 lg:grid-cols-2">
+        <div className="mt-16 grid gap-8 lg:grid-cols-2">
           {blocks.map((block, bi) => (
             <motion.article
               key={block.title}
@@ -91,17 +91,17 @@ export function Services() {
               whileInView="visible"
               viewport={{ once: true, margin: '-40px' }}
               variants={staggerContainer}
-              className="border border-gallery-line bg-gallery-surface p-8 sm:p-10"
+              className="rounded-2xl border border-white/[0.08] bg-gallery-elevated/90 p-8 shadow-panel backdrop-blur-sm sm:p-10"
             >
               <div className="flex items-start gap-4">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center border border-gallery-line text-gallery-ink">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03] text-indigo-300">
                   <block.icon className="h-5 w-5" strokeWidth={1.5} aria-hidden />
                 </span>
                 <div>
-                  <h3 className="font-display text-xl font-semibold text-gallery-ink">
+                  <h3 className="font-display text-xl font-semibold text-white">
                     {block.title}
                   </h3>
-                  <p className="mt-3 text-stone-600">{block.subtitle}</p>
+                  <p className="mt-3 text-zinc-400">{block.subtitle}</p>
                 </div>
               </div>
               <motion.ul
@@ -116,14 +116,14 @@ export function Services() {
                     key={item.title}
                     custom={bi * 2 + ii}
                     variants={fadeInUp}
-                    className="flex gap-4 border-t border-gallery-line pt-6 first:border-t-0 first:pt-0"
+                    className="flex gap-4 border-t border-white/[0.06] pt-6 first:border-t-0 first:pt-0"
                   >
-                    <span className="mt-0.5 text-gallery-muted">
+                    <span className="mt-0.5 text-zinc-500">
                       <item.icon className="h-5 w-5" strokeWidth={1.5} aria-hidden />
                     </span>
                     <div>
-                      <p className="font-medium text-gallery-ink">{item.title}</p>
-                      <p className="mt-1 text-sm leading-relaxed text-stone-600">
+                      <p className="font-medium text-white">{item.title}</p>
+                      <p className="mt-1 text-sm leading-relaxed text-zinc-500">
                         {item.text}
                       </p>
                     </div>
