@@ -7,7 +7,6 @@ export default {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         display: ['Inter', 'system-ui', 'sans-serif'],
-        showcase: ['Cormorant Garamond', 'Georgia', 'serif'],
       },
       colors: {
         gallery: {

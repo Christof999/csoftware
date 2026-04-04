@@ -1,10 +1,13 @@
 import { motion } from 'framer-motion'
 import {
-  BarChart3,
-  Clock,
   Globe,
   LayoutTemplate,
+  LineChart,
+  Palette,
+  Printer,
+  Search,
   Smartphone,
+  Target,
   Workflow,
 } from 'lucide-react'
 import { SpotlightCard } from './home/tech/SpotlightCard'
@@ -12,38 +15,74 @@ import { fadeInUp, staggerContainer } from '../lib/motion'
 
 const blocks = [
   {
-    title: 'Website & Landingpages',
+    title: 'Websites & Online-Sichtbarkeit',
     subtitle:
-      'Texte, Bilder und Aufbau so, dass Besucher in wenigen Sekunden verstehen, wer Sie sind und wie Sie helfen.',
+      'Ihr Auftritt soll nicht nur gut aussehen — er soll gefunden werden und Besucher zur Anfrage führen. Dazu gehören klare Seitenstruktur, saubere Technik, Suchmaschinenoptimierung (SEO) und — wenn Sie möchten — die Einbindung von Google Ads mit messbaren Zielen und sinnvollem Tracking.',
     icon: Globe,
     items: [
       {
         icon: LayoutTemplate,
-        title: 'Gute Struktur',
-        text: 'Leistungen und Kontakt finden — ohne suchen zu müssen.',
+        title: 'Webdesign & Struktur',
+        text:
+          'Landingpages und mehrseitige Sites mit durchdachtem Aufbau, schnellen Ladezeiten und sauberem Aufbau für Suchmaschinen und Nutzer.',
+      },
+      {
+        icon: Search,
+        title: 'SEO & Auffindbarkeit',
+        text:
+          'Technische Grundlagen, sinnvolle Überschriften und Inhalte, die zu Ihren Suchanfragen passen — damit Google versteht, worum es bei Ihnen geht.',
+      },
+      {
+        icon: Target,
+        title: 'Google Ads & Anbindung',
+        text:
+          'Anzeigen-Kampagnen strukturieren, Zielseiten abstimmen und Conversions messbar machen — abgestimmt auf Budget und Zielgruppe.',
       },
       {
         icon: Smartphone,
-        title: 'Handy & Computer',
-        text: 'Lesbar und bedienbar, egal welches Gerät gerade zur Hand ist.',
+        title: 'Geräte & Performance',
+        text:
+          'Optimiert für Mobilgeräte und Desktop — damit Nutzer überall ein gutes Erlebnis haben.',
       },
     ],
   },
   {
-    title: 'Maßgeschneiderte Software',
+    title: 'Maßgeschneiderte digitale Lösungen',
     subtitle:
-      'Wenn Fertiglösungen nicht passen: kleine Programme und Übersichten, die zu Ihrem Alltag passen.',
+      'Wenn Standardsoftware an Grenzen stößt, entwickeln wir Funktionen und Oberflächen, die zu Ihrem Alltag passen — von internen Übersichten bis zu speziellen Abläufen. Ohne vorgefertigte Produktnamen: wir hören zu und bauen, was wirklich gebraucht wird.',
     icon: Workflow,
     items: [
       {
-        icon: Clock,
-        title: 'Zeiten & Termine',
-        text: 'Erfassung, die im Alltag mitgeht — ohne komplizierte Schulungen.',
+        icon: LineChart,
+        title: 'Individuelle Anwendungen',
+        text:
+          'Weboberflächen und kleine Systeme, die Ihre Daten und Prozesse zusammenführen — verständlich für Ihr Team.',
       },
       {
-        icon: BarChart3,
-        title: 'Daten im Blick',
-        text: 'Aufträge, Bestände oder Kunden — übersichtlich statt verstreut.',
+        icon: Workflow,
+        title: 'Prozesse statt Insellösungen',
+        text:
+          'Weniger Doppelarbeit: wir denken Abläufe mit und verbinden, was zusammengehört — im Rahmen Ihrer technischen Möglichkeiten.',
+      },
+    ],
+  },
+  {
+    title: 'Media Design & Print',
+    subtitle:
+      'Ein stimmiges Erscheinungsbild endet nicht am Bildschirm. Wir gestalten Drucksachen und Werbemittel, die optisch zu Ihrer Website und Marke passen — vom Flyer über den Messeauftritt bis zu Vorlagen für Social Media.',
+    icon: Palette,
+    items: [
+      {
+        icon: Printer,
+        title: 'Print & Werbemittel',
+        text:
+          'Flyer, Folder, Plakate oder Angebotsvorlagen — einheitlich mit Ihrer Website und Ihren Farben.',
+      },
+      {
+        icon: Palette,
+        title: 'Einheitliche Marke',
+        text:
+          'Schrift, Farben und Bildsprache konsistent führen — online und offline erkennbar.',
       },
     ],
   },
@@ -79,12 +118,12 @@ export function Services() {
             variants={fadeInUp}
             className="mt-4 text-lg text-shell-muted"
           >
-            Zwei Schwerpunkte — immer mit dem Ziel, dass Sie und Ihre Kunden
-            sich zurechtfinden.
+            Web, Sichtbarkeit, individuelle Umsetzungen und Media — aus einer
+            Hand, damit Ihr Auftritt zusammenpasst.
           </motion.p>
         </motion.div>
 
-        <div className="mt-14 grid gap-8 lg:grid-cols-2">
+        <div className="mt-14 grid gap-8 lg:grid-cols-3">
           {blocks.map((block, bi) => (
             <motion.div
               key={block.title}
@@ -94,16 +133,21 @@ export function Services() {
               variants={fadeInUp}
               custom={bi}
             >
-              <SpotlightCard className="p-8 shadow-card sm:p-10" showDemoLabel={false}>
-                <div className="flex items-start gap-4">
+              <SpotlightCard
+                className="flex h-full flex-col p-6 shadow-card sm:p-8"
+                showDemoLabel={false}
+              >
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-gallery-line bg-gallery-bg text-stone-700 dark:text-stone-300">
                     <block.icon className="h-5 w-5" strokeWidth={1.5} aria-hidden />
                   </span>
                   <div>
-                    <h3 className="font-display text-xl font-semibold text-gallery-ink">
+                    <h3 className="font-display text-lg font-semibold text-gallery-ink sm:text-xl">
                       {block.title}
                     </h3>
-                    <p className="mt-3 text-shell-muted">{block.subtitle}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-shell-muted">
+                      {block.subtitle}
+                    </p>
                   </div>
                 </div>
                 <motion.ul
@@ -111,16 +155,16 @@ export function Services() {
                   whileInView="visible"
                   viewport={{ once: true }}
                   variants={staggerContainer}
-                  className="mt-10 space-y-6"
+                  className="mt-8 flex flex-1 flex-col space-y-5 border-t border-gallery-line pt-8"
                 >
                   {block.items.map((item, ii) => (
                     <motion.li
                       key={item.title}
-                      custom={bi * 2 + ii}
+                      custom={bi * 4 + ii}
                       variants={fadeInUp}
-                      className="flex gap-4 border-t border-gallery-line pt-6 first:border-t-0 first:pt-0"
+                      className="flex gap-3"
                     >
-                      <span className="mt-0.5 text-stone-500 dark:text-stone-400">
+                      <span className="mt-0.5 shrink-0 text-stone-500 dark:text-stone-400">
                         <item.icon className="h-5 w-5" strokeWidth={1.5} aria-hidden />
                       </span>
                       <div>

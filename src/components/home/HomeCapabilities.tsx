@@ -2,14 +2,15 @@ import { motion } from 'framer-motion'
 import { fadeInUp, staggerContainer } from '../../lib/motion'
 
 const tags = [
-  'Websites & Landingpages',
-  'Corporate Sites',
-  'Onlineshops (Beratung)',
-  'Kleine Web-Anwendungen',
-  'Zeiterfassung & Übersichten',
+  'Webdesign & Landingpages',
+  'Technische SEO & Inhalte',
+  'Google Ads & Conversion-Tracking',
+  'Corporate Websites',
+  'Maßgeschneiderte Web-Anwendungen',
+  'Media Design & Print',
+  'Flyer, Folder & Werbemittel',
+  'Social-Media-Vorlagen',
   'Wartung & Weiterentwicklung',
-  'Barrierefreiheit (Grundlagen)',
-  'Suchmaschinen (Basis)',
 ]
 
 export function HomeCapabilities() {

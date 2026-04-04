@@ -2,74 +2,66 @@ import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { fadeInUp } from '../lib/motion'
-import { HeroShowcase } from './HeroShowcase'
-import { SpotlightCard } from './home/tech/SpotlightCard'
 import { TiltCard } from './home/tech/TiltCard'
 
 export function Hero() {
   return (
     <section className="border-b border-gallery-line bg-gallery-surface">
       <div className="mx-auto max-w-6xl px-4 pb-16 pt-16 sm:px-6 sm:pb-20 sm:pt-20 lg:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-14">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: {},
-              visible: { transition: { staggerChildren: 0.08 } },
-            }}
-            className="max-w-xl"
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.08 } },
+          }}
+          className="max-w-3xl"
+        >
+          <motion.p
+            custom={0}
+            variants={fadeInUp}
+            className="text-sm font-medium text-shell-muted"
           >
-            <motion.p
-              custom={0}
-              variants={fadeInUp}
-              className="text-sm font-medium text-shell-muted"
+            Websites, Sichtbarkeit & Media
+          </motion.p>
+          <motion.h1
+            custom={1}
+            variants={fadeInUp}
+            className="mt-4 font-display text-4xl font-semibold tracking-tight text-gallery-ink sm:text-5xl sm:leading-[1.12]"
+          >
+            Eine Website, auf die Sie sich freuen
+          </motion.h1>
+          <motion.p
+            custom={2}
+            variants={fadeInUp}
+            className="mt-6 text-lg leading-relaxed text-shell-muted"
+          >
+            Wir gestalten und bauen Ihren Auftritt so, dass Besucher sofort
+            verstehen, was Sie tun — und Sie sich beim Anschauen denken:{' '}
+            <span className="font-medium text-gallery-ink">
+              genau so soll es aussehen.
+            </span>
+          </motion.p>
+          <motion.div
+            custom={3}
+            variants={fadeInUp}
+            className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
+          >
+            <Link
+              to="/kontakt"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
             >
-              Websites & einfache digitale Hilfen
-            </motion.p>
-            <motion.h1
-              custom={1}
-              variants={fadeInUp}
-              className="mt-4 font-display text-4xl font-semibold tracking-tight text-gallery-ink sm:text-5xl sm:leading-[1.12]"
+              Unverbindlich anfragen
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+            <Link
+              to="/leistungen"
+              className="inline-flex items-center justify-center rounded-lg border border-gallery-line bg-gallery-bg px-5 py-3 text-sm font-medium text-gallery-ink transition hover:border-stone-400 dark:hover:border-stone-600"
             >
-              Eine Website, auf die Sie sich freuen
-            </motion.h1>
-            <motion.p
-              custom={2}
-              variants={fadeInUp}
-              className="mt-6 text-lg leading-relaxed text-shell-muted"
-            >
-              Wir gestalten und bauen Ihren Auftritt so, dass Besucher sofort
-              verstehen, was Sie tun — und Sie sich beim Anschauen denken:{' '}
-              <span className="font-medium text-gallery-ink">
-                genau so soll es aussehen.
-              </span>
-            </motion.p>
-            <motion.div
-              custom={3}
-              variants={fadeInUp}
-              className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
-            >
-              <Link
-                to="/kontakt"
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
-              >
-                Unverbindlich anfragen
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
-              <Link
-                to="/leistungen"
-                className="inline-flex items-center justify-center rounded-lg border border-gallery-line bg-gallery-bg px-5 py-3 text-sm font-medium text-gallery-ink transition hover:border-stone-400 dark:hover:border-stone-600"
-              >
-                Leistungen ansehen
-              </Link>
-            </motion.div>
+              Leistungen ansehen
+            </Link>
           </motion.div>
-
-          <SpotlightCard className="p-0 shadow-soft" showDemoLabel={false}>
-            <HeroShowcase />
-          </SpotlightCard>
-        </div>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 10 }}
