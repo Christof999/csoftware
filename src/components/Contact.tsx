@@ -12,7 +12,7 @@ export function Contact() {
   }
 
   const inputClass =
-    'w-full rounded-lg border border-gallery-line bg-white px-3 py-2.5 text-sm text-gallery-ink placeholder:text-stone-400 focus:border-stone-400 focus:outline-none focus:ring-1 focus:ring-stone-400'
+    'w-full rounded-lg border border-gallery-line bg-gallery-surface px-3 py-2.5 text-sm text-gallery-ink placeholder:text-stone-400 focus:border-stone-400 focus:outline-none focus:ring-1 focus:ring-stone-400 dark:placeholder:text-stone-500'
 
   return (
     <section className="bg-gallery-surface py-20 sm:py-24">
@@ -150,7 +150,7 @@ export function Contact() {
 
               {sent ? (
                 <p
-                  className="mt-6 rounded-lg border border-gallery-line bg-white px-4 py-3 text-sm text-stone-700"
+                  className="mt-6 rounded-lg border border-gallery-line bg-gallery-elevated px-4 py-3 text-sm text-gallery-ink"
                   role="status"
                 >
                   Danke — das ist ein Demo-Formular ohne automatische Versendung.

@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { ScrollToTop } from './ScrollToTop'
+import { ThemeToggle } from './ThemeToggle'
 
 const nav = [
   { to: '/', label: 'Start', end: true },
@@ -16,7 +17,7 @@ function linkClass(isActive: boolean) {
     'text-sm transition-colors',
     isActive
       ? 'font-medium text-gallery-ink'
-      : 'text-stone-600 hover:text-gallery-ink',
+      : 'text-shell-muted hover:text-gallery-ink',
   ].join(' ')
 }
 
@@ -71,28 +72,32 @@ export function Layout() {
                 {item.label}
               </NavLink>
             ))}
+            <ThemeToggle />
             <NavLink
               to="/kontakt"
-              className="rounded-lg bg-stone-900 px-3.5 py-1.5 text-sm font-medium text-white transition hover:bg-stone-800"
+              className="rounded-lg bg-stone-900 px-3.5 py-1.5 text-sm font-medium text-white transition hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
             >
               Kontakt
             </NavLink>
           </nav>
 
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-lg border border-gallery-line p-2 text-gallery-ink md:hidden"
+          <div className="flex items-center gap-2 md:hidden">
+            <ThemeToggle />
+            <button
+              type="button"
+              className="inline-flex items-center justify-center rounded-lg border border-gallery-line p-2 text-gallery-ink"
             onClick={() => setMobileOpen((o) => !o)}
             aria-expanded={mobileOpen}
             aria-controls="mobile-menu"
             aria-label={mobileOpen ? 'Menü schließen' : 'Menü öffnen'}
           >
-            {mobileOpen ? (
-              <X className="h-5 w-5" aria-hidden />
-            ) : (
-              <Menu className="h-5 w-5" aria-hidden />
-            )}
-          </button>
+              {mobileOpen ? (
+                <X className="h-5 w-5" aria-hidden />
+              ) : (
+                <Menu className="h-5 w-5" aria-hidden />
+              )}
+            </button>
+          </div>
         </div>
 
         <AnimatePresence>
@@ -119,8 +124,8 @@ export function Layout() {
                       [
                         'rounded-lg px-3 py-3 text-base',
                         isActive
-                          ? 'bg-stone-100 font-medium text-gallery-ink'
-                          : 'text-stone-600 hover:bg-stone-50 hover:text-gallery-ink',
+                          ? 'bg-stone-100 font-medium text-gallery-ink dark:bg-stone-800 dark:text-white'
+                          : 'text-shell-muted hover:bg-stone-50 hover:text-gallery-ink dark:hover:bg-stone-900',
                       ].join(' ')
                     }
                   >
@@ -129,7 +134,7 @@ export function Layout() {
                 ))}
                 <NavLink
                   to="/kontakt"
-                  className="mt-2 rounded-lg bg-stone-900 px-3 py-3 text-center text-base font-medium text-white"
+                  className="mt-2 rounded-lg bg-stone-900 px-3 py-3 text-center text-base font-medium text-white dark:bg-stone-100 dark:text-stone-900"
                   onClick={() => setMobileOpen(false)}
                 >
                   Kontakt
@@ -148,11 +153,11 @@ export function Layout() {
         <div className="mx-auto flex max-w-6xl flex-col justify-between gap-6 px-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
           <div>
             <p className="text-sm font-medium text-gallery-ink">Csoftware</p>
-            <p className="mt-1 text-sm text-stone-600">
+            <p className="mt-1 text-sm text-shell-muted">
               Websites & digitale Hilfen — klar, freundlich, für Sie gebaut.
             </p>
           </div>
-          <p className="text-xs text-stone-400">
+          <p className="text-xs text-stone-400 dark:text-stone-500">
             © {new Date().getFullYear()} Csoftware
           </p>
         </div>

@@ -21,7 +21,7 @@ export function Hero() {
             <motion.p
               custom={0}
               variants={fadeInUp}
-              className="text-sm font-medium text-stone-500"
+              className="text-sm font-medium text-shell-muted"
             >
               Websites & einfache digitale Hilfen
             </motion.p>
@@ -35,7 +35,7 @@ export function Hero() {
             <motion.p
               custom={2}
               variants={fadeInUp}
-              className="mt-6 text-lg leading-relaxed text-stone-600"
+              className="mt-6 text-lg leading-relaxed text-shell-muted"
             >
               Wir gestalten und bauen Ihren Auftritt so, dass Besucher sofort
               verstehen, was Sie tun — und Sie sich beim Anschauen denken:{' '}
@@ -57,7 +57,7 @@ export function Hero() {
               </Link>
               <Link
                 to="/arbeiten"
-                className="inline-flex items-center justify-center rounded-lg border border-gallery-line bg-gallery-bg px-5 py-3 text-sm font-medium text-gallery-ink transition hover:border-stone-300"
+                className="inline-flex items-center justify-center rounded-lg border border-gallery-line bg-gallery-bg px-5 py-3 text-sm font-medium text-gallery-ink transition hover:border-gallery-line dark:hover:border-stone-600"
               >
                 Beispiele ansehen
               </Link>
@@ -89,7 +89,7 @@ export function Hero() {
           ].map((item) => (
             <div key={item.t} className="rounded-xl border border-gallery-line bg-gallery-bg p-5">
               <p className="text-sm font-medium text-gallery-ink">{item.t}</p>
-              <p className="mt-2 text-sm leading-relaxed text-stone-600">{item.d}</p>
+              <p className="mt-2 text-sm leading-relaxed text-shell-muted">{item.d}</p>
             </div>
           ))}
         </motion.div>
