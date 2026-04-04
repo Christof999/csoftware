@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-gallery-bg: #f7f5f3;
+    --color-gallery-surface: #ffffff;
+    --color-gallery-elevated: #fafaf9;
+    --color-gallery-line: #e7e5e4;
+    --color-gallery-ink: #1c1917;
+    --color-shell-muted: #57534e;
+    --color-shell-subtle: #78716c;
+  }
+
+  .dark {
+    --color-gallery-bg: #0c0a09;
+    --color-gallery-surface: #141210;
+    --color-gallery-elevated: #1c1917;
+    --color-gallery-line: #292524;
+    --color-gallery-ink: #fafaf9;
+    --color-shell-muted: #a8a29e;
+    --color-shell-subtle: #78716c;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-gallery-bg text-gallery-ink antialiased transition-colors duration-200;
+  }
+
+  ::selection {
+    @apply bg-stone-300/60 text-gallery-ink dark:bg-stone-600/50 dark:text-white;
+  }
+}
