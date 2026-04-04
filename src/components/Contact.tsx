@@ -12,10 +12,10 @@ export function Contact() {
   }
 
   const inputClass =
-    'w-full rounded-lg border border-white/[0.1] bg-black/30 px-3 py-2.5 text-sm text-white placeholder:text-zinc-600 focus:border-indigo-500/50 focus:outline-none focus:ring-1 focus:ring-indigo-500/40'
+    'w-full rounded-lg border border-gallery-line bg-white px-3 py-2.5 text-sm text-gallery-ink placeholder:text-stone-400 focus:border-stone-400 focus:outline-none focus:ring-1 focus:ring-stone-400'
 
   return (
-    <section className="bg-gallery-bg py-20 sm:py-24">
+    <section className="bg-gallery-surface py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -27,28 +27,28 @@ export function Contact() {
           <motion.p
             custom={0}
             variants={fadeInUp}
-            className="text-[11px] font-medium uppercase tracking-[0.2em] text-indigo-300/90"
+            className="text-sm font-medium text-stone-500"
           >
             Kontakt
           </motion.p>
           <motion.h2
             custom={1}
             variants={fadeInUp}
-            className="mt-4 font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl"
+            className="mt-3 font-display text-3xl font-semibold tracking-tight text-gallery-ink sm:text-4xl"
           >
-            Lassen Sie uns kurz sprechen
+            Schreiben Sie uns
           </motion.h2>
           <motion.p
             custom={2}
             variants={fadeInUp}
-            className="mt-4 text-lg text-zinc-400"
+            className="mt-4 text-lg text-stone-600"
           >
-            Beschreiben Sie Ziel und Rahmen — wir melden uns mit einem
-            konkreten nächsten Schritt.
+            Kurz beschreiben, was Sie brauchen — wir melden uns persönlich bei
+            Ihnen.
           </motion.p>
         </motion.div>
 
-        <div className="mt-16 grid gap-12 lg:grid-cols-5">
+        <div className="mt-14 grid gap-12 lg:grid-cols-5">
           <motion.aside
             initial="hidden"
             whileInView="visible"
@@ -57,29 +57,30 @@ export function Contact() {
             className="space-y-8 lg:col-span-2"
           >
             <motion.div custom={0} variants={fadeInUp}>
-              <h3 className="font-display text-lg font-semibold text-white">
+              <h3 className="font-display text-lg font-semibold text-gallery-ink">
                 Csoftware
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-500">
-                Web & Software — für Teams, die Qualität vor Lautstärke stellen.
+              <p className="mt-3 text-sm leading-relaxed text-stone-600">
+                Wir freuen uns auf Ihre Nachricht — ob erste Frage oder konkrete
+                Idee.
               </p>
             </motion.div>
             <motion.ul
               custom={1}
               variants={fadeInUp}
-              className="space-y-4 text-sm text-zinc-400"
+              className="space-y-4 text-sm text-stone-600"
             >
               <li className="flex gap-3">
-                <Mail className="mt-0.5 h-5 w-5 shrink-0 text-zinc-500" aria-hidden />
+                <Mail className="mt-0.5 h-5 w-5 shrink-0 text-stone-500" aria-hidden />
                 <span>hallo@csoftware.example</span>
               </li>
               <li className="flex gap-3">
-                <Phone className="mt-0.5 h-5 w-5 shrink-0 text-zinc-500" aria-hidden />
+                <Phone className="mt-0.5 h-5 w-5 shrink-0 text-stone-500" aria-hidden />
                 <span>+49 (0) 000 0000000</span>
               </li>
               <li className="flex gap-3">
-                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-zinc-500" aria-hidden />
-                <span>Remote & vor Ort nach Absprache</span>
+                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-stone-500" aria-hidden />
+                <span>Nach Absprache vor Ort oder online</span>
               </li>
             </motion.ul>
           </motion.aside>
@@ -94,11 +95,11 @@ export function Contact() {
           >
             <form
               onSubmit={handleSubmit}
-              className="rounded-2xl border border-white/[0.08] bg-gallery-elevated/80 p-6 shadow-panel backdrop-blur-sm sm:p-8"
+              className="rounded-2xl border border-gallery-line bg-gallery-bg p-6 shadow-card sm:p-8"
             >
               <div className="grid gap-5 sm:grid-cols-2">
                 <label className="block sm:col-span-1">
-                  <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wide text-zinc-500">
+                  <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-stone-500">
                     Name
                   </span>
                   <input
@@ -110,18 +111,18 @@ export function Contact() {
                   />
                 </label>
                 <label className="block sm:col-span-1">
-                  <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wide text-zinc-500">
-                    Organisation
+                  <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-stone-500">
+                    Firma oder Projekt
                   </span>
                   <input
                     name="company"
                     autoComplete="organization"
                     className={inputClass}
-                    placeholder="Firma oder Team"
+                    placeholder="Optional"
                   />
                 </label>
                 <label className="block sm:col-span-2">
-                  <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wide text-zinc-500">
+                  <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-stone-500">
                     E-Mail
                   </span>
                   <input
@@ -134,7 +135,7 @@ export function Contact() {
                   />
                 </label>
                 <label className="block sm:col-span-2">
-                  <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wide text-zinc-500">
+                  <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-stone-500">
                     Nachricht
                   </span>
                   <textarea
@@ -142,30 +143,30 @@ export function Contact() {
                     required
                     rows={5}
                     className={`${inputClass} resize-y`}
-                    placeholder="Kurz: Ziel, Zeitrahmen, was schon da ist …"
+                    placeholder="Worum geht es? Was wünschen Sie sich?"
                   />
                 </label>
               </div>
 
               {sent ? (
                 <p
-                  className="mt-6 rounded-lg border border-white/[0.08] bg-white/[0.04] px-4 py-3 text-sm text-zinc-300"
+                  className="mt-6 rounded-lg border border-gallery-line bg-white px-4 py-3 text-sm text-stone-700"
                   role="status"
                 >
-                  Danke — Demo-Formular ohne Backend.
+                  Danke — das ist ein Demo-Formular ohne automatische Versendung.
                 </p>
               ) : null}
 
               <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-xs text-zinc-600">
-                  Absenden = Kontaktaufnahme (Platzhalter).
+                <p className="text-xs text-stone-400">
+                  Mit dem Absenden stimmen Sie der Kontaktaufnahme zu (Demo).
                 </p>
                 <button
                   type="submit"
-                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-indigo-500 px-5 py-2.5 text-sm font-medium text-white shadow-glow transition hover:bg-indigo-400"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-stone-800"
                 >
                   <Send className="h-4 w-4" aria-hidden />
-                  Senden
+                  Nachricht senden
                 </button>
               </div>
             </form>

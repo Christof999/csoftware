@@ -11,38 +11,38 @@ import { fadeInUp, staggerContainer } from '../lib/motion'
 
 const blocks = [
   {
-    title: 'Webdesign & Landing Pages',
+    title: 'Website & Landingpages',
     subtitle:
-      'Schnelle, präzise Oberflächen — damit Besucher verstehen, was Sie anbieten, und den nächsten Schritt gehen.',
+      'Texte, Bilder und Aufbau so, dass Besucher in wenigen Sekunden verstehen, wer Sie sind und wie Sie helfen.',
     icon: Globe,
     items: [
       {
         icon: LayoutTemplate,
-        title: 'Struktur',
-        text: 'Inhalte, Referenzen, Kontakt — logisch geführt, ohne Ballast.',
+        title: 'Gute Struktur',
+        text: 'Leistungen und Kontakt finden — ohne suchen zu müssen.',
       },
       {
         icon: Smartphone,
-        title: 'Überall stark',
-        text: 'Vom ersten Pixel an für Mobilgeräte gedacht — schnell und lesbar.',
+        title: 'Handy & Computer',
+        text: 'Lesbar und bedienbar, egal welches Gerät gerade zur Hand ist.',
       },
     ],
   },
   {
-    title: 'Individuelle Software',
+    title: 'Maßgeschneiderte Software',
     subtitle:
-      'Wenn Standardtools nicht passen: interne Tools, Dashboards und Workflows — so, dass Ihr Team sie wirklich nutzt.',
+      'Wenn Fertiglösungen nicht passen: kleine Programme und Übersichten, die zu Ihrem Alltag passen.',
     icon: Workflow,
     items: [
       {
         icon: Clock,
-        title: 'Zeit & Einsätze',
-        text: 'Erfassungen, die im Alltag funktionieren — mit klaren Summen.',
+        title: 'Zeiten & Termine',
+        text: 'Erfassung, die im Alltag mitgeht — ohne komplizierte Schulungen.',
       },
       {
         icon: BarChart3,
-        title: 'Daten & Übersicht',
-        text: 'Komplexität reduzieren: KPIs, Aufträge, Bestände — an einem Ort.',
+        title: 'Daten im Blick',
+        text: 'Aufträge, Bestände oder Kunden — übersichtlich statt verstreut.',
       },
     ],
   },
@@ -50,7 +50,7 @@ const blocks = [
 
 export function Services() {
   return (
-    <section className="border-b border-white/[0.06] bg-gallery-bg py-20 sm:py-24">
+    <section className="border-b border-gallery-line bg-gallery-surface py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -62,28 +62,28 @@ export function Services() {
           <motion.p
             custom={0}
             variants={fadeInUp}
-            className="text-[11px] font-medium uppercase tracking-[0.2em] text-indigo-300/90"
+            className="text-sm font-medium text-stone-500"
           >
             Leistungen
           </motion.p>
           <motion.h2
             custom={1}
             variants={fadeInUp}
-            className="mt-4 font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl"
+            className="mt-3 font-display text-3xl font-semibold tracking-tight text-gallery-ink sm:text-4xl"
           >
-            Von der Oberfläche bis ins System
+            Womit wir Ihnen helfen
           </motion.h2>
           <motion.p
             custom={2}
             variants={fadeInUp}
-            className="mt-4 text-lg text-zinc-400"
+            className="mt-4 text-lg text-stone-600"
           >
-            Zwei Schwerpunkte — ein Anspruch: klare UX, saubere Technik, messbarer
-            Fortschritt.
+            Zwei Schwerpunkte — immer mit dem Ziel, dass Sie und Ihre Kunden
+            sich zurechtfinden.
           </motion.p>
         </motion.div>
 
-        <div className="mt-16 grid gap-8 lg:grid-cols-2">
+        <div className="mt-14 grid gap-8 lg:grid-cols-2">
           {blocks.map((block, bi) => (
             <motion.article
               key={block.title}
@@ -91,17 +91,17 @@ export function Services() {
               whileInView="visible"
               viewport={{ once: true, margin: '-40px' }}
               variants={staggerContainer}
-              className="rounded-2xl border border-white/[0.08] bg-gallery-elevated/90 p-8 shadow-panel backdrop-blur-sm sm:p-10"
+              className="rounded-2xl border border-gallery-line bg-gallery-bg p-8 shadow-card sm:p-10"
             >
               <div className="flex items-start gap-4">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03] text-indigo-300">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-gallery-line bg-gallery-surface text-stone-700">
                   <block.icon className="h-5 w-5" strokeWidth={1.5} aria-hidden />
                 </span>
                 <div>
-                  <h3 className="font-display text-xl font-semibold text-white">
+                  <h3 className="font-display text-xl font-semibold text-gallery-ink">
                     {block.title}
                   </h3>
-                  <p className="mt-3 text-zinc-400">{block.subtitle}</p>
+                  <p className="mt-3 text-stone-600">{block.subtitle}</p>
                 </div>
               </div>
               <motion.ul
@@ -116,14 +116,14 @@ export function Services() {
                     key={item.title}
                     custom={bi * 2 + ii}
                     variants={fadeInUp}
-                    className="flex gap-4 border-t border-white/[0.06] pt-6 first:border-t-0 first:pt-0"
+                    className="flex gap-4 border-t border-gallery-line pt-6 first:border-t-0 first:pt-0"
                   >
-                    <span className="mt-0.5 text-zinc-500">
+                    <span className="mt-0.5 text-stone-500">
                       <item.icon className="h-5 w-5" strokeWidth={1.5} aria-hidden />
                     </span>
                     <div>
-                      <p className="font-medium text-white">{item.title}</p>
-                      <p className="mt-1 text-sm leading-relaxed text-zinc-500">
+                      <p className="font-medium text-gallery-ink">{item.title}</p>
+                      <p className="mt-1 text-sm leading-relaxed text-stone-600">
                         {item.text}
                       </p>
                     </div>

@@ -12,6 +12,6 @@
   }
 
   ::selection {
-    @apply bg-indigo-500/35 text-white;
+    @apply bg-stone-300/60 text-gallery-ink;
   }
 }

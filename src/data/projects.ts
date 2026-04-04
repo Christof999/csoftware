@@ -14,37 +14,37 @@ export const projects: ProjectMeta[] = [
   {
     slug: 'website-1',
     title: 'Website 1',
-    subtitle: 'Markenauftritt & Lead-Flow',
+    subtitle: 'Neuer Auftritt mit klarem Aufbau',
     kind: 'Web',
     summary:
-      'Klare Story, schnelle Ladezeit und ein Kontaktpfad, der konvertiert — ohne visuelles Rauschen.',
+      'Besucher sehen sofort, was angeboten wird — und finden den Weg zur Anfrage ohne Umwege.',
     screenshots: ['screenshot-1.png', 'screenshot-2.png'],
   },
   {
     slug: 'website-2',
     title: 'Website 2',
-    subtitle: 'Produkt erklären, Vertrauen aufbauen',
+    subtitle: 'Vertrauen durch ruhige Gestaltung',
     kind: 'Web',
     summary:
-      'Typografie und Layout mit Ruhe im Fokus — auf dem Handy genauso überzeugend wie am Desktop.',
+      'Großzügige Bilder, klare Schrift und eine Struktur, die auf dem Handy genauso funktioniert wie am Schreibtisch.',
     screenshots: ['screenshot-1.png'],
   },
   {
     slug: 'zeiterfassung',
     title: 'Zeiterfassung',
-    subtitle: 'Erfassung, die Teams nicht bremst',
+    subtitle: 'Stunden und Einsätze im Blick',
     kind: 'Software',
     summary:
-      'Stunden und Einsätze transparent — damit Planung und Abrechnung zusammenpassen.',
+      'Einfache Eingabe, übersichtliche Auswertung — damit am Monatsende weniger abgeglichen werden muss.',
     screenshots: ['dashboard.png', 'mobile.png'],
   },
   {
     slug: 'erp',
     title: 'ERP',
-    subtitle: 'Operative Übersicht für wachsende Teams',
+    subtitle: 'Aufträge und Infos an einem Ort',
     kind: 'Software',
     summary:
-      'Daten aus Auftrag, Bestand und Kommunikation zusammenführen — lesbar für Menschen, nutzbar für Entscheidungen.',
+      'Was früher in mehreren Listen verteilt war, wird zu einer verständlichen Übersicht für Ihr Team.',
     screenshots: ['overview.png'],
   },
 ]

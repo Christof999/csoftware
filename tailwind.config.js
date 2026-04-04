@@ -9,23 +9,17 @@ export default {
       },
       colors: {
         gallery: {
-          bg: '#09090b',
-          surface: '#0c0c0f',
-          elevated: '#141418',
-          line: '#27272a',
-          muted: '#a1a1aa',
-          ink: '#fafafa',
+          bg: '#f7f5f3',
+          surface: '#ffffff',
+          elevated: '#fafaf9',
+          line: '#e7e5e4',
+          muted: '#78716c',
+          ink: '#1c1917',
         },
       },
-      backgroundImage: {
-        'mesh':
-          'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.18), transparent 55%), radial-gradient(ellipse 60% 40% at 100% 0%, rgba(56,189,248,0.08), transparent 45%), radial-gradient(ellipse 50% 35% at 0% 100%, rgba(99,102,241,0.06), transparent 50%)',
-        'dot-grid':
-          'radial-gradient(circle, rgba(250,250,250,0.06) 1px, transparent 1px)',
-      },
       boxShadow: {
-        glow: '0 0 80px -20px rgba(99, 102, 241, 0.35)',
-        panel: '0 24px 80px -24px rgba(0, 0, 0, 0.65)',
+        soft: '0 22px 60px -28px rgba(28, 25, 23, 0.12)',
+        card: '0 1px 3px rgba(28, 25, 23, 0.06)',
       },
       animation: {
         'fade-up': 'fadeUp 0.6s ease-out forwards',
