@@ -5,7 +5,7 @@ import { fadeInUp, staggerContainer } from '../../lib/motion'
 
 export function HomeCta() {
   return (
-    <section className="bg-gallery-ink py-20 sm:py-28">
+    <section className="bg-stone-950 py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
