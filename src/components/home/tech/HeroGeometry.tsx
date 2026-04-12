@@ -38,85 +38,86 @@ const ICOSA_VERTS: Vec3[] = ([
   [PHI,0,1],[-PHI,0,1],[PHI,0,-1],[-PHI,0,-1],
 ] as Vec3[]).map(norm)
 
-// 20 triangular faces — all 30 edges verified
+// 20 triangular faces
 const ICOSA_FACES: [number,number,number][] = [
-  [0,1,8],[0,8,4],[0,4,5],[0,5,9],[0,9,1],         // fan around v0
-  [3,6,7],[3,10,6],[3,2,10],[3,11,2],[3,7,11],      // fan around v3
-  [1,6,7],[1,7,9],[1,6,8],                          // middle belt A
-  [4,8,10],[4,10,2],[4,2,5],                        // middle belt B
-  [5,2,11],[5,11,9],                                // middle belt C
-  [6,8,10],[7,9,11],                                // closing edges
+  [0,1,8],[0,8,4],[0,4,5],[0,5,9],[0,9,1],
+  [3,6,7],[3,10,6],[3,2,10],[3,11,2],[3,7,11],
+  [1,6,7],[1,7,9],[1,6,8],
+  [4,8,10],[4,10,2],[4,2,5],
+  [5,2,11],[5,11,9],
+  [6,8,10],[7,9,11],
 ]
 
 const OCTA_VERTS: Vec3[] = [
   [1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1],
 ]
-// 8 triangular faces
 const OCTA_FACES: [number,number,number][] = [
   [0,2,4],[0,4,3],[0,3,5],[0,5,2],
   [1,4,2],[1,3,4],[1,5,3],[1,2,5],
 ]
 
-// ─── Scene objects ────────────────────────────────────────────────────────────
+// Tetrahedron — 4 vertices, 4 faces, outward normals verified
+const TETRA_VERTS: Vec3[] = ([
+  [1,1,1], [-1,-1,1], [-1,1,-1], [1,-1,-1],
+] as Vec3[]).map(norm)
 
-// Global light direction (normalized)
+const TETRA_FACES: [number,number,number][] = [
+  [0,2,1], [0,1,3], [0,3,2], [1,2,3],
+]
+
+// ─── Scene ────────────────────────────────────────────────────────────────────
+
 const LIGHT: Vec3 = norm([0.5, -0.8, 0.6])
 
 interface SolidObj {
   kind: 'solid'
   verts: Vec3[]
   faces: [number,number,number][]
-  nx: number; ny: number       // current fractional position
-  ox: number; oy: number       // offset from cursor
-  lerpN: number                // position lerp speed
+  nx: number; ny: number     // current fractional screen position
+  ox: number; oy: number     // offset from cursor (tighter = ±0.14–0.22)
+  lerpN: number
   baseR: number
   ax: number; ay: number; az: number
   vx: number; vy: number; vz: number
   spinBoost: number
 }
 
-interface SphereObj {
-  kind: 'sphere'
-  nx: number; ny: number
-  ox: number; oy: number
-  lerpN: number
-  baseR: number
-  t: number                    // highlight orbit phase
-  tSpd: number
-  spinBoost: number
-}
-
-type SceneObj = SolidObj | SphereObj
-
-// At cursor (0.5, 0.5), nx = 0.5 + ox, ny = 0.5 + oy
-const SCENE: SceneObj[] = [
+// Offsets are sized so objects stay close — at cursor (0.5, 0.5) they sit at
+// visually balanced positions; drift target is always clamped to [0.04, 0.96]
+const SCENE: SolidObj[] = [
+  // Large icosahedron — top-right
   {
     kind: 'solid', verts: ICOSA_VERTS, faces: ICOSA_FACES,
-    nx: 0.84, ny: 0.22, ox: 0.34, oy: -0.28, lerpN: 0.022,
+    nx: 0.72, ny: 0.36, ox: 0.22, oy: -0.14, lerpN: 0.022,
     baseR: 120, ax: 0.4, ay: 0.9, az: 0.2,
     vx: 0.0018, vy: 0.0032, vz: 0.0011, spinBoost: 0,
   },
+  // Medium tetrahedron — bottom-left
   {
-    kind: 'sphere',
-    nx: 0.10, ny: 0.74, ox: -0.40, oy: 0.24, lerpN: 0.034,
-    baseR: 80, t: 0, tSpd: 0.006, spinBoost: 0,
+    kind: 'solid', verts: TETRA_VERTS, faces: TETRA_FACES,
+    nx: 0.30, ny: 0.66, ox: -0.20, oy: 0.16, lerpN: 0.034,
+    baseR: 72, ax: 1.1, ay: 0.3, az: 0.7,
+    vx: -0.0030, vy: 0.0042, vz: 0.0020, spinBoost: 0,
   },
+  // Small octahedron — bottom-right
   {
     kind: 'solid', verts: OCTA_VERTS, faces: OCTA_FACES,
-    nx: 0.76, ny: 0.88, ox: 0.26, oy: 0.38, lerpN: 0.018,
-    baseR: 70, ax: 0.6, ay: 1.2, az: 0.4,
+    nx: 0.66, ny: 0.70, ox: 0.16, oy: 0.20, lerpN: 0.018,
+    baseR: 68, ax: 0.6, ay: 1.2, az: 0.4,
     vx: 0.0035, vy: -0.0018, vz: 0.0026, spinBoost: 0,
   },
+  // Small tetrahedron — top-left
   {
-    kind: 'sphere',
-    nx: 0.14, ny: 0.16, ox: -0.36, oy: -0.34, lerpN: 0.028,
-    baseR: 50, t: Math.PI, tSpd: 0.009, spinBoost: 0,
+    kind: 'solid', verts: TETRA_VERTS, faces: TETRA_FACES,
+    nx: 0.36, ny: 0.32, ox: -0.14, oy: -0.18, lerpN: 0.028,
+    baseR: 50, ax: 0.8, ay: 0.5, az: 1.0,
+    vx: -0.0025, vy: 0.0048, vz: -0.0022, spinBoost: 0,
   },
 ]
 
 const REF_W = 1440
 
-// ─── Renderers ────────────────────────────────────────────────────────────────
+// ─── Renderer ────────────────────────────────────────────────────────────────
 
 function drawSolid(
   ctx: CanvasRenderingContext2D,
@@ -142,8 +143,8 @@ function drawSolid(
     return { x: cx + v[0] * r * sz, y: cy + v[1] * r * sz, z: v[2] }
   })
 
-  // Compute brightness + depth per face, sort back→front
-  const fdata = obj.faces.map(([a,b,c]) => {
+  // Per-face brightness + depth, painter's sort
+  const fdata = obj.faces.map(([a, b, c]) => {
     const va = tv[a], vb = tv[b], vc = tv[c]
     const centZ = (va[2] + vb[2] + vc[2]) / 3
     const n = norm(cross(sub(vb, va), sub(vc, va)))
@@ -152,11 +153,11 @@ function drawSolid(
   })
   fdata.sort((x, y) => x.centZ - y.centZ)
 
-  const alphaBoost = Math.min(1.4, 1 + obj.spinBoost * 0.04)
+  const ab = Math.min(1.4, 1 + obj.spinBoost * 0.04)
 
   fdata.forEach(({ a, b, c, centZ, brightness }) => {
     const depth = (centZ + 1) / 2
-    const alpha = Math.min(0.88, alphaBoost * (0.08 + depth * 0.28) * (0.3 + brightness * 0.7))
+    const alpha = Math.min(0.88, ab * (0.08 + depth * 0.28) * (0.3 + brightness * 0.7))
 
     ctx.beginPath()
     ctx.moveTo(pv[a].x, pv[a].y)
@@ -165,81 +166,21 @@ function drawSolid(
     ctx.closePath()
 
     if (isDark) {
-      const v = Math.round(160 + brightness * 80)
+      const v = Math.round(155 + brightness * 85)
       ctx.fillStyle = `rgba(${v},${v-3},${v-6},${alpha.toFixed(3)})`
     } else {
-      const v = Math.round(55 + brightness * 145)
+      const v = Math.round(50 + brightness * 148)
       ctx.fillStyle = `rgba(${v},${v-2},${v-5},${alpha.toFixed(3)})`
     }
     ctx.fill()
 
-    // Crisp edge lines
-    const ea = (0.04 + depth * 0.07) * alphaBoost
+    const ea = (0.04 + depth * 0.07) * ab
     ctx.strokeStyle = isDark
       ? `rgba(245,244,242,${ea.toFixed(3)})`
       : `rgba(26,24,22,${ea.toFixed(3)})`
-    ctx.lineWidth = 0.4
+    ctx.lineWidth = 0.5
     ctx.stroke()
   })
-}
-
-function drawSphere(
-  ctx: CanvasRenderingContext2D,
-  obj: SphereObj,
-  cx: number, cy: number, r: number,
-  isDark: boolean,
-) {
-  // Highlight orbits the surface
-  const hx = cx - r * (0.28 + 0.06 * Math.cos(obj.t))
-  const hy = cy - r * (0.32 + 0.06 * Math.sin(obj.t * 0.8))
-  const boost = Math.min(1.5, 1 + obj.spinBoost * 0.08)
-
-  ctx.save()
-  ctx.beginPath()
-  ctx.arc(cx, cy, r, 0, Math.PI * 2)
-  ctx.clip()
-
-  // Diffuse body
-  const body = ctx.createRadialGradient(hx, hy, 0, cx, cy, r)
-  if (isDark) {
-    body.addColorStop(0, `rgba(245,244,242,${(0.14 * boost).toFixed(3)})`)
-    body.addColorStop(0.5, `rgba(200,195,190,${(0.055 * boost).toFixed(3)})`)
-    body.addColorStop(1,   `rgba(140,135,130,${(0.018 * boost).toFixed(3)})`)
-  } else {
-    body.addColorStop(0, `rgba(255,255,255,${(0.22 * boost).toFixed(3)})`)
-    body.addColorStop(0.5, `rgba(210,205,200,${(0.09 * boost).toFixed(3)})`)
-    body.addColorStop(1,   `rgba(120,113,108,${(0.03 * boost).toFixed(3)})`)
-  }
-  ctx.fillStyle = body
-  ctx.fillRect(cx - r, cy - r, r * 2, r * 2)
-
-  // Specular
-  const spec = ctx.createRadialGradient(hx, hy, 0, hx, hy, r * 0.28)
-  spec.addColorStop(0, `rgba(255,255,255,${(0.55 * boost).toFixed(3)})`)
-  spec.addColorStop(0.5, `rgba(255,255,255,${(0.18 * boost).toFixed(3)})`)
-  spec.addColorStop(1, 'rgba(255,255,255,0)')
-  ctx.fillStyle = spec
-  ctx.fillRect(cx - r, cy - r, r * 2, r * 2)
-
-  // Rim
-  const rim = ctx.createRadialGradient(cx, cy, r * 0.68, cx, cy, r)
-  rim.addColorStop(0, 'rgba(255,255,255,0)')
-  rim.addColorStop(1, isDark
-    ? `rgba(245,244,242,${(0.10 * boost).toFixed(3)})`
-    : `rgba(255,255,255,${(0.16 * boost).toFixed(3)})`)
-  ctx.fillStyle = rim
-  ctx.fillRect(cx - r, cy - r, r * 2, r * 2)
-
-  ctx.restore()
-
-  // Edge ring
-  ctx.beginPath()
-  ctx.arc(cx, cy, r, 0, Math.PI * 2)
-  ctx.strokeStyle = isDark
-    ? `rgba(245,244,242,${(0.09 * boost).toFixed(3)})`
-    : `rgba(26,24,22,${(0.07 * boost).toFixed(3)})`
-  ctx.lineWidth = 0.6
-  ctx.stroke()
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -249,7 +190,7 @@ export function HeroGeometry() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const mouseSmooth = useRef({ x: 0.5, y: 0.5 })
   const mouseTarget = useRef({ x: 0.5, y: 0.5 })
-  const scene = useRef<SceneObj[]>(SCENE.map(o => ({ ...o })))
+  const scene = useRef<SolidObj[]>(SCENE.map(o => ({ ...o })))
   const raf = useRef(0)
 
   useEffect(() => {
@@ -301,20 +242,18 @@ export function HeroGeometry() {
         obj.spinBoost *= 0.93
         const speedMult = 1 + obj.spinBoost
 
-        // Drift position toward cursor + offset
-        obj.nx += (m.x + obj.ox - obj.nx) * obj.lerpN
-        obj.ny += (m.y + obj.oy - obj.ny) * obj.lerpN
+        // Clamp drift target so objects never leave the canvas
+        const tx = Math.max(0.04, Math.min(0.96, m.x + obj.ox))
+        const ty = Math.max(0.04, Math.min(0.96, m.y + obj.oy))
+        obj.nx += (tx - obj.nx) * obj.lerpN
+        obj.ny += (ty - obj.ny) * obj.lerpN
 
-        const cx = obj.nx * width
-        const cy = obj.ny * height
-        const r = obj.baseR * scale
-
-        if (obj.kind === 'solid') {
-          drawSolid(ctx, obj, cx, cy, r, tiltX, tiltY, speedMult, isDark)
-        } else {
-          obj.t += obj.tSpd * speedMult
-          drawSphere(ctx, obj, cx, cy, r, isDark)
-        }
+        drawSolid(
+          ctx, obj,
+          obj.nx * width, obj.ny * height,
+          obj.baseR * scale,
+          tiltX, tiltY, speedMult, isDark,
+        )
       })
 
       raf.current = requestAnimationFrame(loop)
