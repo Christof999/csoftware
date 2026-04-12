@@ -7,6 +7,7 @@ const tags = [
   'Google Ads & Conversion-Tracking',
   'Corporate Websites',
   'Maßgeschneiderte Web-Anwendungen',
+  'Web-Apps für Ihren Alltag',
   'Media Design & Print',
   'Flyer, Folder & Werbemittel',
   'Social-Media-Vorlagen',

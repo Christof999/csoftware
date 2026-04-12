@@ -25,19 +25,19 @@ export function HomeManifesto() {
               variants={fadeInUp}
               className="font-display text-3xl font-semibold leading-tight tracking-tight text-stone-100 sm:text-4xl sm:leading-[1.12]"
             >
-              Schneller live.{' '}
-              <span className="text-stone-500">Ruhig wachsen.</span>{' '}
-              Klar messbar.
+              Ideen umsetzen.{' '}
+              <span className="text-stone-500">Probleme lösen.</span>{' '}
+              Alltag erleichtern.
             </motion.h2>
             <motion.p
               custom={2}
               variants={fadeInUp}
               className="mt-6 text-base leading-relaxed text-stone-400 sm:text-lg"
             >
-              Wir verbinden Strategie, Gestaltung und Technik in einem
-              durchgängigen Ablauf — nicht als lose Einzelteile. So wird aus
-              Ihrer Idee eine Website, die zu Ihrer Marke passt und im Alltag
-              wartbar bleibt.
+              Wir verwandeln Ihre Ideen in funktionierende Lösungen — und
+              räumen die digitalen Stolpersteine aus dem Weg, die den
+              Arbeitsalltag bremsen. Das Ergebnis: ein Auftritt und Tools,
+              die einfach funktionieren. Ohne Frust, ohne Umwege.
             </motion.p>
           </div>
         </motion.div>
