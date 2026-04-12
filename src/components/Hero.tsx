@@ -2,12 +2,14 @@ import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { fadeInUp } from '../lib/motion'
+import { HeroGeometry } from './home/tech/HeroGeometry'
 import { TiltCard } from './home/tech/TiltCard'
 
 export function Hero() {
   return (
-    <section className="border-b border-gallery-line bg-gallery-surface overflow-hidden">
-      <div className="mx-auto max-w-6xl px-4 pb-20 pt-20 sm:px-6 sm:pb-28 sm:pt-28 lg:px-8">
+    <section className="relative border-b border-gallery-line bg-gallery-surface overflow-hidden">
+      <HeroGeometry />
+      <div className="relative z-10 mx-auto max-w-6xl px-4 pb-20 pt-20 sm:px-6 sm:pb-28 sm:pt-28 lg:px-8">
         <motion.div
           initial="hidden"
           animate="visible"
