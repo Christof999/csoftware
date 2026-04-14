@@ -25,7 +25,7 @@ export function Hero() {
             className="inline-flex items-center gap-3 text-xs font-medium uppercase tracking-widest text-shell-muted"
           >
             <span className="h-px w-8 bg-shell-subtle inline-block" aria-hidden />
-            Websites · Sichtbarkeit · Media
+            Websites · SEO · Media
           </motion.p>
           <motion.h1
             custom={1}
