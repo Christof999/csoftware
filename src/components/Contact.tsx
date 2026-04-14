@@ -16,13 +16,13 @@ const CONTACT_ITEMS = [
   {
     Icon: Phone,
     label: 'Telefon',
-    value: '+43 (0) 000 0000000',
+    value: '+49 1732 387757',
     note: 'Mo – Fr, 9 – 18 Uhr',
   },
   {
     Icon: MapPin,
     label: 'Ort',
-    value: 'Österreich',
+    value: 'Deutschland',
     note: 'Vor Ort oder remote',
   },
 ]
