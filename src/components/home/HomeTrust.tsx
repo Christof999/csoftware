@@ -7,7 +7,7 @@ const items = [
     Icon: Settings2,
     n: '01',
     title: 'Einfache Wartbarkeit',
-    text: 'In einer Welt voller KI-Tools behalten Sie die Kontrolle. Ihr System bleibt schlank, verständlich und ohne überflüssige Abhängigkeiten — damit Änderungen keine Woche dauern.',
+    text: 'In einer Welt voller KI-Tools setzen wir auf schlanke, durchdachte Lösungen — ohne überflüssige Abhängigkeiten, sodass Anpassungen schnell und sauber umgesetzt werden.',
   },
   {
     Icon: ShieldCheck,

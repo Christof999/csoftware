@@ -6,7 +6,7 @@ const steps = [
   {
     n: '01',
     title: 'Kennenlernen',
-    text: 'Wir klären Ziele, Zielgruppe und Budget — in einem Gespräch, das Sie verstehen.',
+    text: 'Wir klären Ziele, Zielgruppe und Budget — offen, konkret, ohne versteckte Agenda.',
   },
   {
     n: '02',

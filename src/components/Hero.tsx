@@ -77,7 +77,7 @@ export function Hero() {
           {[
             {
               t: 'Verständlich',
-              d: 'Kein Fachchinesisch — wir erklären, was Sinn ergibt.',
+              d: 'Auf Augenhöhe — direkte Kommunikation, kurze Wege.',
             },
             {
               t: 'Übersichtlich',
