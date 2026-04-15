@@ -3,7 +3,6 @@ import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { fadeInUp } from '../lib/motion'
 import { HeroGeometry } from './home/tech/HeroGeometry'
-import { TiltCard } from './home/tech/TiltCard'
 
 export function Hero() {
   return (
@@ -27,28 +26,39 @@ export function Hero() {
             <span className="h-px w-8 bg-shell-subtle inline-block" aria-hidden />
             Websites · SEO · Media
           </motion.p>
+
           <motion.h1
             custom={1}
             variants={fadeInUp}
             className="mt-7 font-display text-5xl font-semibold tracking-tight text-gallery-ink sm:text-6xl sm:leading-[1.06] lg:text-7xl lg:leading-[1.04]"
           >
-            Eine Website,{' '}
+            Individuelle Websites –{' '}
             <br className="hidden sm:block" />
-            <span className="text-shell-muted">auf die Sie sich freuen.</span>
+            <span className="text-shell-muted">so einzigartig wie Ihr Unternehmen.</span>
           </motion.h1>
+
           <motion.p
             custom={2}
             variants={fadeInUp}
-            className="mt-8 max-w-xl text-lg leading-relaxed text-shell-muted"
+            className="mt-4 font-display text-xl font-semibold tracking-tight text-gallery-ink sm:text-2xl"
           >
-            Wir gestalten und bauen Ihren Auftritt so, dass Besucher sofort
-            verstehen, was Sie tun — und Sie sich beim Anschauen denken:{' '}
-            <span className="font-medium text-gallery-ink">
-              genau so soll es aussehen.
-            </span>
+            Von der Idee zur fertigen Website – alles aus einer Hand.
           </motion.p>
-          <motion.div
+
+          <motion.p
             custom={3}
+            variants={fadeInUp}
+            className="mt-6 max-w-xl text-lg leading-relaxed text-shell-muted"
+          >
+            Wir entwickeln maßgeschneiderte Websites für Ihr Unternehmen –
+            darauf ausgelegt, neue Kunden zu gewinnen. Von der ersten Idee bis
+            zur fertigen Umsetzung begleiten wir Sie zuverlässig und sorgen
+            dafür, dass Ihr Betrieb online genau so überzeugt wie in der
+            Realität.
+          </motion.p>
+
+          <motion.div
+            custom={4}
             variants={fadeInUp}
             className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
           >
@@ -66,37 +76,6 @@ export function Hero() {
               Leistungen ansehen
             </Link>
           </motion.div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.5 }}
-          className="mt-20 grid gap-4 border-t border-gallery-line pt-14 sm:grid-cols-3"
-        >
-          {[
-            {
-              t: 'Verständlich',
-              d: 'Auf Augenhöhe — direkte Kommunikation, kurze Wege.',
-            },
-            {
-              t: 'Übersichtlich',
-              d: 'Struktur und Texte, die man beim ersten Lesen erfasst.',
-            },
-            {
-              t: 'Persönlich',
-              d: 'Sie sprechen mit Menschen, nicht mit einem Ticketsystem.',
-            },
-          ].map((item) => (
-            <TiltCard key={item.t} className="bg-gallery-bg">
-              <div className="p-6">
-                <p className="text-sm font-semibold text-gallery-ink">{item.t}</p>
-                <p className="mt-2 text-sm leading-relaxed text-shell-muted">
-                  {item.d}
-                </p>
-              </div>
-            </TiltCard>
-          ))}
         </motion.div>
       </div>
     </section>
