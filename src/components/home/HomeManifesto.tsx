@@ -9,7 +9,7 @@ const EXAMPLES = [
 
 export function HomeManifesto() {
   return (
-    <section className="bg-stone-950 py-20 sm:py-28">
+    <section id="zusaetzliche-leistungen" className="bg-stone-950 py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"

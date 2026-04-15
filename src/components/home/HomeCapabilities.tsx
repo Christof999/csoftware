@@ -16,7 +16,7 @@ const tags = [
 
 export function HomeCapabilities() {
   return (
-    <section className="border-b border-gallery-line bg-gallery-surface py-20 sm:py-28">
+    <section id="leistungsfeld" className="border-b border-gallery-line bg-gallery-surface py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"

@@ -1,47 +1,19 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { CheckCircle, Clock, Mail, MapPin, MessageSquare, Phone, Plus, Send, Users } from 'lucide-react'
+import { CheckCircle, Mail, Plus, Send } from 'lucide-react'
 import { type FormEvent, useState } from 'react'
 import { fadeInUp, staggerContainer } from '../lib/motion'
 import { CursorGlow } from './home/tech/CursorGlow'
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-const CONTACT_ITEMS = [
-  {
-    Icon: Mail,
-    label: 'E-Mail',
-    value: 'hallo@csoftware.example',
-    note: 'Am schnellsten',
-  },
-  {
-    Icon: Phone,
-    label: 'Telefon',
-    value: '+49 1732 387757',
-    note: 'Mo – Fr, 9 – 18 Uhr',
-  },
-  {
-    Icon: MapPin,
-    label: 'Ort',
-    value: 'Deutschland',
-    note: 'Vor Ort oder remote',
-  },
-]
-
 const PROMISES = [
   {
-    Icon: Clock,
     title: 'Antwort in 24 Stunden',
-    text: 'Innerhalb eines Werktags hören Sie von uns — persönlich, nicht automatisiert.',
+    text: 'Innerhalb eines Werktags hören Sie von uns',
   },
   {
-    Icon: MessageSquare,
     title: 'Erstes Gespräch kostenlos',
-    text: 'Wir hören zu, stellen Fragen und klären, ob und wie wir helfen können — ohne Verkaufsdruck.',
-  },
-  {
-    Icon: Users,
-    title: 'Direkt mit den Machern',
-    text: 'Kein Vertrieb, kein Account-Manager — Sie sprechen von Anfang an mit denen, die Ihr Projekt umsetzen.',
+    text: 'Wir hören zu, stellen Fragen und klären, ob und wie wir helfen können',
   },
 ]
 
@@ -131,22 +103,132 @@ export function Contact() {
         </div>
       </section>
 
-      {/* Contact info + Form */}
+      {/* Form + Info — form comes first in DOM (= first on mobile) */}
       <section
         id="formular"
         className="border-b border-gallery-line bg-gallery-bg py-20 sm:py-28"
       >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-16 lg:grid-cols-2 lg:items-start lg:gap-20">
-            {/* Left column: contact details + promises */}
+
+            {/* Form — first on mobile, right column on desktop */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className="lg:order-last"
+            >
+              <AnimatePresence mode="wait">
+                {sent ? (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.97 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex flex-col items-center justify-center rounded-xl border border-gallery-line bg-gallery-surface px-8 py-16 text-center"
+                  >
+                    <CheckCircle
+                      className="h-9 w-9 text-gallery-ink"
+                      strokeWidth={1.5}
+                      aria-hidden
+                    />
+                    <h2 className="mt-5 font-display text-xl font-semibold text-gallery-ink">
+                      Danke für Ihre Nachricht!
+                    </h2>
+                    <p className="mt-3 text-sm leading-relaxed text-shell-muted">
+                      Wir melden uns innerhalb eines Werktags persönlich bei Ihnen.
+                    </p>
+                  </motion.div>
+                ) : (
+                  <motion.form
+                    key="form"
+                    exit={{ opacity: 0, scale: 0.98 }}
+                    transition={{ duration: 0.2 }}
+                    onSubmit={handleSubmit}
+                    className="rounded-xl border border-gallery-line bg-gallery-surface p-6 sm:p-8"
+                  >
+                    <p className="mb-6 border-b border-gallery-line pb-6 text-xs font-medium uppercase tracking-widest text-shell-muted">
+                      Nachricht schreiben
+                    </p>
+
+                    <div className="grid gap-5 sm:grid-cols-2">
+                      <label className="block">
+                        <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
+                          Name
+                        </span>
+                        <input
+                          name="name"
+                          required
+                          autoComplete="name"
+                          className={inputClass}
+                          placeholder="Ihr Name"
+                        />
+                      </label>
+                      <label className="block">
+                        <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
+                          Firma / Projekt
+                        </span>
+                        <input
+                          name="company"
+                          autoComplete="organization"
+                          className={inputClass}
+                          placeholder="Optional"
+                        />
+                      </label>
+                      <label className="block sm:col-span-2">
+                        <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
+                          E-Mail
+                        </span>
+                        <input
+                          name="email"
+                          type="email"
+                          required
+                          autoComplete="email"
+                          className={inputClass}
+                          placeholder="name@beispiel.de"
+                        />
+                      </label>
+                      <label className="block sm:col-span-2">
+                        <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
+                          Worum geht es?
+                        </span>
+                        <textarea
+                          name="message"
+                          required
+                          rows={5}
+                          className={`${inputClass} resize-y`}
+                          placeholder="Stichwörter reichen — wir fragen nach, wenn nötig."
+                        />
+                      </label>
+                    </div>
+
+                    <div className="mt-6 flex flex-col gap-4 border-t border-gallery-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+                      <p className="text-xs text-shell-subtle">
+                        Mit dem Absenden stimmen Sie der Kontaktaufnahme zu (Demo).
+                      </p>
+                      <button
+                        type="submit"
+                        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-stone-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
+                      >
+                        <Send className="h-4 w-4" aria-hidden />
+                        Nachricht senden
+                      </button>
+                    </div>
+                  </motion.form>
+                )}
+              </AnimatePresence>
+            </motion.div>
+
+            {/* Info — second on mobile, left column on desktop */}
             <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: '-60px' }}
               variants={staggerContainer}
-              className="space-y-12"
+              className="space-y-12 lg:order-first"
             >
-              {/* Contact channels */}
+              {/* Email only */}
               <div>
                 <motion.p
                   custom={0}
@@ -155,40 +237,30 @@ export function Contact() {
                 >
                   Direkt erreichbar
                 </motion.p>
-                <motion.ul
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  variants={staggerContainer}
-                  className="space-y-3"
-                >
-                  {CONTACT_ITEMS.map((item, i) => (
-                    <motion.li key={item.label} custom={i} variants={fadeInUp}>
-                      <CursorGlow className="rounded-xl border border-gallery-line bg-gallery-surface">
-                        <div className="flex items-start gap-5 px-6 py-5">
-                          <span className="mt-0.5 shrink-0 text-gallery-ink">
-                            <item.Icon className="h-5 w-5" strokeWidth={1.5} aria-hidden />
-                          </span>
-                          <div>
-                            <p className="text-[10px] font-medium uppercase tracking-widest text-shell-subtle">
-                              {item.label}
-                            </p>
-                            <p className="mt-1 font-display text-sm font-semibold text-gallery-ink">
-                              {item.value}
-                            </p>
-                            <p className="mt-0.5 text-xs text-shell-muted">{item.note}</p>
-                          </div>
-                        </div>
-                      </CursorGlow>
-                    </motion.li>
-                  ))}
-                </motion.ul>
+                <motion.div custom={1} variants={fadeInUp}>
+                  <CursorGlow className="rounded-xl border border-gallery-line bg-gallery-surface">
+                    <div className="flex items-start gap-5 px-6 py-5">
+                      <span className="mt-0.5 shrink-0 text-gallery-ink">
+                        <Mail className="h-5 w-5" strokeWidth={1.5} aria-hidden />
+                      </span>
+                      <div>
+                        <p className="text-[10px] font-medium uppercase tracking-widest text-shell-subtle">
+                          E-Mail
+                        </p>
+                        <p className="mt-1 font-display text-sm font-semibold text-gallery-ink">
+                          hallo@csoftware.example
+                        </p>
+                        <p className="mt-0.5 text-xs text-shell-muted">Am schnellsten</p>
+                      </div>
+                    </div>
+                  </CursorGlow>
+                </motion.div>
               </div>
 
-              {/* Promises */}
+              {/* Was Sie erwartet */}
               <div>
                 <motion.p
-                  custom={3}
+                  custom={2}
                   variants={fadeInUp}
                   className="border-b border-gallery-line pb-6 mb-8 text-xs font-medium uppercase tracking-widest text-shell-muted"
                 >
@@ -199,141 +271,30 @@ export function Contact() {
                   whileInView="visible"
                   viewport={{ once: true }}
                   variants={staggerContainer}
-                  className="space-y-3"
+                  className="space-y-6"
                 >
                   {PROMISES.map((item, i) => (
-                    <motion.li key={item.title} custom={i} variants={fadeInUp}>
-                      <CursorGlow className="rounded-xl border border-gallery-line bg-gallery-surface">
-                        <div className="flex gap-5 px-6 py-5">
-                          <span className="mt-0.5 shrink-0 text-gallery-ink">
-                            <item.Icon className="h-5 w-5" strokeWidth={1.5} aria-hidden />
-                          </span>
-                          <div>
-                            <p className="font-display text-sm font-semibold text-gallery-ink">
-                              {item.title}
-                            </p>
-                            <p className="mt-1.5 text-sm leading-relaxed text-shell-muted">
-                              {item.text}
-                            </p>
-                          </div>
-                        </div>
-                      </CursorGlow>
+                    <motion.li
+                      key={item.title}
+                      custom={i}
+                      variants={fadeInUp}
+                      className="border-b border-gallery-line pb-6 last:border-0 last:pb-0"
+                    >
+                      <p className="font-display text-sm font-semibold text-gallery-ink">
+                        {item.title}
+                      </p>
+                      <p className="mt-1 text-sm text-shell-muted">{item.text}</p>
                     </motion.li>
                   ))}
                 </motion.ul>
               </div>
-            </motion.div>
-
-            {/* Right column: form */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
-            >
-              <form
-                onSubmit={handleSubmit}
-                className="rounded-xl border border-gallery-line bg-gallery-surface p-6 sm:p-8"
-              >
-                <p className="mb-6 border-b border-gallery-line pb-6 text-xs font-medium uppercase tracking-widest text-shell-muted">
-                  Nachricht schreiben
-                </p>
-
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <label className="block">
-                    <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
-                      Name
-                    </span>
-                    <input
-                      name="name"
-                      required
-                      autoComplete="name"
-                      className={inputClass}
-                      placeholder="Ihr Name"
-                    />
-                  </label>
-                  <label className="block">
-                    <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
-                      Firma / Projekt
-                    </span>
-                    <input
-                      name="company"
-                      autoComplete="organization"
-                      className={inputClass}
-                      placeholder="Optional"
-                    />
-                  </label>
-                  <label className="block sm:col-span-2">
-                    <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
-                      E-Mail
-                    </span>
-                    <input
-                      name="email"
-                      type="email"
-                      required
-                      autoComplete="email"
-                      className={inputClass}
-                      placeholder="name@beispiel.at"
-                    />
-                  </label>
-                  <label className="block sm:col-span-2">
-                    <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
-                      Worum geht es?
-                    </span>
-                    <textarea
-                      name="message"
-                      required
-                      rows={5}
-                      className={`${inputClass} resize-y`}
-                      placeholder="Stichwörter reichen — wir fragen nach, wenn nötig."
-                    />
-                  </label>
-                </div>
-
-                <AnimatePresence>
-                  {sent && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      className="mt-5 flex items-center gap-3 rounded-lg border border-gallery-line bg-gallery-elevated px-4 py-3"
-                      role="status"
-                    >
-                      <CheckCircle
-                        className="h-4 w-4 shrink-0 text-gallery-ink"
-                        strokeWidth={1.5}
-                        aria-hidden
-                      />
-                      <p className="text-sm text-gallery-ink">
-                        Danke — das ist ein Demo-Formular ohne Versendung.
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                <div className="mt-6 flex flex-col gap-4 border-t border-gallery-line pt-6 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-xs text-shell-subtle">
-                    Mit dem Absenden stimmen Sie der Kontaktaufnahme zu (Demo).
-                  </p>
-                  <button
-                    type="submit"
-                    className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-stone-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
-                  >
-                    <Send className="h-4 w-4" aria-hidden />
-                    Nachricht senden
-                  </button>
-                </div>
-              </form>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section
-        id="faq"
-        className="bg-gallery-surface py-20 sm:py-28"
-      >
+      <section id="faq" className="bg-gallery-surface py-20 sm:py-28">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"

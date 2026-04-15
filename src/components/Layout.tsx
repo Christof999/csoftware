@@ -1,27 +1,55 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { ChevronDown, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet } from 'react-router-dom'
+import { HashScroller } from './HashScroller'
 import { ScrollToTop } from './ScrollToTop'
 import { ThemeToggle } from './ThemeToggle'
 
+// ─── Nav data ────────────────────────────────────────────────────────────────
+
 const nav = [
-  { to: '/', label: 'Start', end: true, n: '01' },
-  { to: '/leistungen', label: 'Leistungen', n: '02' },
-  { to: '/kontakt', label: 'Kontakt', n: '03' },
+  {
+    to: '/',
+    label: 'Start',
+    n: '01',
+    end: true,
+    subs: [
+      { label: 'Ihre Vorteile',           to: '/#ihre-vorteile' },
+      { label: 'Unser Versprechen',        to: '/#unser-versprechen' },
+      { label: 'Zusätzliche Leistungen',   to: '/#zusaetzliche-leistungen' },
+      { label: 'Ablauf',                   to: '/#ablauf' },
+      { label: 'Leistungsfeld',            to: '/#leistungsfeld' },
+    ],
+  },
+  {
+    to: '/leistungen',
+    label: 'Leistungen',
+    n: '02',
+    end: false,
+    subs: [
+      { label: 'Web & Sichtbarkeit', to: '/leistungen#chapter-01' },
+      { label: 'Digitale Lösungen',  to: '/leistungen#chapter-02' },
+      { label: 'Media & Print',      to: '/leistungen#chapter-03' },
+    ],
+  },
+  {
+    to: '/kontakt',
+    label: 'Kontakt',
+    n: '03',
+    end: false,
+    subs: [
+      { label: 'Formular',        to: '/kontakt#formular' },
+      { label: 'Häufige Fragen',  to: '/kontakt#faq' },
+    ],
+  },
 ]
 
-function linkClass(isActive: boolean) {
-  return [
-    'text-sm transition-colors',
-    isActive
-      ? 'font-medium text-gallery-ink'
-      : 'text-shell-muted hover:text-gallery-ink',
-  ].join(' ')
-}
+// ─── Layout ──────────────────────────────────────────────────────────────────
 
 export function Layout() {
-  const [mobileOpen, setMobileOpen] = useState(false)
+  const [open, setOpen] = useState(false)
+  const [expanded, setExpanded] = useState<string | null>(null)
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -31,25 +59,40 @@ export function Layout() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Lock body scroll while panel is open
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? 'hidden' : ''
+    document.body.style.overflow = open ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
-  }, [mobileOpen])
+  }, [open])
 
-  // Close on Escape
   useEffect(() => {
-    if (!mobileOpen) return
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMobileOpen(false) }
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') close() }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [mobileOpen])
+  }, [open])
 
-  const close = () => setMobileOpen(false)
+  function close() {
+    setOpen(false)
+    setExpanded(null)
+  }
+
+  function toggle() {
+    if (open) {
+      close()
+    } else {
+      setOpen(true)
+      setExpanded(null)
+    }
+  }
+
+  function toggleExpand(key: string) {
+    setExpanded((prev) => (prev === key ? null : key))
+  }
 
   return (
     <div className="min-h-screen bg-gallery-bg">
       <ScrollToTop />
+      <HashScroller />
 
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <header
@@ -63,44 +106,23 @@ export function Layout() {
           <NavLink
             to="/"
             className="font-display text-[15px] font-semibold tracking-tight text-gallery-ink"
+            onClick={close}
           >
             Csoftware
           </NavLink>
 
-          {/* Desktop nav */}
-          <nav className="hidden items-center gap-8 md:flex" aria-label="Hauptnavigation">
-            {nav.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                end={item.end}
-                className={({ isActive }) => linkClass(isActive)}
-              >
-                {item.label}
-              </NavLink>
-            ))}
-            <ThemeToggle />
-            <NavLink
-              to="/kontakt"
-              className="rounded-lg bg-stone-900 px-3.5 py-1.5 text-sm font-medium text-white transition hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
-            >
-              Kontakt
-            </NavLink>
-          </nav>
-
-          {/* Mobile burger */}
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="flex items-center gap-2">
             <ThemeToggle />
             <button
               type="button"
               className="relative inline-flex h-9 w-9 items-center justify-center rounded-lg border border-gallery-line text-gallery-ink transition hover:bg-gallery-bg"
-              onClick={() => setMobileOpen((o) => !o)}
-              aria-expanded={mobileOpen}
-              aria-controls="mobile-menu"
-              aria-label={mobileOpen ? 'Menü schließen' : 'Menü öffnen'}
+              onClick={toggle}
+              aria-expanded={open}
+              aria-controls="nav-panel"
+              aria-label={open ? 'Menü schließen' : 'Menü öffnen'}
             >
               <AnimatePresence mode="wait" initial={false}>
-                {mobileOpen ? (
+                {open ? (
                   <motion.span
                     key="close"
                     initial={{ opacity: 0, rotate: -45, scale: 0.5 }}
@@ -129,26 +151,26 @@ export function Layout() {
         </div>
       </header>
 
-      {/* ── Mobile slide-over ───────────────────────────────────────────────── */}
+      {/* ── Slide-over ──────────────────────────────────────────────────────── */}
       <AnimatePresence>
-        {mobileOpen && (
+        {open && (
           <>
-            {/* Blurry backdrop — sits below the sticky header */}
+            {/* Backdrop */}
             <motion.div
               key="backdrop"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
-              className="fixed inset-0 z-40 bg-stone-950/30 backdrop-blur-sm md:hidden"
+              className="fixed inset-0 z-40 bg-stone-950/30 backdrop-blur-sm"
               onClick={close}
               aria-hidden
             />
 
-            {/* Slide-over panel */}
+            {/* Panel */}
             <motion.aside
               key="panel"
-              id="mobile-menu"
+              id="nav-panel"
               role="dialog"
               aria-modal="true"
               aria-label="Navigation"
@@ -161,13 +183,17 @@ export function Layout() {
                 x: '100%',
                 transition: { duration: 0.22, ease: 'easeIn' },
               }}
-              className="fixed inset-y-0 right-0 z-[60] flex w-72 flex-col bg-gallery-surface shadow-2xl md:hidden"
+              className="fixed inset-y-0 right-0 z-[60] flex w-80 flex-col bg-gallery-surface shadow-2xl"
             >
-              {/* Panel header row */}
+              {/* Panel header */}
               <div className="flex h-14 shrink-0 items-center justify-between border-b border-gallery-line px-5">
-                <span className="font-display text-[15px] font-semibold tracking-tight text-gallery-ink">
+                <NavLink
+                  to="/"
+                  onClick={close}
+                  className="font-display text-[15px] font-semibold tracking-tight text-gallery-ink"
+                >
                   Csoftware
-                </span>
+                </NavLink>
                 <button
                   type="button"
                   onClick={close}
@@ -178,49 +204,90 @@ export function Layout() {
                 </button>
               </div>
 
-              {/* Nav links */}
-              <nav className="flex flex-col gap-1 p-3" aria-label="Mobile Navigation">
+              {/* Nav */}
+              <nav className="flex-1 overflow-y-auto p-3" aria-label="Navigation">
                 {nav.map((item, i) => (
                   <motion.div
                     key={item.to}
                     initial={{ opacity: 0, x: 18 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.055 + 0.1, duration: 0.22, ease: 'easeOut' }}
+                    transition={{ delay: i * 0.06 + 0.08, duration: 0.22, ease: 'easeOut' }}
                   >
-                    <NavLink
-                      to={item.to}
-                      end={item.end}
-                      onClick={close}
-                      className={({ isActive }) =>
-                        [
-                          'flex items-baseline justify-between rounded-xl px-4 py-4 transition-colors',
-                          isActive
-                            ? 'bg-gallery-bg text-gallery-ink'
-                            : 'text-shell-muted hover:bg-gallery-bg hover:text-gallery-ink',
-                        ].join(' ')
-                      }
+                    {/* Main item — expands sub-items */}
+                    <button
+                      type="button"
+                      onClick={() => toggleExpand(item.to)}
+                      className="flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-left transition-colors hover:bg-gallery-bg"
                     >
-                      <span className="font-display text-lg font-semibold">{item.label}</span>
-                      <span className="font-mono text-xs text-shell-subtle">{item.n}</span>
-                    </NavLink>
+                      <span className="font-display text-lg font-semibold text-gallery-ink">
+                        {item.label}
+                      </span>
+                      <div className="flex items-center gap-2.5">
+                        <span className="font-mono text-xs text-shell-subtle">{item.n}</span>
+                        <motion.span
+                          animate={{ rotate: expanded === item.to ? 180 : 0 }}
+                          transition={{ duration: 0.22 }}
+                          className="text-shell-subtle"
+                        >
+                          <ChevronDown className="h-4 w-4" aria-hidden />
+                        </motion.span>
+                      </div>
+                    </button>
+
+                    {/* Sub-items */}
+                    <AnimatePresence initial={false}>
+                      {expanded === item.to && (
+                        <motion.div
+                          key="subs"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.24, ease: 'easeInOut' }}
+                          className="overflow-hidden"
+                        >
+                          <ul className="mb-1 ml-4 space-y-0.5 border-l border-gallery-line pl-4">
+                            {item.subs.map((sub, si) => (
+                              <motion.li
+                                key={sub.label}
+                                initial={{ opacity: 0, x: 8 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{
+                                  delay: si * 0.045,
+                                  duration: 0.18,
+                                  ease: 'easeOut',
+                                }}
+                              >
+                                <Link
+                                  to={sub.to}
+                                  onClick={close}
+                                  className="block rounded-lg px-3 py-2.5 text-sm text-shell-muted transition-colors hover:bg-gallery-bg hover:text-gallery-ink"
+                                >
+                                  {sub.label}
+                                </Link>
+                              </motion.li>
+                            ))}
+                          </ul>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </motion.div>
                 ))}
               </nav>
 
               {/* CTA */}
-              <div className="mt-auto border-t border-gallery-line p-4">
+              <div className="shrink-0 border-t border-gallery-line p-4">
                 <motion.div
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.26, duration: 0.22, ease: 'easeOut' }}
+                  transition={{ delay: 0.28, duration: 0.22, ease: 'easeOut' }}
                 >
-                  <NavLink
+                  <Link
                     to="/kontakt"
                     onClick={close}
                     className="block rounded-xl bg-stone-900 px-4 py-3.5 text-center text-sm font-medium text-white transition hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
                   >
                     Unverbindlich anfragen
-                  </NavLink>
+                  </Link>
                 </motion.div>
               </div>
             </motion.aside>
@@ -228,7 +295,7 @@ export function Layout() {
         )}
       </AnimatePresence>
 
-      {/* ── Page content ───────────────────────────────────────────────────── */}
+      {/* ── Page ───────────────────────────────────────────────────────────── */}
       <main>
         <Outlet />
       </main>

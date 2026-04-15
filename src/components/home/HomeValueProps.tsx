@@ -11,7 +11,7 @@ const items = [
 
 export function HomeValueProps() {
   return (
-    <section className="border-b border-gallery-line bg-gallery-surface py-20 sm:py-28">
+    <section id="ihre-vorteile" className="border-b border-gallery-line bg-gallery-surface py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
