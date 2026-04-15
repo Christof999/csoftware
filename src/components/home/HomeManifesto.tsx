@@ -1,6 +1,12 @@
 import { motion } from 'framer-motion'
 import { fadeInUp, staggerContainer } from '../../lib/motion'
 
+const EXAMPLES = [
+  'Zeiterfassungsapp',
+  'Auftragsmanagement',
+  'E-Mail Automation (N8N)',
+]
+
 export function HomeManifesto() {
   return (
     <section className="bg-stone-950 py-20 sm:py-28">
@@ -17,8 +23,9 @@ export function HomeManifesto() {
             variants={fadeInUp}
             className="text-xs font-medium uppercase tracking-widest text-stone-500 pt-1"
           >
-            Unser Ansatz
+            Zusätzliche Leistungen
           </motion.p>
+
           <div>
             <motion.h2
               custom={1}
@@ -29,6 +36,7 @@ export function HomeManifesto() {
               <span className="text-stone-500">Probleme lösen.</span>{' '}
               Alltag erleichtern.
             </motion.h2>
+
             <motion.p
               custom={2}
               variants={fadeInUp}
@@ -39,6 +47,30 @@ export function HomeManifesto() {
               Arbeitsalltag bremsen. Das Ergebnis: ein Auftritt und Tools,
               die einfach funktionieren. Ohne Frust, ohne Umwege.
             </motion.p>
+
+            <motion.p
+              custom={3}
+              variants={fadeInUp}
+              className="mt-10 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-widest text-stone-500"
+            >
+              <span className="h-px w-8 bg-stone-700 inline-block" aria-hidden />
+              Web Apps · Prozessautomationen · Prozessabbildungen
+            </motion.p>
+
+            <motion.div
+              custom={4}
+              variants={fadeInUp}
+              className="mt-4 flex flex-wrap gap-2"
+            >
+              {EXAMPLES.map((ex) => (
+                <span
+                  key={ex}
+                  className="inline-block cursor-default rounded-full border border-stone-700 bg-stone-900 px-4 py-2 text-xs font-medium text-stone-400"
+                >
+                  {ex}
+                </span>
+              ))}
+            </motion.div>
           </div>
         </motion.div>
       </div>

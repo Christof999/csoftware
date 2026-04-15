@@ -6,12 +6,12 @@ const steps = [
   {
     n: '01',
     title: 'Kennenlernen',
-    text: 'Wir klären Ziele, Zielgruppe und Budget — offen, konkret, ohne versteckte Agenda.',
+    text: 'Wir klären Ziele, Zielgruppe und Budget.',
   },
   {
     n: '02',
     title: 'Konzept & Struktur',
-    text: 'Seitenaufbau, Texte und Bildideen — damit nichts dem Zufall überlassen bleibt.',
+    text: 'Seitenaufbau, Texte und Bildideen.',
   },
   {
     n: '03',
@@ -26,7 +26,7 @@ const steps = [
   {
     n: '05',
     title: 'Launch & Begleitung',
-    text: 'Go-live mit Checkliste — und Unterstützung, wenn Sie etwas anpassen möchten.',
+    text: 'Go-live mit Checkliste und Unterstützung, wenn Sie etwas anpassen möchten.',
   },
 ]
 
