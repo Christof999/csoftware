@@ -59,17 +59,17 @@ export function Layout() {
     return () => { document.body.style.overflow = '' }
   }, [open])
 
+  function close() {
+    setOpen(false)
+    setExpanded(null)
+  }
+
   useEffect(() => {
     if (!open) return
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') close() }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [open])
-
-  function close() {
-    setOpen(false)
-    setExpanded(null)
-  }
 
   function toggle() {
     if (open) {

@@ -18,7 +18,10 @@ const items = [
 
 export function HomePromise() {
   return (
-    <section id="unser-versprechen" className="border-b border-gallery-line bg-gallery-bg py-20 sm:py-28">
+    <section
+      id="unser-versprechen"
+      className="border-b border-gallery-line bg-gallery-bg py-20 sm:py-28 dark:bg-stone-900"
+    >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
