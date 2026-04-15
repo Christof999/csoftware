@@ -11,15 +11,17 @@ import { ThemeToggle } from './ThemeToggle'
 const nav = [
   {
     to: '/',
-    label: 'Start',
+    label: 'Übersicht',
     n: '01',
     end: true,
     subs: [
-      { label: 'Ihre Vorteile',           to: '/#ihre-vorteile' },
-      { label: 'Unser Versprechen',        to: '/#unser-versprechen' },
-      { label: 'Zusätzliche Leistungen',   to: '/#zusaetzliche-leistungen' },
-      { label: 'Ablauf',                   to: '/#ablauf' },
-      { label: 'Leistungsfeld',            to: '/#leistungsfeld' },
+      { label: 'Websites',           to: '/#websites' },
+      { label: 'Web Apps',           to: '/#webapps' },
+      { label: 'Print & Media',      to: '/#print-media' },
+      { label: 'Ihre Vorteile',      to: '/#ihre-vorteile' },
+      { label: 'Unser Versprechen',  to: '/#unser-versprechen' },
+      { label: 'Ablauf',             to: '/#ablauf' },
+      { label: 'Leistungsfeld',      to: '/#leistungsfeld' },
     ],
   },
   {
@@ -27,21 +29,14 @@ const nav = [
     label: 'Leistungen',
     n: '02',
     end: false,
-    subs: [
-      { label: 'Web & Sichtbarkeit', to: '/leistungen#chapter-01' },
-      { label: 'Digitale Lösungen',  to: '/leistungen#chapter-02' },
-      { label: 'Media & Print',      to: '/leistungen#chapter-03' },
-    ],
+    subs: [] as { label: string; to: string }[],
   },
   {
     to: '/kontakt',
     label: 'Kontakt',
     n: '03',
     end: false,
-    subs: [
-      { label: 'Formular',        to: '/kontakt#formular' },
-      { label: 'Häufige Fragen',  to: '/kontakt#faq' },
-    ],
+    subs: [] as { label: string; to: string }[],
   },
 ]
 
@@ -213,26 +208,39 @@ export function Layout() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.06 + 0.08, duration: 0.22, ease: 'easeOut' }}
                   >
-                    {/* Main item — expands sub-items */}
-                    <button
-                      type="button"
-                      onClick={() => toggleExpand(item.to)}
-                      className="flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-left transition-colors hover:bg-gallery-bg"
-                    >
-                      <span className="font-display text-lg font-semibold text-gallery-ink">
-                        {item.label}
-                      </span>
-                      <div className="flex items-center gap-2.5">
+                    {/* Main item */}
+                    {item.subs.length > 0 ? (
+                      <button
+                        type="button"
+                        onClick={() => toggleExpand(item.to)}
+                        className="flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-left transition-colors hover:bg-gallery-bg"
+                      >
+                        <span className="font-display text-lg font-semibold text-gallery-ink">
+                          {item.label}
+                        </span>
+                        <div className="flex items-center gap-2.5">
+                          <span className="font-mono text-xs text-shell-subtle">{item.n}</span>
+                          <motion.span
+                            animate={{ rotate: expanded === item.to ? 180 : 0 }}
+                            transition={{ duration: 0.22 }}
+                            className="text-shell-subtle"
+                          >
+                            <ChevronDown className="h-4 w-4" aria-hidden />
+                          </motion.span>
+                        </div>
+                      </button>
+                    ) : (
+                      <Link
+                        to={item.to}
+                        onClick={close}
+                        className="flex items-center justify-between rounded-xl px-4 py-3.5 transition-colors hover:bg-gallery-bg"
+                      >
+                        <span className="font-display text-lg font-semibold text-gallery-ink">
+                          {item.label}
+                        </span>
                         <span className="font-mono text-xs text-shell-subtle">{item.n}</span>
-                        <motion.span
-                          animate={{ rotate: expanded === item.to ? 180 : 0 }}
-                          transition={{ duration: 0.22 }}
-                          className="text-shell-subtle"
-                        >
-                          <ChevronDown className="h-4 w-4" aria-hidden />
-                        </motion.span>
-                      </div>
-                    </button>
+                      </Link>
+                    )}
 
                     {/* Sub-items */}
                     <AnimatePresence initial={false}>

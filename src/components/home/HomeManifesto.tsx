@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion'
+import { ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { fadeInUp, staggerContainer } from '../../lib/motion'
 
 const EXAMPLES = [
@@ -9,7 +11,7 @@ const EXAMPLES = [
 
 export function HomeManifesto() {
   return (
-    <section id="zusaetzliche-leistungen" className="bg-stone-950 py-20 sm:py-28">
+    <section id="webapps" className="bg-stone-950 py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -23,7 +25,7 @@ export function HomeManifesto() {
             variants={fadeInUp}
             className="text-xs font-medium uppercase tracking-widest text-stone-500 pt-1"
           >
-            Zusätzliche Leistungen
+            Web Apps
           </motion.p>
 
           <div>
@@ -70,6 +72,16 @@ export function HomeManifesto() {
                   {ex}
                 </span>
               ))}
+            </motion.div>
+
+            <motion.div custom={5} variants={fadeInUp} className="mt-8">
+              <Link
+                to="/leistungen#chapter-02"
+                className="inline-flex items-center gap-2 rounded-lg border border-stone-700 bg-stone-900 px-5 py-2.5 text-sm font-medium text-stone-300 transition hover:border-stone-500 hover:text-white"
+              >
+                Mehr zu Web Apps
+                <ArrowRight className="h-4 w-4" aria-hidden />
+              </Link>
             </motion.div>
           </div>
         </motion.div>

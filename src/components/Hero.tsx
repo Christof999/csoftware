@@ -24,7 +24,7 @@ export function Hero() {
             className="inline-flex items-center gap-3 text-xs font-medium uppercase tracking-widest text-shell-muted"
           >
             <span className="h-px w-8 bg-shell-subtle inline-block" aria-hidden />
-            Websites · SEO · Media
+            Websites · WebApps · SEO · Media
           </motion.p>
 
           <motion.h1
@@ -32,7 +32,7 @@ export function Hero() {
             variants={fadeInUp}
             className="mt-7 font-display text-5xl font-semibold tracking-tight text-gallery-ink sm:text-6xl sm:leading-[1.06] lg:text-7xl lg:leading-[1.04]"
           >
-            Individuelle Websites –{' '}
+            Individuelle Websites & WebApps –{' '}
             <br className="hidden sm:block" />
             <span className="text-shell-muted">so einzigartig wie Ihr Unternehmen.</span>
           </motion.h1>
@@ -42,23 +42,11 @@ export function Hero() {
             variants={fadeInUp}
             className="mt-4 font-display text-xl font-semibold tracking-tight text-gallery-ink sm:text-2xl"
           >
-            Von der Idee zur fertigen Website – alles aus einer Hand.
-          </motion.p>
-
-          <motion.p
-            custom={3}
-            variants={fadeInUp}
-            className="mt-6 max-w-xl text-lg leading-relaxed text-shell-muted"
-          >
-            Wir entwickeln maßgeschneiderte Websites für Ihr Unternehmen –
-            darauf ausgelegt, neue Kunden zu gewinnen. Von der ersten Idee bis
-            zur fertigen Umsetzung begleiten wir Sie zuverlässig und sorgen
-            dafür, dass Ihr Betrieb online genau so überzeugt wie in der
-            Realität.
+            Von der Idee zur digitalen Lösung – Websites & Web-Apps aus einer Hand.
           </motion.p>
 
           <motion.div
-            custom={4}
+            custom={3}
             variants={fadeInUp}
             className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
           >
