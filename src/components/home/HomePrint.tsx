@@ -7,7 +7,7 @@ const EXAMPLES = ['Visitenkarte', 'Flyer & Folder', 'Messestand', 'Social-Media-
 
 export function HomePrint() {
   return (
-    <section id="print-media" className="border-b border-gallery-line bg-gallery-surface py-20 sm:py-28">
+    <section id="print-media" className="bg-stone-950 py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -19,7 +19,7 @@ export function HomePrint() {
           <motion.p
             custom={0}
             variants={fadeInUp}
-            className="text-xs font-medium uppercase tracking-widest text-shell-muted pt-1"
+            className="text-xs font-medium uppercase tracking-widest text-stone-500 pt-1"
           >
             Print & Media
           </motion.p>
@@ -28,25 +28,25 @@ export function HomePrint() {
             <motion.p
               custom={1}
               variants={fadeInUp}
-              className="inline-flex items-center gap-3 text-xs font-medium uppercase tracking-widest text-shell-muted"
+              className="inline-flex items-center gap-3 text-xs font-medium uppercase tracking-widest text-stone-500"
             >
-              <span className="h-px w-8 bg-gallery-line inline-block" aria-hidden />
+              <span className="h-px w-8 bg-stone-700 inline-block" aria-hidden />
               Print · Werbemittel · Social Media · Markenidentität
             </motion.p>
 
             <motion.h2
               custom={2}
               variants={fadeInUp}
-              className="mt-5 font-display text-3xl font-semibold leading-tight tracking-tight text-gallery-ink sm:text-4xl sm:leading-[1.12]"
+              className="mt-5 font-display text-3xl font-semibold leading-tight tracking-tight text-stone-100 sm:text-4xl sm:leading-[1.12]"
             >
               Ein Erscheinungsbild,{' '}
-              <span className="text-shell-muted">das hält.</span>
+              <span className="text-stone-500">das hält.</span>
             </motion.h2>
 
             <motion.p
               custom={3}
               variants={fadeInUp}
-              className="mt-6 text-base leading-relaxed text-shell-muted sm:text-lg"
+              className="mt-6 text-base leading-relaxed text-stone-400 sm:text-lg"
             >
               Drucksachen und Werbemittel, die visuell zu Ihrer Website passen —
               Farben, Schrift, Tonalität. Alles aus einer Hand.
@@ -60,7 +60,7 @@ export function HomePrint() {
               {EXAMPLES.map((ex) => (
                 <span
                   key={ex}
-                  className="inline-block cursor-default rounded-full border border-gallery-line bg-gallery-bg px-4 py-2 text-xs font-medium text-shell-muted"
+                  className="inline-block cursor-default rounded-full border border-stone-700 bg-stone-900 px-4 py-2 text-xs font-medium text-stone-400"
                 >
                   {ex}
                 </span>
@@ -70,7 +70,7 @@ export function HomePrint() {
             <motion.div custom={5} variants={fadeInUp} className="mt-8">
               <Link
                 to="/leistungen#chapter-03"
-                className="inline-flex items-center gap-2 rounded-lg border border-gallery-line bg-gallery-bg px-5 py-2.5 text-sm font-medium text-gallery-ink transition hover:border-stone-400 dark:hover:border-stone-600"
+                className="inline-flex items-center gap-2 rounded-lg border border-stone-700 bg-stone-900 px-5 py-2.5 text-sm font-medium text-stone-300 transition hover:border-stone-500 hover:text-white"
               >
                 Mehr zu Print & Media
                 <ArrowRight className="h-4 w-4" aria-hidden />
