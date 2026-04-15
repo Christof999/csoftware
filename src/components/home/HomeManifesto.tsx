@@ -27,10 +27,19 @@ export function HomeManifesto() {
           </motion.p>
 
           <div>
-            <motion.h2
+            <motion.p
               custom={1}
               variants={fadeInUp}
-              className="font-display text-3xl font-semibold leading-tight tracking-tight text-stone-100 sm:text-4xl sm:leading-[1.12]"
+              className="inline-flex items-center gap-3 text-xs font-medium uppercase tracking-widest text-stone-500"
+            >
+              <span className="h-px w-8 bg-stone-700 inline-block" aria-hidden />
+              Web Apps · Prozessautomationen · Prozessabbildungen
+            </motion.p>
+
+            <motion.h2
+              custom={2}
+              variants={fadeInUp}
+              className="mt-5 font-display text-3xl font-semibold leading-tight tracking-tight text-stone-100 sm:text-4xl sm:leading-[1.12]"
             >
               Ideen umsetzen.{' '}
               <span className="text-stone-500">Probleme lösen.</span>{' '}
@@ -38,7 +47,7 @@ export function HomeManifesto() {
             </motion.h2>
 
             <motion.p
-              custom={2}
+              custom={3}
               variants={fadeInUp}
               className="mt-6 text-base leading-relaxed text-stone-400 sm:text-lg"
             >
@@ -48,19 +57,10 @@ export function HomeManifesto() {
               die einfach funktionieren. Ohne Frust, ohne Umwege.
             </motion.p>
 
-            <motion.p
-              custom={3}
-              variants={fadeInUp}
-              className="mt-10 inline-flex items-center gap-3 text-xs font-medium uppercase tracking-widest text-stone-500"
-            >
-              <span className="h-px w-8 bg-stone-700 inline-block" aria-hidden />
-              Web Apps · Prozessautomationen · Prozessabbildungen
-            </motion.p>
-
             <motion.div
               custom={4}
               variants={fadeInUp}
-              className="mt-4 flex flex-wrap gap-2"
+              className="mt-8 flex flex-wrap gap-2"
             >
               {EXAMPLES.map((ex) => (
                 <span

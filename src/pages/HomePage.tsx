@@ -4,7 +4,6 @@ import { HomeCta } from '../components/home/HomeCta'
 import { HomeManifesto } from '../components/home/HomeManifesto'
 import { HomeProcess } from '../components/home/HomeProcess'
 import { HomePromise } from '../components/home/HomePromise'
-import { HomeTrust } from '../components/home/HomeTrust'
 import { HomeValueProps } from '../components/home/HomeValueProps'
 
 export function HomePage() {
@@ -15,7 +14,6 @@ export function HomePage() {
       <HomePromise />
       <HomeManifesto />
       <HomeProcess />
-      <HomeTrust />
       <HomeCapabilities />
       <HomeCta />
     </>
