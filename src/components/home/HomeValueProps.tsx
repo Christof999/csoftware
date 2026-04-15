@@ -4,21 +4,9 @@ import { fadeInUp, staggerContainer } from '../../lib/motion'
 import { SpotlightCard } from './tech/SpotlightCard'
 
 const items = [
-  {
-    icon: Eye,
-    title: 'Mehr Sichtbarkeit',
-    text: 'Klare Struktur und verständliche Texte — damit Sie online besser gefunden werden und Besucher wissen, worum es geht.',
-  },
-  {
-    icon: MessageCircle,
-    title: 'Mehr Anfragen',
-    text: 'Gute Führung: vom ersten Eindruck bis zum Kontakt — ohne dass sich Besucher verlaufen.',
-  },
-  {
-    icon: Zap,
-    title: 'Mehr Tempo im Alltag',
-    text: 'Schnelle Ladezeiten und ein Auftritt, der auf dem Handy genauso funktioniert wie am Schreibtisch.',
-  },
+  { icon: Eye,           title: 'Mehr Sichtbarkeit' },
+  { icon: MessageCircle, title: 'Mehr Anfragen'      },
+  { icon: Zap,           title: 'Überall Erreichbar' },
 ]
 
 export function HomeValueProps() {
@@ -57,9 +45,6 @@ export function HomeValueProps() {
                   <h3 className="mt-6 font-display text-xl font-semibold text-gallery-ink">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-shell-muted">
-                    {item.text}
-                  </p>
                 </SpotlightCard>
               </motion.li>
             ))}
