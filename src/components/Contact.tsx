@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { CheckCircle, Mail, Plus, Send } from 'lucide-react'
 import { type FormEvent, useState } from 'react'
 import { fadeInUp, staggerContainer } from '../lib/motion'
+import { SITE_EMAIL, SITE_EMAIL_MAILTO } from '../site'
 import { CursorGlow } from './home/tech/CursorGlow'
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -127,6 +128,8 @@ export function Contact() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.3 }}
                     className="flex flex-col items-center justify-center rounded-xl border border-gallery-line bg-gallery-surface px-8 py-16 text-center"
+                    role="status"
+                    aria-live="polite"
                   >
                     <CheckCircle
                       className="h-9 w-9 text-gallery-ink"
@@ -146,6 +149,7 @@ export function Contact() {
                     exit={{ opacity: 0, scale: 0.98 }}
                     transition={{ duration: 0.2 }}
                     onSubmit={handleSubmit}
+                    aria-label="Kontaktformular"
                     className="rounded-xl border border-gallery-line bg-gallery-surface p-6 sm:p-8"
                   >
                     <p className="mb-6 border-b border-gallery-line pb-6 text-xs font-medium uppercase tracking-widest text-shell-muted">
@@ -247,9 +251,12 @@ export function Contact() {
                         <p className="text-[10px] font-medium uppercase tracking-widest text-shell-subtle">
                           E-Mail
                         </p>
-                        <p className="mt-1 font-display text-sm font-semibold text-gallery-ink">
-                          hallo@csoftware.example
-                        </p>
+                        <a
+                          href={SITE_EMAIL_MAILTO}
+                          className="mt-1 inline-block font-display text-sm font-semibold text-gallery-ink underline decoration-gallery-line underline-offset-4 transition hover:decoration-gallery-ink"
+                        >
+                          {SITE_EMAIL}
+                        </a>
                         <p className="mt-0.5 text-xs text-shell-muted">Am schnellsten</p>
                       </div>
                     </div>
@@ -342,6 +349,8 @@ export function Contact() {
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
                     className="flex w-full items-center justify-between gap-8 px-6 py-5 text-left"
                     aria-expanded={openFaq === i}
+                    aria-controls={`faq-answer-${i}`}
+                    id={`faq-question-${i}`}
                   >
                     <p className="font-display text-sm font-semibold text-gallery-ink">
                       {item.q}
@@ -358,6 +367,9 @@ export function Contact() {
                     {openFaq === i && (
                       <motion.div
                         key="answer"
+                        id={`faq-answer-${i}`}
+                        role="region"
+                        aria-labelledby={`faq-question-${i}`}
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}

@@ -9,9 +9,19 @@ import {
 import { THEME_STORAGE_KEY } from './constants'
 import { ThemeContext, type Theme } from './themeContext'
 
+const LEGACY_THEME_KEY = 'csoftware-theme'
+
 function getPreferredTheme(): Theme {
   if (typeof window === 'undefined') return 'light'
-  const saved = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null
+  let saved = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null
+  if (saved !== 'light' && saved !== 'dark') {
+    const legacy = localStorage.getItem(LEGACY_THEME_KEY) as Theme | null
+    if (legacy === 'light' || legacy === 'dark') {
+      localStorage.setItem(THEME_STORAGE_KEY, legacy)
+      localStorage.removeItem(LEGACY_THEME_KEY)
+      saved = legacy
+    }
+  }
   if (saved === 'light' || saved === 'dark') return saved
   return window.matchMedia('(prefers-color-scheme: dark)').matches
     ? 'dark'

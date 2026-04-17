@@ -4,8 +4,17 @@
     <script>
       (function () {
         try {
-          var k = 'csoftware-theme'
+          var k = 'sorgel-design-theme'
+          var legacy = 'csoftware-theme'
           var s = localStorage.getItem(k)
+          if (s == null) {
+            var old = localStorage.getItem(legacy)
+            if (old === 'light' || old === 'dark') {
+              localStorage.setItem(k, old)
+              localStorage.removeItem(legacy)
+              s = old
+            }
+          }
           var dark =
             s === 'dark' ||
             (s !== 'light' &&
@@ -19,15 +28,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Csoftware — Webdesign, SEO, Google Ads, maßgeschneiderte Web-Lösungen und Media Design: Flyer, Print und einheitliche Marke online & offline."
+      content="SØRGEL-Design: Webdesign, SEO, Google Ads, maßgeschneiderte Web-Lösungen und Media Design — Flyer, Print und einheitliche Marke online & offline."
     />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#f5f4f2" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0d0b0a" media="(prefers-color-scheme: dark)" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <title>Csoftware — Webdesign, SEO, Google Ads & Media Design</title>
+    <title>SØRGEL-Design — Webdesign, SEO, Google Ads & Media Design</title>
   </head>
   <body>
     <div id="root"></div>

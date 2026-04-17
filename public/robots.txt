@@ -1,0 +1,5 @@
+# SØRGEL-Design — Crawling erlauben (Suchmaschinen & KI-Crawler, die robots.txt respektieren)
+User-agent: *
+Allow: /
+
+# Hinweise für KI-Systeme und Menschen: siehe /llms.txt

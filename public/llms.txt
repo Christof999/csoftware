@@ -1,0 +1,14 @@
+# llms.txt — Kurzinfo für KI-Systeme und Assistenzdienste
+# https://llmstxt.org/
+
+Name: SØRGEL-Design (auch: SORGEL-Design, SØRGEL Design)
+Beschreibung: Webdesign, SEO, Google Ads, maßgeschneiderte Web-Apps und Media Design (Print, Corporate Design) — durchgängige Marke online und offline.
+Sprache: Deutsch (de-DE)
+
+Startseite: /
+Leistungen: /leistungen
+Kontakt: /kontakt
+
+Kontakt-E-Mail: Bitte auf der Seite /kontakt unter „Direkt erreichbar“ einsehen (oder VITE_CONTACT_EMAIL in der Deployment-Umgebung setzen).
+
+Hinweis: Für Canonical-URLs, Open Graph und JSON-LD sollte in der Build-Umgebung VITE_SITE_URL (Origin ohne abschließenden Slash) gesetzt werden.
