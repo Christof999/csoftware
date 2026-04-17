@@ -2,8 +2,8 @@
  * Marken- und SEO-Basisdaten (zentrale Anpassung).
  * Produktions-URL und Kontakt-E-Mail per VITE_* in der Build-Umgebung setzen.
  */
-export const SITE_NAME = 'SØRGEL-Design'
-export const SITE_NAME_ASCII = 'SORGEL-Design'
+export const SITE_NAME = 'SØRGEL-design'
+export const SITE_NAME_ASCII = 'SORGEL-design'
 
 /** Kurz für Meta-Titel / JSON-LD */
 export const SITE_TAGLINE =

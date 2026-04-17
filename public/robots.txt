@@ -1,4 +1,4 @@
-# SØRGEL-Design — Crawling erlauben (Suchmaschinen & KI-Crawler, die robots.txt respektieren)
+# SØRGEL-design — Crawling erlauben (Suchmaschinen & KI-Crawler, die robots.txt respektieren)
 User-agent: *
 Allow: /
 

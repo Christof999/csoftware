@@ -103,8 +103,8 @@ export function DocumentMeta() {
           name: SITE_NAME,
           alternateName: [
             SITE_NAME_ASCII,
-            'Sorgel Design',
-            'SØRGEL Design',
+            'Sorgel design',
+            'SØRGEL design',
           ],
           url: SITE_ORIGIN,
           email: SITE_EMAIL,

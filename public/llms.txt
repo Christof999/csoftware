@@ -1,7 +1,7 @@
 # llms.txt — Kurzinfo für KI-Systeme und Assistenzdienste
 # https://llmstxt.org/
 
-Name: SØRGEL-Design (auch: SORGEL-Design, SØRGEL Design)
+Name: SØRGEL-design (auch: SORGEL-design, SØRGEL design)
 Beschreibung: Webdesign, SEO, Google Ads, maßgeschneiderte Web-Apps und Media Design (Print, Corporate Design) — durchgängige Marke online und offline.
 Sprache: Deutsch (de-DE)
 
