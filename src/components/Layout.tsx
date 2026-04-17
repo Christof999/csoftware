@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDown, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
+import { SITE_NAME } from '../site'
 import { HashScroller } from './HashScroller'
 import { ScrollToTop } from './ScrollToTop'
 import { ThemeToggle } from './ThemeToggle'
@@ -59,17 +60,17 @@ export function Layout() {
     return () => { document.body.style.overflow = '' }
   }, [open])
 
+  function close() {
+    setOpen(false)
+    setExpanded(null)
+  }
+
   useEffect(() => {
     if (!open) return
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') close() }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [open])
-
-  function close() {
-    setOpen(false)
-    setExpanded(null)
-  }
 
   function toggle() {
     if (open) {
@@ -86,6 +87,12 @@ export function Layout() {
 
   return (
     <div className="min-h-screen bg-gallery-bg">
+      <a
+        href="#main-content"
+        className="pointer-events-none fixed left-4 top-0 z-[100] -translate-y-full rounded-b-lg bg-gallery-ink px-4 py-2 text-sm text-gallery-bg shadow-lg transition-transform focus:pointer-events-auto focus:translate-y-0 focus:outline-none focus:ring-2 focus:ring-stone-400"
+      >
+        Zum Inhalt springen
+      </a>
       <ScrollToTop />
       <HashScroller />
 
@@ -103,7 +110,7 @@ export function Layout() {
             className="font-display text-[15px] font-semibold tracking-tight text-gallery-ink"
             onClick={close}
           >
-            Csoftware
+            {SITE_NAME}
           </NavLink>
 
           <div className="flex items-center gap-2">
@@ -187,7 +194,7 @@ export function Layout() {
                   onClick={close}
                   className="font-display text-[15px] font-semibold tracking-tight text-gallery-ink"
                 >
-                  Csoftware
+                  {SITE_NAME}
                 </NavLink>
                 <button
                   type="button"
@@ -213,6 +220,7 @@ export function Layout() {
                       <button
                         type="button"
                         onClick={() => toggleExpand(item.to)}
+                        aria-expanded={expanded === item.to}
                         className="flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-left transition-colors hover:bg-gallery-bg"
                       >
                         <span className="font-display text-lg font-semibold text-gallery-ink">
@@ -304,20 +312,20 @@ export function Layout() {
       </AnimatePresence>
 
       {/* ── Page ───────────────────────────────────────────────────────────── */}
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <Outlet />
       </main>
 
       <footer className="border-t border-gallery-line bg-gallery-surface py-10">
         <div className="mx-auto flex max-w-6xl flex-col justify-between gap-6 px-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
           <div>
-            <p className="text-sm font-medium text-gallery-ink">Csoftware</p>
+            <p className="text-sm font-medium text-gallery-ink">{SITE_NAME}</p>
             <p className="mt-1 text-sm text-shell-muted">
               Websites & digitale Lösungen — klar, direkt, für Sie gebaut.
             </p>
           </div>
           <p className="text-xs text-stone-400 dark:text-stone-500">
-            © {new Date().getFullYear()} Csoftware
+            © {new Date().getFullYear()} {SITE_NAME}
           </p>
         </div>
       </footer>
