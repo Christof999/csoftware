@@ -45,23 +45,33 @@ export function HomeWebsites() {
               variants={fadeInUp}
               className="mt-5 font-display text-3xl font-semibold leading-tight tracking-tight text-gallery-ink sm:text-4xl sm:leading-[1.12] dark:text-stone-100"
             >
-              Ihr Auftritt —{' '}
+              Individuelle Websites –{' '}
               <span className="text-shell-muted dark:text-stone-500">
-                gefunden, verstanden, gebucht.
+                so einzigartig wie Ihr Unternehmen.
               </span>
             </motion.h2>
 
             <motion.p
               custom={3}
               variants={fadeInUp}
-              className="mt-6 text-base leading-relaxed text-shell-muted sm:text-lg dark:text-stone-400"
+              className="mt-6 text-base font-medium leading-relaxed text-gallery-ink sm:text-lg dark:text-stone-200"
             >
-              Eine Website, die konvertiert: klare Struktur, saubere Technik,
-              SEO-Grundlagen — und auf Wunsch Google Ads mit messbarem Tracking.
+              Von der Idee zur fertigen Website – alles aus einer Hand.
+            </motion.p>
+
+            <motion.p
+              custom={4}
+              variants={fadeInUp}
+              className="mt-4 text-base leading-relaxed text-shell-muted sm:text-lg dark:text-stone-400"
+            >
+              Wir entwickeln maßgeschneiderte Websites für Ihr Unternehmen – darauf
+              ausgelegt, neue Kunden zu gewinnen. Von der ersten Idee bis zur
+              fertigen Umsetzung begleiten wir Sie zuverlässig und sorgen dafür,
+              dass Ihr Betrieb online genau so überzeugt wie in der Realität.
             </motion.p>
 
             <motion.div
-              custom={4}
+              custom={5}
               variants={fadeInUp}
               className="mt-8 flex flex-wrap gap-2"
             >
@@ -75,7 +85,7 @@ export function HomeWebsites() {
               ))}
             </motion.div>
 
-            <motion.div custom={5} variants={fadeInUp} className="mt-8">
+            <motion.div custom={6} variants={fadeInUp} className="mt-8">
               <Link
                 to="/leistungen#chapter-01"
                 className="inline-flex items-center gap-2 rounded-lg border border-gallery-line bg-gallery-bg px-5 py-2.5 text-sm font-medium text-gallery-ink transition hover:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-300 dark:hover:border-stone-500 dark:hover:text-white"
