@@ -23,6 +23,6 @@ export const SITE_EMAIL =
   typeof import.meta.env.VITE_CONTACT_EMAIL === 'string' &&
   import.meta.env.VITE_CONTACT_EMAIL.length > 0
     ? import.meta.env.VITE_CONTACT_EMAIL
-    : 'kontakt@sorgel-design.de'
+    : 'info@soergel-design.de'
 
 export const SITE_EMAIL_MAILTO = `mailto:${SITE_EMAIL}`
