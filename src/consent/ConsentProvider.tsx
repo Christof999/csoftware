@@ -2,7 +2,10 @@ import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react
 import {
   ConsentContext,
   CONSENT_STORAGE_KEY,
-  type ConsentDecision,
+  CONSENT_VERSION,
+  DEFAULT_PREFERENCES,
+  type ConsentPreferences,
+  type StoredConsent,
 } from './consentContext'
 
 const FONTS_LINK_ID = 'google-fonts-inter'
@@ -11,15 +14,37 @@ const FONTS_PRECONNECT_2 = 'google-fonts-preconnect-gstatic'
 const FONTS_HREF =
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
 
-function readStored(): ConsentDecision {
-  if (typeof window === 'undefined') return 'pending'
-  try {
-    const v = localStorage.getItem(CONSENT_STORAGE_KEY)
-    if (v === 'accepted' || v === 'essential') return v
-  } catch {
-    // zugriff ggf. blockiert (private mode / ITP) – dann Banner zeigen
+interface InitialState {
+  hasDecided: boolean
+  preferences: ConsentPreferences
+  decidedAt: string | null
+}
+
+function readStored(): InitialState {
+  if (typeof window === 'undefined') {
+    return { hasDecided: false, preferences: DEFAULT_PREFERENCES, decidedAt: null }
   }
-  return 'pending'
+  try {
+    const raw = localStorage.getItem(CONSENT_STORAGE_KEY)
+    if (!raw) {
+      return { hasDecided: false, preferences: DEFAULT_PREFERENCES, decidedAt: null }
+    }
+    const parsed = JSON.parse(raw) as Partial<StoredConsent>
+    if (parsed.version !== CONSENT_VERSION || !parsed.preferences) {
+      return { hasDecided: false, preferences: DEFAULT_PREFERENCES, decidedAt: null }
+    }
+    return {
+      hasDecided: true,
+      preferences: {
+        ...DEFAULT_PREFERENCES,
+        ...parsed.preferences,
+        necessary: true,
+      },
+      decidedAt: parsed.decidedAt ?? null,
+    }
+  } catch {
+    return { hasDecided: false, preferences: DEFAULT_PREFERENCES, decidedAt: null }
+  }
 }
 
 function ensureGoogleFontsLoaded() {
@@ -54,27 +79,47 @@ function removeGoogleFonts() {
 }
 
 export function ConsentProvider({ children }: { children: ReactNode }) {
-  const [decision, setDecision] = useState<ConsentDecision>(() => readStored())
+  const [state, setState] = useState<InitialState>(() => readStored())
+  const [manuallyOpen, setManuallyOpen] = useState(false)
 
   useEffect(() => {
-    if (decision === 'accepted') {
+    if (state.preferences.fonts) {
       ensureGoogleFontsLoaded()
     } else {
       removeGoogleFonts()
     }
-  }, [decision])
+  }, [state.preferences.fonts])
 
-  const persist = useCallback((next: 'accepted' | 'essential') => {
-    try {
-      localStorage.setItem(CONSENT_STORAGE_KEY, next)
-    } catch {
-      // ignore – Entscheidung gilt dann nur für die laufende Session
+  const persist = useCallback((prefs: ConsentPreferences) => {
+    const decidedAt = new Date().toISOString()
+    const next: StoredConsent = {
+      version: CONSENT_VERSION,
+      decidedAt,
+      preferences: { ...prefs, necessary: true },
     }
-    setDecision(next)
+    try {
+      localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(next))
+    } catch {
+      // ignore – gilt dann nur für die laufende Session
+    }
+    setState({ hasDecided: true, preferences: next.preferences, decidedAt })
+    setManuallyOpen(false)
   }, [])
 
-  const accept = useCallback(() => persist('accepted'), [persist])
-  const essentialOnly = useCallback(() => persist('essential'), [persist])
+  const acceptAll = useCallback(() => {
+    persist({ necessary: true, fonts: true })
+  }, [persist])
+
+  const rejectAll = useCallback(() => {
+    persist({ necessary: true, fonts: false })
+  }, [persist])
+
+  const save = useCallback(
+    (prefs: ConsentPreferences) => {
+      persist(prefs)
+    },
+    [persist],
+  )
 
   const revoke = useCallback(() => {
     try {
@@ -82,12 +127,41 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
     } catch {
       // ignore
     }
-    setDecision('pending')
+    setState({
+      hasDecided: false,
+      preferences: DEFAULT_PREFERENCES,
+      decidedAt: null,
+    })
+    setManuallyOpen(false)
   }, [])
 
+  const openBanner = useCallback(() => setManuallyOpen(true), [])
+
+  const isBannerOpen = manuallyOpen || !state.hasDecided
+
   const value = useMemo(
-    () => ({ decision, accept, essentialOnly, revoke }),
-    [decision, accept, essentialOnly, revoke],
+    () => ({
+      hasDecided: state.hasDecided,
+      preferences: state.preferences,
+      decidedAt: state.decidedAt,
+      isBannerOpen,
+      acceptAll,
+      rejectAll,
+      save,
+      revoke,
+      openBanner,
+    }),
+    [
+      state.hasDecided,
+      state.preferences,
+      state.decidedAt,
+      isBannerOpen,
+      acceptAll,
+      rejectAll,
+      save,
+      revoke,
+      openBanner,
+    ],
   )
 
   return <ConsentContext.Provider value={value}>{children}</ConsentContext.Provider>
