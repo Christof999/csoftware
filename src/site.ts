@@ -14,9 +14,10 @@ export const SITE_DESCRIPTION =
 
 /** Canonical & Open-Graph: z. B. https://www.example.de (ohne Slash am Ende) */
 export const SITE_ORIGIN = (
-  typeof import.meta.env.VITE_SITE_URL === 'string'
+  typeof import.meta.env.VITE_SITE_URL === 'string' &&
+  import.meta.env.VITE_SITE_URL.length > 0
     ? import.meta.env.VITE_SITE_URL
-    : ''
+    : 'https://www.soergel-design.de'
 ).replace(/\/$/, '')
 
 export const SITE_EMAIL =

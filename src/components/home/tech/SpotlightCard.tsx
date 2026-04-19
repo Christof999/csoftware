@@ -59,7 +59,7 @@ export function SpotlightCard({
       className={`group relative overflow-hidden rounded-2xl border border-gallery-line bg-gallery-surface ${className}`}
     >
       <div
-        className="pointer-events-none absolute -in-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
           background:
             'radial-gradient(600px circle at var(--sx) var(--sy), rgba(120, 113, 108, 0.12), transparent 40%)',

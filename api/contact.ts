@@ -6,13 +6,16 @@ import nodemailer from 'nodemailer'
  * versendet sie per SMTP an die konfigurierte Zieladresse.
  *
  * Benötigte Environment Variables (in Vercel Project Settings > Environment Variables):
- *   SMTP_HOST       z. B. smtp.checkdomain.de
- *   SMTP_PORT       z. B. 587 (STARTTLS) oder 465 (SSL)
- *   SMTP_USER       SMTP-Login (i. d. R. die Postfach-Adresse)
- *   SMTP_PASSWORD   Postfach-Passwort
- *   CONTACT_TO      Empfänger, z. B. info@soergel-design.de
- *   CONTACT_FROM    Absender, muss ein Postfach auf der Domain sein
- *                   (z. B. "SØRGEL-design <info@soergel-design.de>")
+ *   SMTP_HOST         z. B. smtp.checkdomain.de
+ *   SMTP_PORT         z. B. 587 (STARTTLS) oder 465 (SSL)
+ *   SMTP_USER         SMTP-Login (i. d. R. die Postfach-Adresse)
+ *   SMTP_PASSWORD     Postfach-Passwort
+ *   CONTACT_TO        Empfänger, z. B. info@soergel-design.de
+ *   CONTACT_FROM      Absender, muss ein Postfach auf der Domain sein
+ *                     (z. B. "SØRGEL-design <info@soergel-design.de>")
+ *   CONTACT_DIAG_TOKEN (optional) – wenn gesetzt, ist GET /api/contact
+ *                     nur mit ?token=<wert> aufrufbar. Ohne Variable gibt GET
+ *                     keine Konfigurationsdetails preis (404).
  */
 
 type ContactBody = {
@@ -20,7 +23,7 @@ type ContactBody = {
   company?: string
   email?: string
   message?: string
-  website?: string // Honeypot-Feld
+  website?: string
 }
 
 function escapeHtml(input: string): string {
@@ -36,8 +39,64 @@ function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
 
+/** Entfernt CR/LF und Steuerzeichen – schützt vor Header-Injection in E-Mail-Headern. */
+function sanitizeHeaderValue(input: string): string {
+  let out = ''
+  for (const ch of input) {
+    const code = ch.charCodeAt(0)
+    if (code < 32 || code === 127) {
+      out += ' '
+    } else {
+      out += ch
+    }
+  }
+  return out.trim()
+}
+
+function clientIp(req: VercelRequest): string {
+  const fwd = req.headers['x-forwarded-for']
+  if (typeof fwd === 'string' && fwd.length > 0) {
+    return fwd.split(',')[0]!.trim()
+  }
+  if (Array.isArray(fwd) && fwd[0]) {
+    return fwd[0].split(',')[0]!.trim()
+  }
+  return req.socket?.remoteAddress ?? 'unknown'
+}
+
+/**
+ * Sehr einfaches In-Memory-Rate-Limit pro IP. In Serverless-Umgebungen gilt es
+ * nur pro Function-Instanz und ist daher eher eine Bremse gegen triviale
+ * Flooding-Skripte als ein robuster Schutz. Für echten Schutz könnte ein
+ * Upstash/Redis-basiertes Limit nachgerüstet werden.
+ */
+const RATE_WINDOW_MS = 60_000
+const RATE_MAX = 5
+const hits = new Map<string, { count: number; reset: number }>()
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now()
+  const entry = hits.get(ip)
+  if (!entry || entry.reset < now) {
+    hits.set(ip, { count: 1, reset: now + RATE_WINDOW_MS })
+    return false
+  }
+  entry.count += 1
+  if (entry.count > RATE_MAX) return true
+  return false
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  res.setHeader('X-Content-Type-Options', 'nosniff')
+  res.setHeader('Referrer-Policy', 'no-referrer')
+  res.setHeader('Cache-Control', 'no-store')
+
   if (req.method === 'GET') {
+    const token = typeof req.query.token === 'string' ? req.query.token : ''
+    const expected = process.env.CONTACT_DIAG_TOKEN
+    if (!expected || token !== expected) {
+      return res.status(404).json({ ok: false, error: 'Not Found' })
+    }
     return res.status(200).json({
       ok: true,
       endpoint: 'contact',
@@ -46,15 +105,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         SMTP_PORT: process.env.SMTP_PORT ?? null,
         SMTP_USER: Boolean(process.env.SMTP_USER),
         SMTP_PASSWORD: Boolean(process.env.SMTP_PASSWORD),
-        CONTACT_TO: process.env.CONTACT_TO ?? null,
-        CONTACT_FROM: process.env.CONTACT_FROM ?? null,
+        CONTACT_TO: Boolean(process.env.CONTACT_TO),
+        CONTACT_FROM: Boolean(process.env.CONTACT_FROM),
       },
     })
   }
 
   if (req.method !== 'POST') {
-    res.setHeader('Allow', 'GET, POST')
+    res.setHeader('Allow', 'POST')
     return res.status(405).json({ ok: false, error: 'Method Not Allowed' })
+  }
+
+  const ip = clientIp(req)
+  if (isRateLimited(ip)) {
+    res.setHeader('Retry-After', '60')
+    return res
+      .status(429)
+      .json({ ok: false, error: 'Zu viele Anfragen. Bitte kurz warten.' })
+  }
+
+  const rawContentType = req.headers['content-type'] ?? ''
+  if (!rawContentType.includes('application/json')) {
+    return res
+      .status(415)
+      .json({ ok: false, error: 'Unsupported Media Type (JSON erwartet).' })
   }
 
   const body = (typeof req.body === 'string'
@@ -105,9 +179,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     port,
     secure: port === 465,
     auth: { user, pass },
+    requireTLS: port !== 465,
   })
 
-  const subject = `Neue Nachricht über das Kontaktformular – ${name}`
+  const safeName = sanitizeHeaderValue(name)
+  const safeEmail = sanitizeHeaderValue(email)
+  const subject = sanitizeHeaderValue(
+    `Neue Nachricht über das Kontaktformular – ${safeName}`,
+  )
 
   const textBody = [
     'Neue Nachricht über das Kontaktformular',
@@ -137,7 +216,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     await transporter.sendMail({
       from,
       to,
-      replyTo: `${name} <${email}>`,
+      replyTo: `${safeName} <${safeEmail}>`,
       subject,
       text: textBody,
       html: htmlBody,

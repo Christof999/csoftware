@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDown, Menu, X } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import { SITE_NAME } from '../site'
 import { HashScroller } from './HashScroller'
@@ -47,6 +47,8 @@ export function Layout() {
   const [open, setOpen] = useState(false)
   const [expanded, setExpanded] = useState<string | null>(null)
   const [scrolled, setScrolled] = useState(false)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
+  const panelRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -63,13 +65,44 @@ export function Layout() {
   function close() {
     setOpen(false)
     setExpanded(null)
+    requestAnimationFrame(() => menuButtonRef.current?.focus())
   }
 
   useEffect(() => {
     if (!open) return
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') close() }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+
+    const panel = panelRef.current
+    const firstFocusable = panel?.querySelector<HTMLElement>(
+      'a, button, [tabindex]:not([tabindex="-1"])',
+    )
+    firstFocusable?.focus()
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        close()
+        return
+      }
+      if (e.key !== 'Tab' || !panel) return
+      const focusables = Array.from(
+        panel.querySelectorAll<HTMLElement>(
+          'a, button, [tabindex]:not([tabindex="-1"])',
+        ),
+      ).filter(el => !el.hasAttribute('disabled'))
+      if (focusables.length === 0) return
+      const first = focusables[0]!
+      const last = focusables[focusables.length - 1]!
+      const active = document.activeElement as HTMLElement | null
+      if (e.shiftKey && (active === first || !panel.contains(active))) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
   }, [open])
 
   function toggle() {
@@ -116,12 +149,14 @@ export function Layout() {
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <button
+              ref={menuButtonRef}
               type="button"
               className="relative inline-flex h-9 w-9 items-center justify-center rounded-lg border border-gallery-line text-gallery-ink transition hover:bg-gallery-bg"
               onClick={toggle}
               aria-expanded={open}
               aria-controls="nav-panel"
-              aria-label={open ? 'Menü schließen' : 'Menü öffnen'}
+              aria-haspopup="menu"
+              aria-label={open ? 'Menü schließen' : 'Hauptmenü öffnen'}
             >
               <AnimatePresence mode="wait" initial={false}>
                 {open ? (
@@ -171,11 +206,12 @@ export function Layout() {
 
             {/* Panel */}
             <motion.aside
+              ref={panelRef}
               key="panel"
               id="nav-panel"
               role="dialog"
               aria-modal="true"
-              aria-label="Navigation"
+              aria-label="Hauptmenü"
               initial={{ x: '100%' }}
               animate={{
                 x: 0,
@@ -207,7 +243,7 @@ export function Layout() {
               </div>
 
               {/* Nav */}
-              <nav className="flex-1 overflow-y-auto p-3" aria-label="Navigation">
+              <nav className="flex-1 overflow-y-auto p-3" aria-label="Hauptnavigation">
                 {nav.map((item, i) => (
                   <motion.div
                     key={item.to}
@@ -324,7 +360,7 @@ export function Layout() {
               Websites & digitale Lösungen — klar, direkt, für Sie gebaut.
             </p>
           </div>
-          <p className="text-xs text-stone-400 dark:text-stone-500">
+          <p className="text-xs text-shell-muted">
             © {new Date().getFullYear()} {SITE_NAME}
           </p>
         </div>
