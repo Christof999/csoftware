@@ -21,6 +21,14 @@ const ROUTE_META: Record<string, { title: string; description?: string }> = {
     title: `Kontakt & Projekt anfragen | ${SITE_NAME}`,
     description: `Kontakt zu ${SITE_NAME}: Projekt anfragen, Erstgespräch und Rückmeldung — unverbindlich und direkt.`,
   },
+  '/impressum': {
+    title: `Impressum | ${SITE_NAME}`,
+    description: `Impressum und Anbieterkennzeichnung von ${SITE_NAME}.`,
+  },
+  '/datenschutz': {
+    title: `Datenschutz | ${SITE_NAME}`,
+    description: `Datenschutzerklärung zu ${SITE_NAME}: Informationen zur Verarbeitung personenbezogener Daten.`,
+  },
 }
 
 function setMetaByName(name: string, content: string) {
@@ -55,10 +63,17 @@ function setLinkRel(rel: string, href: string) {
   el.setAttribute('href', href)
 }
 
+const KNOWN_ROUTES = new Set([
+  '/',
+  '/leistungen',
+  '/kontakt',
+  '/impressum',
+  '/datenschutz',
+])
+
 export function DocumentMeta() {
   const { pathname } = useLocation()
-  const isKnown =
-    pathname === '/' || pathname === '/leistungen' || pathname === '/kontakt'
+  const isKnown = KNOWN_ROUTES.has(pathname)
   const route = isKnown
     ? (ROUTE_META[pathname] ?? ROUTE_META['/']!)
     : {
@@ -105,6 +120,10 @@ export function DocumentMeta() {
       items.push({ name: 'Leistungen', url: `${SITE_ORIGIN}/leistungen` })
     } else if (pathname === '/kontakt') {
       items.push({ name: 'Kontakt', url: `${SITE_ORIGIN}/kontakt` })
+    } else if (pathname === '/impressum') {
+      items.push({ name: 'Impressum', url: `${SITE_ORIGIN}/impressum` })
+    } else if (pathname === '/datenschutz') {
+      items.push({ name: 'Datenschutz', url: `${SITE_ORIGIN}/datenschutz` })
     }
 
     if (items.length <= 1) return

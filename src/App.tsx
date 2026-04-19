@@ -1,8 +1,11 @@
 import { Route, Routes } from 'react-router-dom'
+import { CookieBanner } from './components/CookieBanner'
 import { DocumentMeta } from './components/DocumentMeta'
 import { Layout } from './components/Layout'
 import { ContactPage } from './pages/ContactPage'
+import { DatenschutzPage } from './pages/DatenschutzPage'
 import { HomePage } from './pages/HomePage'
+import { ImpressumPage } from './pages/ImpressumPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import { ServicesPage } from './pages/ServicesPage'
 
@@ -15,9 +18,12 @@ export default function App() {
           <Route index element={<HomePage />} />
           <Route path="leistungen" element={<ServicesPage />} />
           <Route path="kontakt" element={<ContactPage />} />
+          <Route path="impressum" element={<ImpressumPage />} />
+          <Route path="datenschutz" element={<DatenschutzPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
+      <CookieBanner />
     </>
   )
 }
