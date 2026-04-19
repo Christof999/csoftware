@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { CheckCircle, Mail, Plus, Send } from 'lucide-react'
+import { AlertCircle, CheckCircle, Loader2, Mail, Plus, Send } from 'lucide-react'
 import { type FormEvent, useState } from 'react'
 import { fadeInUp, staggerContainer } from '../lib/motion'
 import { SITE_EMAIL, SITE_EMAIL_MAILTO } from '../site'
@@ -41,11 +41,53 @@ const FAQ = [
 
 export function Contact() {
   const [sent, setSent] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    setSent(true)
+    if (submitting) return
+
+    const form = e.currentTarget
+    const data = new FormData(form)
+    const payload = {
+      name: String(data.get('name') ?? '').trim(),
+      company: String(data.get('company') ?? '').trim(),
+      email: String(data.get('email') ?? '').trim(),
+      message: String(data.get('message') ?? '').trim(),
+      website: String(data.get('website') ?? ''),
+    }
+
+    setSubmitting(true)
+    setErrorMessage(null)
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      const result = (await response.json().catch(() => ({}))) as {
+        ok?: boolean
+        error?: string
+      }
+      if (!response.ok || !result.ok) {
+        throw new Error(
+          result.error ??
+            'Nachricht konnte nicht gesendet werden. Bitte später erneut versuchen.',
+        )
+      }
+      setSent(true)
+      form.reset()
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Nachricht konnte nicht gesendet werden. Bitte später erneut versuchen.'
+      setErrorMessage(message)
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const inputClass =
@@ -156,6 +198,20 @@ export function Contact() {
                       Nachricht schreiben
                     </p>
 
+                    {/* Honeypot-Feld: für Menschen unsichtbar, Bots füllen es häufig aus. */}
+                    <div aria-hidden="true" className="hidden">
+                      <label>
+                        Website
+                        <input
+                          name="website"
+                          type="text"
+                          tabIndex={-1}
+                          autoComplete="off"
+                          defaultValue=""
+                        />
+                      </label>
+                    </div>
+
                     <div className="grid gap-5 sm:grid-cols-2">
                       <label className="block">
                         <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
@@ -207,16 +263,40 @@ export function Contact() {
                       </label>
                     </div>
 
+                    {errorMessage && (
+                      <div
+                        role="alert"
+                        className="mt-6 flex items-start gap-3 rounded-lg border border-red-300/60 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-500/30 dark:bg-red-950/40 dark:text-red-200"
+                      >
+                        <AlertCircle
+                          className="mt-0.5 h-4 w-4 shrink-0"
+                          strokeWidth={1.75}
+                          aria-hidden
+                        />
+                        <p>{errorMessage}</p>
+                      </div>
+                    )}
+
                     <div className="mt-6 flex flex-col gap-4 border-t border-gallery-line pt-6 sm:flex-row sm:items-center sm:justify-between">
                       <p className="text-xs text-shell-subtle">
-                        Mit dem Absenden stimmen Sie der Kontaktaufnahme zu (Demo).
+                        Mit dem Absenden stimmen Sie der Kontaktaufnahme zu.
                       </p>
                       <button
                         type="submit"
-                        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-stone-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
+                        disabled={submitting}
+                        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-stone-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-stone-800 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
                       >
-                        <Send className="h-4 w-4" aria-hidden />
-                        Nachricht senden
+                        {submitting ? (
+                          <>
+                            <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                            Wird gesendet…
+                          </>
+                        ) : (
+                          <>
+                            <Send className="h-4 w-4" aria-hidden />
+                            Nachricht senden
+                          </>
+                        )}
                       </button>
                     </div>
                   </motion.form>

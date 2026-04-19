@@ -1,0 +1,146 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node'
+import nodemailer from 'nodemailer'
+
+/**
+ * Vercel Serverless Function – nimmt Kontaktformular-Daten entgegen und
+ * versendet sie per SMTP an die konfigurierte Zieladresse.
+ *
+ * Benötigte Environment Variables (in Vercel Project Settings > Environment Variables):
+ *   SMTP_HOST       z. B. smtp.checkdomain.de
+ *   SMTP_PORT       z. B. 587 (STARTTLS) oder 465 (SSL)
+ *   SMTP_USER       SMTP-Login (i. d. R. die Postfach-Adresse)
+ *   SMTP_PASSWORD   Postfach-Passwort
+ *   CONTACT_TO      Empfänger, z. B. info@soergel-design.de
+ *   CONTACT_FROM    Absender, muss ein Postfach auf der Domain sein
+ *                   (z. B. "SØRGEL-design <info@soergel-design.de>")
+ */
+
+type ContactBody = {
+  name?: string
+  company?: string
+  email?: string
+  message?: string
+  website?: string // Honeypot-Feld
+}
+
+function escapeHtml(input: string): string {
+  return input
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
+function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST')
+    return res.status(405).json({ ok: false, error: 'Method Not Allowed' })
+  }
+
+  const body = (typeof req.body === 'string'
+    ? safeParseJson(req.body)
+    : (req.body ?? {})) as ContactBody
+
+  if (body.website && body.website.trim() !== '') {
+    return res.status(200).json({ ok: true })
+  }
+
+  const name = (body.name ?? '').toString().trim()
+  const company = (body.company ?? '').toString().trim()
+  const email = (body.email ?? '').toString().trim()
+  const message = (body.message ?? '').toString().trim()
+
+  if (!name || !email || !message) {
+    return res
+      .status(400)
+      .json({ ok: false, error: 'Bitte füllen Sie Name, E-Mail und Nachricht aus.' })
+  }
+  if (!isValidEmail(email)) {
+    return res
+      .status(400)
+      .json({ ok: false, error: 'Bitte geben Sie eine gültige E-Mail-Adresse an.' })
+  }
+  if (message.length > 5000 || name.length > 200 || company.length > 200) {
+    return res.status(400).json({ ok: false, error: 'Eingaben zu lang.' })
+  }
+
+  const host = process.env.SMTP_HOST
+  const port = Number(process.env.SMTP_PORT ?? 587)
+  const user = process.env.SMTP_USER
+  const pass = process.env.SMTP_PASSWORD
+  const to = process.env.CONTACT_TO ?? 'info@soergel-design.de'
+  const from =
+    process.env.CONTACT_FROM ?? `SØRGEL-design <${user ?? 'info@soergel-design.de'}>`
+
+  if (!host || !user || !pass) {
+    console.error('SMTP-Konfiguration fehlt (SMTP_HOST / SMTP_USER / SMTP_PASSWORD).')
+    return res.status(500).json({
+      ok: false,
+      error: 'Der Versand ist derzeit nicht verfügbar. Bitte später erneut versuchen.',
+    })
+  }
+
+  const transporter = nodemailer.createTransport({
+    host,
+    port,
+    secure: port === 465,
+    auth: { user, pass },
+  })
+
+  const subject = `Neue Nachricht über das Kontaktformular – ${name}`
+
+  const textBody = [
+    'Neue Nachricht über das Kontaktformular',
+    '',
+    `Name:    ${name}`,
+    `Firma:   ${company || '—'}`,
+    `E-Mail:  ${email}`,
+    '',
+    'Nachricht:',
+    message,
+  ].join('\n')
+
+  const htmlBody = `
+    <div style="font-family:ui-sans-serif,system-ui,sans-serif;color:#0f172a;line-height:1.55">
+      <h2 style="margin:0 0 12px;font-size:16px">Neue Nachricht über das Kontaktformular</h2>
+      <table style="border-collapse:collapse;font-size:14px">
+        <tr><td style="padding:4px 12px 4px 0;color:#64748b">Name</td><td>${escapeHtml(name)}</td></tr>
+        <tr><td style="padding:4px 12px 4px 0;color:#64748b">Firma</td><td>${escapeHtml(company) || '&mdash;'}</td></tr>
+        <tr><td style="padding:4px 12px 4px 0;color:#64748b">E-Mail</td><td><a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></td></tr>
+      </table>
+      <h3 style="margin:20px 0 6px;font-size:14px">Nachricht</h3>
+      <p style="white-space:pre-wrap;margin:0">${escapeHtml(message)}</p>
+    </div>
+  `.trim()
+
+  try {
+    await transporter.sendMail({
+      from,
+      to,
+      replyTo: `${name} <${email}>`,
+      subject,
+      text: textBody,
+      html: htmlBody,
+    })
+    return res.status(200).json({ ok: true })
+  } catch (error) {
+    console.error('Fehler beim E-Mail-Versand:', error)
+    return res.status(500).json({
+      ok: false,
+      error: 'Nachricht konnte nicht gesendet werden. Bitte später erneut versuchen.',
+    })
+  }
+}
+
+function safeParseJson(input: string): unknown {
+  try {
+    return JSON.parse(input)
+  } catch {
+    return {}
+  }
+}
