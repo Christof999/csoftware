@@ -4,7 +4,7 @@ import { useCookieConsent } from '../consent/useCookieConsent'
 import { SITE_EMAIL, SITE_EMAIL_MAILTO, SITE_NAME } from '../site'
 
 export function DatenschutzPage() {
-  const { revoke } = useCookieConsent()
+  const { revoke, openBanner, decidedAt, preferences } = useCookieConsent()
 
   return (
     <div>
@@ -161,15 +161,36 @@ export function DatenschutzPage() {
               gespeichert und nicht an uns übertragen. Sie können sie
               jederzeit in den Browser-Einstellungen löschen.
             </p>
-            <p className="mt-6">
+
+            {decidedAt && (
+              <p className="mt-6 rounded-lg border border-gallery-line bg-gallery-surface px-4 py-3 text-xs text-shell-muted">
+                Aktuell gespeicherte Einwilligung:{' '}
+                <span className="font-medium text-gallery-ink">
+                  {preferences.fonts
+                    ? 'Notwendig + Externe Schriften'
+                    : 'Nur Notwendiges'}
+                </span>{' '}
+                &middot; erteilt am{' '}
+                {new Date(decidedAt).toLocaleString('de-DE')}.
+              </p>
+            )}
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={openBanner}
+                className="inline-flex items-center gap-2 rounded-lg bg-stone-900 px-4 py-2 text-xs font-medium text-white transition hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
+              >
+                Cookie-Einstellungen öffnen
+              </button>
               <button
                 type="button"
                 onClick={revoke}
                 className="inline-flex items-center gap-2 rounded-lg border border-gallery-line bg-gallery-surface px-4 py-2 text-xs font-medium text-gallery-ink transition hover:border-stone-400 dark:hover:border-stone-600"
               >
-                Cookie-Einstellungen zurücksetzen
+                Alle Einwilligungen widerrufen
               </button>
-            </p>
+            </div>
           </LegalBlock>
 
           <LegalBlock title="6. Google Fonts (extern)">

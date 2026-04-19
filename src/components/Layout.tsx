@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDown, Menu, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
+import { useCookieConsent } from '../consent/useCookieConsent'
 import { SITE_NAME } from '../site'
 import { HashScroller } from './HashScroller'
 import { ScrollToTop } from './ScrollToTop'
@@ -49,6 +50,7 @@ export function Layout() {
   const [scrolled, setScrolled] = useState(false)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLElement>(null)
+  const { openBanner } = useCookieConsent()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -376,6 +378,13 @@ export function Layout() {
             >
               Datenschutz
             </Link>
+            <button
+              type="button"
+              onClick={openBanner}
+              className="text-left transition hover:text-gallery-ink"
+            >
+              Cookie-Einstellungen
+            </button>
             <span className="hidden sm:inline text-shell-subtle">·</span>
             <span>© {new Date().getFullYear()} {SITE_NAME}</span>
           </nav>
