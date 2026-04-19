@@ -213,50 +213,66 @@ export function Contact() {
                     </div>
 
                     <div className="grid gap-5 sm:grid-cols-2">
-                      <label className="block">
+                      <label htmlFor="contact-name" className="block">
                         <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
-                          Name
+                          Name <span aria-hidden="true">*</span>
+                          <span className="sr-only">Pflichtfeld</span>
                         </span>
                         <input
+                          id="contact-name"
                           name="name"
                           required
+                          aria-required="true"
                           autoComplete="name"
+                          maxLength={200}
                           className={inputClass}
                           placeholder="Ihr Name"
                         />
                       </label>
-                      <label className="block">
+                      <label htmlFor="contact-company" className="block">
                         <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
                           Firma / Projekt
                         </span>
                         <input
+                          id="contact-company"
                           name="company"
                           autoComplete="organization"
+                          maxLength={200}
                           className={inputClass}
                           placeholder="Optional"
                         />
                       </label>
-                      <label className="block sm:col-span-2">
+                      <label htmlFor="contact-email" className="block sm:col-span-2">
                         <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
-                          E-Mail
+                          E-Mail <span aria-hidden="true">*</span>
+                          <span className="sr-only">Pflichtfeld</span>
                         </span>
                         <input
+                          id="contact-email"
                           name="email"
                           type="email"
                           required
+                          aria-required="true"
                           autoComplete="email"
+                          maxLength={254}
                           className={inputClass}
                           placeholder="name@beispiel.de"
                         />
                       </label>
-                      <label className="block sm:col-span-2">
+                      <label htmlFor="contact-message" className="block sm:col-span-2">
                         <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
-                          Worum geht es?
+                          Worum geht es? <span aria-hidden="true">*</span>
+                          <span className="sr-only">Pflichtfeld</span>
                         </span>
                         <textarea
+                          id="contact-message"
                           name="message"
                           required
+                          aria-required="true"
                           rows={5}
+                          maxLength={5000}
+                          aria-describedby={errorMessage ? 'contact-error' : undefined}
+                          aria-invalid={errorMessage ? 'true' : undefined}
                           className={`${inputClass} resize-y`}
                           placeholder="Stichwörter reichen — wir fragen nach, wenn nötig."
                         />
@@ -265,6 +281,7 @@ export function Contact() {
 
                     {errorMessage && (
                       <div
+                        id="contact-error"
                         role="alert"
                         className="mt-6 flex items-start gap-3 rounded-lg border border-red-300/60 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-500/30 dark:bg-red-950/40 dark:text-red-200"
                       >

@@ -7,20 +7,20 @@
     --color-gallery-bg: #f5f4f2;
     --color-gallery-surface: #ffffff;
     --color-gallery-elevated: #fafaf9;
-    --color-gallery-line: #e4e2df;
+    --color-gallery-line: #d9d7d3;
     --color-gallery-ink: #1a1816;
-    --color-shell-muted: #5c5650;
-    --color-shell-subtle: #8a847e;
+    --color-shell-muted: #514c46;
+    --color-shell-subtle: #6b655f;
   }
 
   .dark {
     --color-gallery-bg: #0d0b0a;
     --color-gallery-surface: #141210;
     --color-gallery-elevated: #1c1917;
-    --color-gallery-line: #272320;
+    --color-gallery-line: #2e2a26;
     --color-gallery-ink: #f5f4f2;
-    --color-shell-muted: #a8a29e;
-    --color-shell-subtle: #6e6560;
+    --color-shell-muted: #c4bfb8;
+    --color-shell-subtle: #9a938b;
   }
 
   html {
@@ -31,7 +31,26 @@
     @apply bg-gallery-bg text-gallery-ink antialiased transition-colors duration-200;
   }
 
+  :focus-visible {
+    @apply outline-none ring-2 ring-stone-500 ring-offset-2 ring-offset-gallery-bg rounded-sm;
+  }
+
   ::selection {
     @apply bg-stone-300/60 text-gallery-ink dark:bg-stone-600/50 dark:text-white;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

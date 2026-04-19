@@ -73,7 +73,10 @@ export function DocumentMeta() {
   useEffect(() => {
     document.title = title
     setMetaByName('description', description)
-    setMetaByName('robots', isKnown ? 'index,follow' : 'noindex,nofollow')
+    setMetaByName(
+      'robots',
+      isKnown ? 'index,follow,max-image-preview:large' : 'noindex,nofollow',
+    )
     if (canonical) {
       setLinkRel('canonical', canonical)
       setMetaByProperty('og:url', canonical)
@@ -81,10 +84,52 @@ export function DocumentMeta() {
     setMetaByProperty('og:title', title)
     setMetaByProperty('og:description', description)
     setMetaByProperty('og:type', 'website')
+    setMetaByProperty('og:site_name', SITE_NAME)
+    setMetaByProperty('og:locale', 'de_DE')
     setMetaByName('twitter:card', 'summary_large_image')
     setMetaByName('twitter:title', title)
     setMetaByName('twitter:description', description)
   }, [title, description, canonical, isKnown])
+
+  useEffect(() => {
+    if (!SITE_ORIGIN || !isKnown) return
+
+    const scriptId = 'jsonld-breadcrumbs'
+    const existing = document.getElementById(scriptId)
+    if (existing) existing.remove()
+
+    const items: { name: string; url: string }[] = [
+      { name: 'Start', url: `${SITE_ORIGIN}/` },
+    ]
+    if (pathname === '/leistungen') {
+      items.push({ name: 'Leistungen', url: `${SITE_ORIGIN}/leistungen` })
+    } else if (pathname === '/kontakt') {
+      items.push({ name: 'Kontakt', url: `${SITE_ORIGIN}/kontakt` })
+    }
+
+    if (items.length <= 1) return
+
+    const data = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: items.map((item, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: item.name,
+        item: item.url,
+      })),
+    }
+
+    const script = document.createElement('script')
+    script.id = scriptId
+    script.type = 'application/ld+json'
+    script.textContent = JSON.stringify(data)
+    document.head.appendChild(script)
+
+    return () => {
+      document.getElementById(scriptId)?.remove()
+    }
+  }, [pathname, isKnown])
 
   useEffect(() => {
     if (!SITE_ORIGIN) return
