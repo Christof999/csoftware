@@ -353,16 +353,32 @@ export function Layout() {
       </main>
 
       <footer className="border-t border-gallery-line bg-gallery-surface py-10">
-        <div className="mx-auto flex max-w-6xl flex-col justify-between gap-6 px-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <div>
             <p className="text-sm font-medium text-gallery-ink">{SITE_NAME}</p>
             <p className="mt-1 text-sm text-shell-muted">
               Websites & digitale Lösungen — klar, direkt, für Sie gebaut.
             </p>
           </div>
-          <p className="text-xs text-shell-muted">
-            © {new Date().getFullYear()} {SITE_NAME}
-          </p>
+          <nav
+            aria-label="Rechtliche Hinweise"
+            className="flex flex-col gap-3 text-xs text-shell-muted sm:flex-row sm:items-center sm:gap-6"
+          >
+            <Link
+              to="/impressum"
+              className="transition hover:text-gallery-ink"
+            >
+              Impressum
+            </Link>
+            <Link
+              to="/datenschutz"
+              className="transition hover:text-gallery-ink"
+            >
+              Datenschutz
+            </Link>
+            <span className="hidden sm:inline text-shell-subtle">·</span>
+            <span>© {new Date().getFullYear()} {SITE_NAME}</span>
+          </nav>
         </div>
       </footer>
     </div>
