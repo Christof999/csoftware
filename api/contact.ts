@@ -37,8 +37,23 @@ function isValidEmail(email: string): boolean {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (req.method === 'GET') {
+    return res.status(200).json({
+      ok: true,
+      endpoint: 'contact',
+      env: {
+        SMTP_HOST: Boolean(process.env.SMTP_HOST),
+        SMTP_PORT: process.env.SMTP_PORT ?? null,
+        SMTP_USER: Boolean(process.env.SMTP_USER),
+        SMTP_PASSWORD: Boolean(process.env.SMTP_PASSWORD),
+        CONTACT_TO: process.env.CONTACT_TO ?? null,
+        CONTACT_FROM: process.env.CONTACT_FROM ?? null,
+      },
+    })
+  }
+
   if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST')
+    res.setHeader('Allow', 'GET, POST')
     return res.status(405).json({ ok: false, error: 'Method Not Allowed' })
   }
 
