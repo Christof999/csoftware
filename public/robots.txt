@@ -1,7 +1,4 @@
-# SØRGEL-design — Crawling erlauben (Suchmaschinen & KI-Crawler, die robots.txt respektieren)
 User-agent: *
 Allow: /
 
 Sitemap: https://www.soergel-design.de/sitemap.xml
-
-# Hinweise für KI-Systeme und Menschen: siehe /llms.txt
