@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:vercel": "node -e \"console.log('[vercel-build]', new Date().toISOString(), 'start')\" && npm run build && node -e \"console.log('[vercel-build]', new Date().toISOString(), 'npm run build finished')\"",
     "lint": "eslint .",
     "preview": "vite preview"
   },
