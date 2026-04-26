@@ -20,6 +20,16 @@ export const SITE_ORIGIN = (
     : 'https://www.soergel-design.de'
 ).replace(/\/$/, '')
 
+/** Kommagetrennte Profil-URLs (z. B. Instagram, LinkedIn) für JSON-LD sameAs */
+export const SITE_SAME_AS: string[] = (() => {
+  const raw = import.meta.env.VITE_SITE_SAME_AS
+  if (typeof raw !== 'string' || raw.length === 0) return []
+  return raw
+    .split(',')
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0)
+})()
+
 export const SITE_EMAIL =
   typeof import.meta.env.VITE_CONTACT_EMAIL === 'string' &&
   import.meta.env.VITE_CONTACT_EMAIL.length > 0

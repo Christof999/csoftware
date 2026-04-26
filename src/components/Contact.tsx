@@ -1,9 +1,22 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { AlertCircle, CheckCircle, Loader2, Mail, Plus, Send } from 'lucide-react'
-import { type FormEvent, useState } from 'react'
+import {
+  type FormEvent,
+  type TextareaHTMLAttributes,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { fadeInUp, staggerContainer } from '../lib/motion'
 import { SITE_EMAIL, SITE_EMAIL_MAILTO } from '../site'
 import { CursorGlow } from './home/tech/CursorGlow'
+import {
+  DESIGN_FOCUS_OPTIONS,
+  type ServiceType,
+  SERVICE_TYPE_LABEL,
+  type DesignFocusId,
+} from './contactFormTypes'
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -37,6 +50,98 @@ const FAQ = [
   },
 ]
 
+// ─── Auto-resize textarea ────────────────────────────────────────────────────
+
+function AutoGrowTextarea({
+  className = '',
+  minRows = 3,
+  ...props
+}: TextareaHTMLAttributes<HTMLTextAreaElement> & { minRows?: number }) {
+  const ref = useRef<HTMLTextAreaElement>(null)
+
+  const sync = useCallback(() => {
+    const el = ref.current
+    if (!el) return
+    el.style.height = 'auto'
+    const line = 22
+    const minH = minRows * line + 24
+    el.style.height = `${Math.max(minH, el.scrollHeight)}px`
+  }, [minRows])
+
+  useEffect(() => {
+    sync()
+  }, [props.value, sync])
+
+  return (
+    <textarea
+      ref={ref}
+      {...props}
+      rows={minRows}
+      className={className}
+      onInput={(e) => {
+        sync()
+        props.onInput?.(e)
+      }}
+    />
+  )
+}
+
+function BooleanRadios({
+  name,
+  value,
+  onChange,
+  legend,
+  required: _required,
+}: {
+  name: string
+  value: '' | 'yes' | 'no'
+  onChange: (v: 'yes' | 'no') => void
+  legend: string
+  required?: boolean
+}) {
+  const chip =
+    'inline-flex cursor-pointer items-center gap-2 rounded-lg border border-gallery-line bg-gallery-bg px-4 py-2.5 text-sm transition has-[:checked]:border-gallery-ink has-[:checked]:bg-gallery-surface has-[:checked]:font-medium'
+
+  return (
+    <fieldset className="block w-full">
+      <legend className="mb-2 text-xs font-medium uppercase tracking-wide text-shell-subtle">
+        {legend}
+        {_required ? (
+          <>
+            {' '}
+            <span aria-hidden="true">*</span>
+            <span className="sr-only">Pflichtfeld</span>
+          </>
+        ) : null}
+      </legend>
+      <div className="flex flex-wrap gap-3">
+        <label className={chip}>
+          <input
+            type="radio"
+            name={name}
+            value="yes"
+            checked={value === 'yes'}
+            onChange={() => onChange('yes')}
+            className="sr-only"
+          />
+          Ja
+        </label>
+        <label className={chip}>
+          <input
+            type="radio"
+            name={name}
+            value="no"
+            checked={value === 'no'}
+            onChange={() => onChange('no')}
+            className="sr-only"
+          />
+          Nein
+        </label>
+      </div>
+    </fieldset>
+  )
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export function Contact() {
@@ -45,18 +150,71 @@ export function Contact() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
+  const [serviceType, setServiceType] = useState<ServiceType | ''>('')
+  const [hasWebsite, setHasWebsite] = useState<'' | 'yes' | 'no'>('')
+  const [hasLogo, setHasLogo] = useState<'' | 'yes' | 'no'>('')
+  const [designFocus, setDesignFocus] = useState<Set<DesignFocusId>>(new Set())
+
+  const yesNoToBool = (v: '' | 'yes' | 'no'): boolean | undefined =>
+    v === 'yes' ? true : v === 'no' ? false : undefined
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (submitting) return
 
+    if (!serviceType) {
+      setErrorMessage('Bitte wählen Sie eine Art der Dienstleistung.')
+      return
+    }
+
+    if (serviceType === 'website') {
+      if (!hasWebsite || !hasLogo) {
+        setErrorMessage('Bitte beantworten Sie die Fragen zu Website und Logo.')
+        return
+      }
+    }
+    if (serviceType === 'design_print') {
+      if (!hasLogo) {
+        setErrorMessage('Bitte geben Sie an, ob Sie bereits ein Logo haben.')
+        return
+      }
+      if (designFocus.size === 0) {
+        setErrorMessage('Bitte wählen Sie mindestens einen Schwerpunkt.')
+        return
+      }
+    }
+
     const form = e.currentTarget
     const data = new FormData(form)
-    const payload = {
-      name: String(data.get('name') ?? '').trim(),
-      company: String(data.get('company') ?? '').trim(),
-      email: String(data.get('email') ?? '').trim(),
-      message: String(data.get('message') ?? '').trim(),
-      website: String(data.get('website') ?? ''),
+    const name = String(data.get('name') ?? '').trim()
+    const company = String(data.get('company') ?? '').trim()
+    const email = String(data.get('email') ?? '').trim()
+    const notes = String(data.get('notes') ?? '').trim()
+    const processDescription = String(data.get('processDescription') ?? '').trim()
+    const honeypot = String(data.get('website') ?? '')
+
+    if (serviceType === 'webapp' && !processDescription) {
+      setErrorMessage('Bitte beschreiben Sie Ihren Prozess.')
+      return
+    }
+
+    const payload: Record<string, unknown> = {
+      name,
+      company,
+      email,
+      website: honeypot,
+      serviceType,
+      notes: notes || undefined,
+    }
+
+    if (serviceType === 'website') {
+      payload.hasWebsite = yesNoToBool(hasWebsite)
+      payload.hasLogo = yesNoToBool(hasLogo)
+    } else if (serviceType === 'webapp') {
+      payload.processDescription = processDescription
+    } else {
+      payload.hasLogo = yesNoToBool(hasLogo)
+      payload.designFocus = Array.from(designFocus)
     }
 
     setSubmitting(true)
@@ -79,6 +237,10 @@ export function Contact() {
       }
       setSent(true)
       form.reset()
+      setServiceType('')
+      setHasWebsite('')
+      setHasLogo('')
+      setDesignFocus(new Set())
     } catch (error) {
       const message =
         error instanceof Error
@@ -90,8 +252,18 @@ export function Contact() {
     }
   }
 
+  function toggleDesignFocus(id: DesignFocusId) {
+    setDesignFocus((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
   const inputClass =
     'w-full rounded-lg border border-gallery-line bg-gallery-bg px-4 py-3 text-sm text-gallery-ink placeholder:text-shell-subtle focus:border-stone-400 focus:outline-none focus:ring-1 focus:ring-stone-400 transition-colors'
+  const textareaClass = `${inputClass} resize-none overflow-hidden`
 
   return (
     <div>
@@ -146,15 +318,12 @@ export function Contact() {
         </div>
       </section>
 
-      {/* Form + Info — form comes first in DOM (= first on mobile) */}
       <section
         id="formular"
         className="border-b border-gallery-line bg-gallery-bg py-20 sm:py-28"
       >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-16 lg:grid-cols-2 lg:items-start lg:gap-20">
-
-            {/* Form — first on mobile, right column on desktop */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -198,7 +367,6 @@ export function Contact() {
                       Nachricht schreiben
                     </p>
 
-                    {/* Honeypot-Feld: für Menschen unsichtbar, Bots füllen es häufig aus. */}
                     <div aria-hidden="true" className="hidden">
                       <label>
                         Website
@@ -211,6 +379,48 @@ export function Contact() {
                         />
                       </label>
                     </div>
+
+                    <fieldset className="mb-8 block border-0 p-0">
+                      <legend className="mb-3 text-xs font-medium uppercase tracking-wide text-shell-subtle">
+                        Art der Dienstleistung{' '}
+                        <span aria-hidden="true">*</span>
+                        <span className="sr-only">Pflichtfeld</span>
+                      </legend>
+                      <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+                        {(
+                          [
+                            ['website', SERVICE_TYPE_LABEL.website],
+                            ['webapp', SERVICE_TYPE_LABEL.webapp],
+                            ['design_print', SERVICE_TYPE_LABEL.design_print],
+                          ] as const
+                        ).map(([value, label]) => (
+                          <label
+                            key={value}
+                            className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-3 text-sm transition ${
+                              serviceType === value
+                                ? 'border-gallery-ink bg-gallery-bg font-medium text-gallery-ink'
+                                : 'border-gallery-line bg-gallery-bg text-shell-muted hover:border-stone-400'
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              name="serviceTypeUi"
+                              value={value}
+                              checked={serviceType === value}
+                              onChange={() => {
+                                setServiceType(value)
+                                setHasWebsite('')
+                                setHasLogo('')
+                                setDesignFocus(new Set())
+                                setErrorMessage(null)
+                              }}
+                              className="sr-only"
+                            />
+                            {label}
+                          </label>
+                        ))}
+                      </div>
+                    </fieldset>
 
                     <div className="grid gap-5 sm:grid-cols-2">
                       <label htmlFor="contact-name" className="block">
@@ -259,24 +469,153 @@ export function Contact() {
                           placeholder="name@beispiel.de"
                         />
                       </label>
-                      <label htmlFor="contact-message" className="block sm:col-span-2">
-                        <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
-                          Worum geht es? <span aria-hidden="true">*</span>
-                          <span className="sr-only">Pflichtfeld</span>
-                        </span>
-                        <textarea
-                          id="contact-message"
-                          name="message"
-                          required
-                          aria-required="true"
-                          rows={5}
-                          maxLength={5000}
-                          aria-describedby={errorMessage ? 'contact-error' : undefined}
-                          aria-invalid={errorMessage ? 'true' : undefined}
-                          className={`${inputClass} resize-y`}
-                          placeholder="Stichwörter reichen — wir fragen nach, wenn nötig."
-                        />
-                      </label>
+
+                      <AnimatePresence mode="wait">
+                        {serviceType === 'website' && (
+                          <motion.div
+                            key="website-fields"
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -6 }}
+                            transition={{ duration: 0.2 }}
+                            className="col-span-1 space-y-5 sm:col-span-2"
+                          >
+                            <BooleanRadios
+                              name="hasWebsite"
+                              value={hasWebsite}
+                              onChange={setHasWebsite}
+                              legend="Haben Sie bereits eine Website?"
+                              required
+                            />
+                            <BooleanRadios
+                              name="hasLogo"
+                              value={hasLogo}
+                              onChange={setHasLogo}
+                              legend="Haben Sie bereits ein Logo?"
+                              required
+                            />
+                            <label htmlFor="contact-notes-website" className="block w-full">
+                              <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
+                                Anmerkungen
+                              </span>
+                              <AutoGrowTextarea
+                                id="contact-notes-website"
+                                name="notes"
+                                maxLength={5000}
+                                minRows={3}
+                                className={textareaClass}
+                                placeholder="Optional — z. B. Wünsche, Zeitrahmen, Links …"
+                              />
+                            </label>
+                          </motion.div>
+                        )}
+
+                        {serviceType === 'webapp' && (
+                          <motion.div
+                            key="webapp-fields"
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -6 }}
+                            transition={{ duration: 0.2 }}
+                            className="col-span-1 space-y-5 sm:col-span-2"
+                          >
+                            <label htmlFor="contact-process" className="block w-full">
+                              <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
+                                Beschreiben Sie Ihren Prozess{' '}
+                                <span aria-hidden="true">*</span>
+                                <span className="sr-only">Pflichtfeld</span>
+                              </span>
+                              <AutoGrowTextarea
+                                id="contact-process"
+                                name="processDescription"
+                                required
+                                aria-required="true"
+                                maxLength={5000}
+                                minRows={4}
+                                className={textareaClass}
+                                placeholder="Was soll verbessert oder digital abgebildet werden?"
+                              />
+                            </label>
+                            <label htmlFor="contact-notes-webapp" className="block w-full">
+                              <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
+                                Anmerkungen
+                              </span>
+                              <AutoGrowTextarea
+                                id="contact-notes-webapp"
+                                name="notes"
+                                maxLength={5000}
+                                minRows={3}
+                                className={textareaClass}
+                                placeholder="Optional"
+                              />
+                            </label>
+                          </motion.div>
+                        )}
+
+                        {serviceType === 'design_print' && (
+                          <motion.div
+                            key="design-fields"
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -6 }}
+                            transition={{ duration: 0.2 }}
+                            className="col-span-1 space-y-5 sm:col-span-2"
+                          >
+                            <fieldset className="block w-full">
+                              <legend className="mb-2 text-xs font-medium uppercase tracking-wide text-shell-subtle">
+                                Worum geht es?{' '}
+                                <span aria-hidden="true">*</span>
+                                <span className="sr-only">
+                                  Mindestens eine Auswahl erforderlich
+                                </span>
+                              </legend>
+                              <div className="flex flex-wrap gap-2">
+                                {DESIGN_FOCUS_OPTIONS.map(({ id, label }) => {
+                                  const checked = designFocus.has(id)
+                                  return (
+                                    <button
+                                      key={id}
+                                      type="button"
+                                      onClick={() => toggleDesignFocus(id)}
+                                      className={`rounded-lg border px-3 py-2 text-sm transition ${
+                                        checked
+                                          ? 'border-gallery-ink bg-gallery-bg font-medium text-gallery-ink'
+                                          : 'border-gallery-line bg-gallery-bg text-shell-muted hover:border-stone-400'
+                                      }`}
+                                      aria-pressed={checked}
+                                    >
+                                      {label}
+                                    </button>
+                                  )
+                                })}
+                              </div>
+                              <p className="mt-2 text-xs text-shell-subtle">
+                                Mehrfachauswahl möglich.
+                              </p>
+                            </fieldset>
+                            <BooleanRadios
+                              name="hasLogoDesign"
+                              value={hasLogo}
+                              onChange={setHasLogo}
+                              legend="Haben Sie bereits ein Logo?"
+                              required
+                            />
+                            <label htmlFor="contact-notes-design" className="block w-full">
+                              <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
+                                Anmerkungen
+                              </span>
+                              <AutoGrowTextarea
+                                id="contact-notes-design"
+                                name="notes"
+                                maxLength={5000}
+                                minRows={3}
+                                className={textareaClass}
+                                placeholder="Optional"
+                              />
+                            </label>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
 
                     {errorMessage && (
@@ -300,7 +639,7 @@ export function Contact() {
                       </p>
                       <button
                         type="submit"
-                        disabled={submitting}
+                        disabled={submitting || !serviceType}
                         className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-stone-900 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-stone-800 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
                       >
                         {submitting ? (
@@ -321,7 +660,6 @@ export function Contact() {
               </AnimatePresence>
             </motion.div>
 
-            {/* Info — second on mobile, left column on desktop */}
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -329,7 +667,6 @@ export function Contact() {
               variants={staggerContainer}
               className="space-y-12 lg:order-first"
             >
-              {/* Email only */}
               <div>
                 <motion.p
                   custom={0}
@@ -361,7 +698,6 @@ export function Contact() {
                 </motion.div>
               </div>
 
-              {/* Was Sie erwartet */}
               <div>
                 <motion.p
                   custom={2}
@@ -397,7 +733,6 @@ export function Contact() {
         </div>
       </section>
 
-      {/* FAQ */}
       <section id="faq" className="bg-gallery-surface py-20 sm:py-28">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <motion.div

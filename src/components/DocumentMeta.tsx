@@ -1,35 +1,8 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import {
-  SITE_DESCRIPTION,
-  SITE_EMAIL,
-  SITE_NAME,
-  SITE_NAME_ASCII,
-  SITE_ORIGIN,
-  SITE_TAGLINE,
-} from '../site'
-
-const ROUTE_META: Record<string, { title: string; description?: string }> = {
-  '/': {
-    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
-  },
-  '/leistungen': {
-    title: `Leistungen — Webdesign, Web-Apps, SEO & Print | ${SITE_NAME}`,
-    description: `${SITE_NAME}: Leistungen rund um Websites, Web-Apps, SEO, Google Ads und Print & Media — klar strukturiert, aus einer Hand.`,
-  },
-  '/kontakt': {
-    title: `Kontakt & Projekt anfragen | ${SITE_NAME}`,
-    description: `Kontakt zu ${SITE_NAME}: Projekt anfragen, Erstgespräch und Rückmeldung — unverbindlich und direkt.`,
-  },
-  '/impressum': {
-    title: `Impressum | ${SITE_NAME}`,
-    description: `Impressum und Anbieterkennzeichnung von ${SITE_NAME}.`,
-  },
-  '/datenschutz': {
-    title: `Datenschutz | ${SITE_NAME}`,
-    description: `Datenschutzerklärung zu ${SITE_NAME}: Informationen zur Verarbeitung personenbezogener Daten.`,
-  },
-}
+import { canonicalUrl, getRouteMeta } from '../seo/routeMeta'
+import { breadcrumbJsonLd, organizationWebsiteGraph } from '../seo/schema'
+import { SITE_NAME } from '../site'
 
 function setMetaByName(name: string, content: string) {
   let el = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null
@@ -63,34 +36,18 @@ function setLinkRel(rel: string, href: string) {
   el.setAttribute('href', href)
 }
 
-const KNOWN_ROUTES = new Set([
-  '/',
-  '/leistungen',
-  '/kontakt',
-  '/impressum',
-  '/datenschutz',
-])
-
 export function DocumentMeta() {
   const { pathname } = useLocation()
-  const isKnown = KNOWN_ROUTES.has(pathname)
-  const route = isKnown
-    ? (ROUTE_META[pathname] ?? ROUTE_META['/']!)
-    : {
-        title: `Seite nicht gefunden | ${SITE_NAME}`,
-        description: `Die Seite wurde nicht gefunden. ${SITE_DESCRIPTION}`,
-      }
-  const title = route.title
-  const description = route.description ?? SITE_DESCRIPTION
-  const canonical =
-    SITE_ORIGIN ? `${SITE_ORIGIN}${pathname === '/' ? '' : pathname}` : ''
+  const meta = getRouteMeta(pathname)
+  const { title, description, indexable } = meta
+  const canonical = canonicalUrl(pathname)
 
   useEffect(() => {
     document.title = title
     setMetaByName('description', description)
     setMetaByName(
       'robots',
-      isKnown ? 'index,follow,max-image-preview:large' : 'noindex,nofollow',
+      indexable ? 'index,follow,max-image-preview:large' : 'noindex,nofollow',
     )
     if (canonical) {
       setLinkRel('canonical', canonical)
@@ -104,40 +61,15 @@ export function DocumentMeta() {
     setMetaByName('twitter:card', 'summary_large_image')
     setMetaByName('twitter:title', title)
     setMetaByName('twitter:description', description)
-  }, [title, description, canonical, isKnown])
+  }, [title, description, canonical, indexable])
 
   useEffect(() => {
-    if (!SITE_ORIGIN || !isKnown) return
-
     const scriptId = 'jsonld-breadcrumbs'
     const existing = document.getElementById(scriptId)
-    if (existing) existing.remove()
+    existing?.remove()
 
-    const items: { name: string; url: string }[] = [
-      { name: 'Start', url: `${SITE_ORIGIN}/` },
-    ]
-    if (pathname === '/leistungen') {
-      items.push({ name: 'Leistungen', url: `${SITE_ORIGIN}/leistungen` })
-    } else if (pathname === '/kontakt') {
-      items.push({ name: 'Kontakt', url: `${SITE_ORIGIN}/kontakt` })
-    } else if (pathname === '/impressum') {
-      items.push({ name: 'Impressum', url: `${SITE_ORIGIN}/impressum` })
-    } else if (pathname === '/datenschutz') {
-      items.push({ name: 'Datenschutz', url: `${SITE_ORIGIN}/datenschutz` })
-    }
-
-    if (items.length <= 1) return
-
-    const data = {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: items.map((item, i) => ({
-        '@type': 'ListItem',
-        position: i + 1,
-        name: item.name,
-        item: item.url,
-      })),
-    }
+    const data = breadcrumbJsonLd(pathname)
+    if (!data) return
 
     const script = document.createElement('script')
     script.id = scriptId
@@ -148,51 +80,14 @@ export function DocumentMeta() {
     return () => {
       document.getElementById(scriptId)?.remove()
     }
-  }, [pathname, isKnown])
+  }, [pathname])
 
   useEffect(() => {
-    if (!SITE_ORIGIN) return
-
     const scriptId = 'jsonld-organization'
     const existing = document.getElementById(scriptId)
-    if (existing) existing.remove()
+    existing?.remove()
 
-    const orgId = `${SITE_ORIGIN}/#organization`
-    const data = {
-      '@context': 'https://schema.org',
-      '@graph': [
-        {
-          '@type': 'Organization',
-          '@id': orgId,
-          name: SITE_NAME,
-          alternateName: [
-            SITE_NAME_ASCII,
-            'Sorgel design',
-            'SØRGEL design',
-          ],
-          url: SITE_ORIGIN,
-          email: SITE_EMAIL,
-          description: SITE_DESCRIPTION,
-          knowsAbout: [
-            'Webdesign',
-            'Suchmaschinenoptimierung',
-            'Google Ads',
-            'Web-Apps',
-            'Printdesign',
-            'Corporate Design',
-          ],
-        },
-        {
-          '@type': 'WebSite',
-          '@id': `${SITE_ORIGIN}/#website`,
-          url: SITE_ORIGIN,
-          name: SITE_NAME,
-          description: SITE_DESCRIPTION,
-          inLanguage: 'de-DE',
-          publisher: { '@id': orgId },
-        },
-      ],
-    }
+    const data = organizationWebsiteGraph()
 
     const script = document.createElement('script')
     script.id = scriptId

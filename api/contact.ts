@@ -18,12 +18,33 @@ import nodemailer from 'nodemailer'
  *                     keine Konfigurationsdetails preis (404).
  */
 
+type ServiceType = 'website' | 'webapp' | 'design_print'
+
 type ContactBody = {
   name?: string
   company?: string
   email?: string
   message?: string
   website?: string
+  serviceType?: string
+  hasWebsite?: boolean
+  hasLogo?: boolean
+  notes?: string
+  processDescription?: string
+  designFocus?: string[]
+}
+
+function serviceTypeLabel(t: ServiceType): string {
+  switch (t) {
+    case 'website':
+      return 'Website'
+    case 'webapp':
+      return 'Web-App'
+    case 'design_print':
+      return 'Design & Druck'
+    default:
+      return t
+  }
 }
 
 function escapeHtml(input: string): string {
@@ -142,19 +163,115 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const name = (body.name ?? '').toString().trim()
   const company = (body.company ?? '').toString().trim()
   const email = (body.email ?? '').toString().trim()
-  const message = (body.message ?? '').toString().trim()
+  const serviceType = (body.serviceType ?? '').toString().trim() as ServiceType
+  const notes = (body.notes ?? '').toString().trim()
+  const processDescription = (body.processDescription ?? '').toString().trim()
+  const allowedFocus = new Set([
+    'flyer',
+    'visitenkarte',
+    'instagram',
+    'ci',
+    'logo_design',
+  ])
+  const designFocus = Array.isArray(body.designFocus)
+    ? body.designFocus
+        .map((s) => String(s).trim())
+        .filter((id) => allowedFocus.has(id))
+    : []
+
+  const validTypes: ServiceType[] = ['website', 'webapp', 'design_print']
+  if (!validTypes.includes(serviceType)) {
+    return res
+      .status(400)
+      .json({ ok: false, error: 'Bitte wählen Sie eine Art der Dienstleistung.' })
+  }
+
+  let hasWebsite: boolean | undefined
+  let hasLogo: boolean | undefined
+  if (serviceType === 'website') {
+    if (typeof body.hasWebsite !== 'boolean' || typeof body.hasLogo !== 'boolean') {
+      return res.status(400).json({
+        ok: false,
+        error: 'Bitte beantworten Sie die Fragen zu Website und Logo.',
+      })
+    }
+    hasWebsite = body.hasWebsite
+    hasLogo = body.hasLogo
+  } else if (serviceType === 'design_print') {
+    if (typeof body.hasLogo !== 'boolean') {
+      return res.status(400).json({
+        ok: false,
+        error: 'Bitte geben Sie an, ob Sie bereits ein Logo haben.',
+      })
+    }
+    hasLogo = body.hasLogo
+    if (designFocus.length === 0) {
+      return res.status(400).json({
+        ok: false,
+        error: 'Bitte wählen Sie mindestens einen Schwerpunkt (Design & Druck).',
+      })
+    }
+  }
+
+  if (serviceType === 'webapp' && !processDescription) {
+    return res.status(400).json({
+      ok: false,
+      error: 'Bitte beschreiben Sie Ihren Prozess (Web-App).',
+    })
+  }
+
+  const jaNein = (v: boolean | undefined) =>
+    v === true ? 'Ja' : v === false ? 'Nein' : '—'
+
+  const detailLines: string[] = []
+  detailLines.push(`Art der Dienstleistung: ${serviceTypeLabel(serviceType)}`)
+  detailLines.push('')
+
+  if (serviceType === 'website') {
+    detailLines.push(`Haben Sie bereits eine Website? ${jaNein(hasWebsite)}`)
+    detailLines.push(`Haben Sie bereits ein Logo? ${jaNein(hasLogo)}`)
+    if (notes) {
+      detailLines.push('')
+      detailLines.push('Anmerkungen:')
+      detailLines.push(notes)
+    }
+  } else if (serviceType === 'webapp') {
+    detailLines.push('Beschreiben Sie Ihren Prozess:')
+    detailLines.push(processDescription)
+    if (notes) {
+      detailLines.push('')
+      detailLines.push('Anmerkungen:')
+      detailLines.push(notes)
+    }
+  } else {
+    detailLines.push(`Schwerpunkte: ${designFocus.join(', ')}`)
+    detailLines.push(`Haben Sie bereits ein Logo? ${jaNein(hasLogo)}`)
+    if (notes) {
+      detailLines.push('')
+      detailLines.push('Anmerkungen:')
+      detailLines.push(notes)
+    }
+  }
+
+  const message = detailLines.join('\n')
 
   if (!name || !email || !message) {
     return res
       .status(400)
-      .json({ ok: false, error: 'Bitte füllen Sie Name, E-Mail und Nachricht aus.' })
+      .json({ ok: false, error: 'Bitte füllen Sie Name, E-Mail und die Projektangaben aus.' })
   }
   if (!isValidEmail(email)) {
     return res
       .status(400)
       .json({ ok: false, error: 'Bitte geben Sie eine gültige E-Mail-Adresse an.' })
   }
-  if (message.length > 5000 || name.length > 200 || company.length > 200) {
+  if (
+    message.length > 12000 ||
+    notes.length > 5000 ||
+    processDescription.length > 5000 ||
+    name.length > 200 ||
+    company.length > 200
+  ) {
     return res.status(400).json({ ok: false, error: 'Eingaben zu lang.' })
   }
 
@@ -185,7 +302,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const safeName = sanitizeHeaderValue(name)
   const safeEmail = sanitizeHeaderValue(email)
   const subject = sanitizeHeaderValue(
-    `Neue Nachricht über das Kontaktformular – ${safeName}`,
+    `Kontakt: ${serviceTypeLabel(serviceType)} – ${safeName}`,
   )
 
   const textBody = [
@@ -195,7 +312,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     `Firma:   ${company || '—'}`,
     `E-Mail:  ${email}`,
     '',
-    'Nachricht:',
+    'Projektangaben:',
     message,
   ].join('\n')
 
@@ -206,8 +323,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         <tr><td style="padding:4px 12px 4px 0;color:#64748b">Name</td><td>${escapeHtml(name)}</td></tr>
         <tr><td style="padding:4px 12px 4px 0;color:#64748b">Firma</td><td>${escapeHtml(company) || '&mdash;'}</td></tr>
         <tr><td style="padding:4px 12px 4px 0;color:#64748b">E-Mail</td><td><a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></td></tr>
+        <tr><td style="padding:4px 12px 4px 0;color:#64748b">Dienstleistung</td><td>${escapeHtml(serviceTypeLabel(serviceType))}</td></tr>
       </table>
-      <h3 style="margin:20px 0 6px;font-size:14px">Nachricht</h3>
+      <h3 style="margin:20px 0 6px;font-size:14px">Projektangaben</h3>
       <p style="white-space:pre-wrap;margin:0">${escapeHtml(message)}</p>
     </div>
   `.trim()
