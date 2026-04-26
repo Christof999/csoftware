@@ -113,8 +113,10 @@ export function DatenschutzPage() {
             <p>
               Wenn Sie uns über das Kontaktformular oder per E-Mail eine
               Nachricht senden, verarbeiten wir die angegebenen Daten (Name,
-              ggf. Firma, E-Mail-Adresse, Nachrichtentext), um Ihre Anfrage
-              zu beantworten. Die Daten werden per SMTP an das Postfach{' '}
+              ggf. Firma, E-Mail-Adresse, gewählte Art der Dienstleistung sowie
+              die zugehörigen Angaben wie z. B. Schwerpunkte, Ja/Nein-Antworten
+              und Freitextfelder), um Ihre Anfrage zu beantworten. Die Daten
+              werden per SMTP an das Postfach{' '}
               {SITE_EMAIL} bei unserem E-Mail-Provider{' '}
               <strong>checkdomain GmbH</strong> (An der Halde 1, 23554
               Lübeck) übertragen und dort gespeichert.
