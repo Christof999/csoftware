@@ -1,6 +1,11 @@
 import type { RouteMeta } from './routeMeta'
-import { SITE_NAME } from '../site'
-import { breadcrumbJsonLd, organizationWebsiteGraph } from './schema'
+import { SITE_NAME, siteOgImageUrl } from '../site'
+import {
+  breadcrumbJsonLd,
+  faqPageJsonLd,
+  howToHomeJsonLd,
+  organizationWebsiteGraph,
+} from './schema'
 
 /** Für vite-prerender-plugin `head.elements` (Props nur Strings). */
 export type HeadElement = {
@@ -17,6 +22,8 @@ export function buildPrerenderHeadElements(
   const robots = meta.indexable
     ? 'index,follow,max-image-preview:large'
     : 'noindex,nofollow'
+
+  const ogImage = siteOgImageUrl()
 
   const elements: HeadElement[] = [
     { type: 'meta', props: { name: 'description', content: meta.description } },
@@ -40,6 +47,17 @@ export function buildPrerenderHeadElements(
     { type: 'meta', props: { property: 'og:locale', content: 'de_DE' } },
   ]
 
+  if (ogImage) {
+    elements.push({
+      type: 'meta',
+      props: { property: 'og:image', content: ogImage },
+    })
+    elements.push({
+      type: 'meta',
+      props: { name: 'twitter:image', content: ogImage },
+    })
+  }
+
   if (canonical) {
     elements.push({ type: 'link', props: { rel: 'canonical', href: canonical } })
     elements.push({
@@ -60,6 +78,24 @@ export function buildPrerenderHeadElements(
       type: 'script',
       props: { type: 'application/ld+json', id: 'jsonld-breadcrumbs' },
       children: JSON.stringify(crumbs),
+    })
+  }
+
+  const faq = faqPageJsonLd(pathname)
+  if (faq) {
+    elements.push({
+      type: 'script',
+      props: { type: 'application/ld+json', id: 'jsonld-faq' },
+      children: JSON.stringify(faq),
+    })
+  }
+
+  const howTo = howToHomeJsonLd(pathname)
+  if (howTo) {
+    elements.push({
+      type: 'script',
+      props: { type: 'application/ld+json', id: 'jsonld-howto' },
+      children: JSON.stringify(howTo),
     })
   }
 

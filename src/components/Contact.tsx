@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { AlertCircle, CheckCircle, Loader2, Mail, Plus, Send } from 'lucide-react'
+import { AlertCircle, CheckCircle, Loader2, Mail, Send } from 'lucide-react'
 import {
   type FormEvent,
   type TextareaHTMLAttributes,
@@ -9,7 +9,17 @@ import {
   useState,
 } from 'react'
 import { fadeInUp, staggerContainer } from '../lib/motion'
-import { SITE_EMAIL, SITE_EMAIL_MAILTO } from '../site'
+import {
+  SITE_EMAIL,
+  SITE_EMAIL_MAILTO,
+  SITE_GOOGLE_BUSINESS_URL,
+  SITE_LOCALITY,
+  SITE_PHONE_DISPLAY,
+  SITE_PHONE_TEL,
+  SITE_POSTAL_CODE,
+  SITE_STREET,
+} from '../site'
+import { CONTACT_FAQ_ITEMS } from '../seo/contactFaq'
 import { CursorGlow } from './home/tech/CursorGlow'
 import {
   DESIGN_FOCUS_OPTIONS,
@@ -28,25 +38,6 @@ const PROMISES = [
   {
     title: 'Erstes Gespräch kostenlos',
     text: 'Wir hören zu, stellen Fragen und klären, ob und wie wir helfen können',
-  },
-]
-
-const FAQ = [
-  {
-    q: 'Was kostet eine Website?',
-    a: 'Das hängt vom Umfang ab. Einfache Landingpages starten ab einem niedrigen vierstelligen Betrag — größere Sites mit individuellen Funktionen entsprechend mehr. Das besprechen wir transparent im ersten Gespräch.',
-  },
-  {
-    q: 'Wie lange dauert die Umsetzung?',
-    a: 'Eine einfache Website dauert 2–4 Wochen, komplexere Projekte entsprechend länger. Nach dem ersten Gespräch können wir eine realistische Einschätzung geben.',
-  },
-  {
-    q: 'Ich habe nur eine vage Idee — ist das okay?',
-    a: 'Absolut. Viele unserer besten Projekte starteten mit einer groben Richtung. Konzept und Struktur erarbeiten wir gemeinsam.',
-  },
-  {
-    q: 'Ich brauche nur eine Kleinigkeit — lohnt sich das Schreiben?',
-    a: 'Ja. Kein Anliegen ist zu klein. Schreiben Sie kurz, was Sie beschäftigt — wir sagen Ihnen direkt, ob und wie wir helfen können.',
   },
 ]
 
@@ -148,7 +139,6 @@ export function Contact() {
   const [sent, setSent] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
 
   const [serviceType, setServiceType] = useState<ServiceType | ''>('')
   const [hasWebsite, setHasWebsite] = useState<'' | 'yes' | 'no'>('')
@@ -675,7 +665,7 @@ export function Contact() {
                 >
                   Direkt erreichbar
                 </motion.p>
-                <motion.div custom={1} variants={fadeInUp}>
+                <motion.div custom={1} variants={fadeInUp} className="space-y-3">
                   <CursorGlow className="rounded-xl border border-gallery-line bg-gallery-surface">
                     <div className="flex items-start gap-5 px-6 py-5">
                       <span className="mt-0.5 shrink-0 text-gallery-ink">
@@ -693,6 +683,39 @@ export function Contact() {
                         </a>
                         <p className="mt-0.5 text-xs text-shell-muted">Am schnellsten</p>
                       </div>
+                    </div>
+                  </CursorGlow>
+                  <CursorGlow className="rounded-xl border border-gallery-line bg-gallery-surface">
+                    <div className="px-6 py-5 text-sm leading-relaxed text-shell-muted">
+                      <p className="text-[10px] font-medium uppercase tracking-widest text-shell-subtle">
+                        Adresse
+                      </p>
+                      <p className="mt-2 font-display text-sm font-semibold text-gallery-ink">
+                        {SITE_STREET}
+                        <br />
+                        {SITE_POSTAL_CODE} {SITE_LOCALITY}
+                      </p>
+                      <p className="mt-4 text-[10px] font-medium uppercase tracking-widest text-shell-subtle">
+                        Telefon
+                      </p>
+                      <a
+                        href={SITE_PHONE_TEL}
+                        className="mt-1 inline-block font-display text-sm font-semibold text-gallery-ink underline decoration-gallery-line underline-offset-4 transition hover:decoration-gallery-ink"
+                      >
+                        {SITE_PHONE_DISPLAY}
+                      </a>
+                      {SITE_GOOGLE_BUSINESS_URL ? (
+                        <p className="mt-4">
+                          <a
+                            href={SITE_GOOGLE_BUSINESS_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 transition hover:decoration-gallery-ink"
+                          >
+                            Google-Unternehmensprofil
+                          </a>
+                        </p>
+                      ) : null}
                     </div>
                   </CursorGlow>
                 </motion.div>
@@ -773,47 +796,17 @@ export function Contact() {
             variants={staggerContainer}
             className="mt-10 space-y-3"
           >
-            {FAQ.map((item, i) => (
+            {CONTACT_FAQ_ITEMS.map((item, i) => (
               <motion.li key={item.q} custom={i} variants={fadeInUp}>
                 <CursorGlow className="rounded-xl border border-gallery-line bg-gallery-bg">
-                  <button
-                    type="button"
-                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    className="flex w-full items-center justify-between gap-8 px-6 py-5 text-left"
-                    aria-expanded={openFaq === i}
-                    aria-controls={`faq-answer-${i}`}
-                    id={`faq-question-${i}`}
-                  >
-                    <p className="font-display text-sm font-semibold text-gallery-ink">
+                  <div className="px-6 py-5">
+                    <h3 className="font-display text-sm font-semibold text-gallery-ink">
                       {item.q}
+                    </h3>
+                    <p className="mt-3 text-sm leading-relaxed text-shell-muted">
+                      {item.a}
                     </p>
-                    <motion.span
-                      animate={{ rotate: openFaq === i ? 45 : 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="shrink-0 text-shell-subtle"
-                    >
-                      <Plus className="h-4 w-4" strokeWidth={2} aria-hidden />
-                    </motion.span>
-                  </button>
-                  <AnimatePresence initial={false}>
-                    {openFaq === i && (
-                      <motion.div
-                        key="answer"
-                        id={`faq-answer-${i}`}
-                        role="region"
-                        aria-labelledby={`faq-question-${i}`}
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: 'easeInOut' }}
-                        className="overflow-hidden"
-                      >
-                        <p className="px-6 pb-5 text-sm leading-relaxed text-shell-muted">
-                          {item.a}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  </div>
                 </CursorGlow>
               </motion.li>
             ))}

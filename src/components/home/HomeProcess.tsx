@@ -1,34 +1,13 @@
 import { motion } from 'framer-motion'
 import { fadeInUp, staggerContainer } from '../../lib/motion'
+import { HOME_PROCESS_STEPS } from '../../seo/homeProcessSteps'
 import { CursorGlow } from './tech/CursorGlow'
 
-const steps = [
-  {
-    n: '01',
-    title: 'Kennenlernen',
-    text: 'Wir klären Ziele, Zielgruppe und Budget.',
-  },
-  {
-    n: '02',
-    title: 'Konzept & Struktur',
-    text: 'Seitenaufbau, Texte und Bildideen.',
-  },
-  {
-    n: '03',
-    title: 'Design',
-    text: 'Ein Look, der zu Ihnen passt: Farben, Typografie, erster Eindruck.',
-  },
-  {
-    n: '04',
-    title: 'Umsetzung',
-    text: 'Die Website wird gebaut, getestet und für Mobilgeräte optimiert.',
-  },
-  {
-    n: '05',
-    title: 'Launch & Begleitung',
-    text: 'Go-live mit Checkliste und Unterstützung, wenn Sie etwas anpassen möchten.',
-  },
-]
+const steps = HOME_PROCESS_STEPS.map((s, i) => ({
+  n: String(i + 1).padStart(2, '0'),
+  title: s.name,
+  text: s.text,
+}))
 
 export function HomeProcess() {
   return (

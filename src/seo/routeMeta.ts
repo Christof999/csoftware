@@ -12,13 +12,15 @@ export type RouteMeta = {
   indexable: boolean
 }
 
-const HOME_TITLE = `${SITE_NAME_ASCII} | Webdesign & SEO · Ansbach`
+/** Titel mit Marken-Unicode (Ø) — konsistent mit Logo und Schema name */
+const HOME_TITLE = `${SITE_NAME} | Webdesign & SEO · Ansbach`
 
 /** Bekannte Pfade (ohne trailing slash), konsistent mit dem Router */
 export const KNOWN_PATHS = [
   '/',
   '/leistungen',
   '/kontakt',
+  '/ueber-uns',
   '/impressum',
   '/datenschutz',
 ] as const
@@ -34,23 +36,33 @@ export function isKnownPath(pathname: string): boolean {
 const ROUTE_META: Record<KnownPath, Omit<RouteMeta, 'indexable'>> = {
   '/': {
     title: HOME_TITLE,
-    description: SITE_DESCRIPTION,
+    description:
+      'Webdesign, SEO und Web-Apps für Unternehmen in Ansbach und Mittelfranken: schnelle Sites, klare Struktur, persönliche Betreuung. Jetzt unverbindlich anfragen.',
   },
   '/leistungen': {
-    title: `Leistungen — Webdesign, Web-Apps, SEO & Print | ${SITE_NAME_ASCII}`,
-    description: `${SITE_NAME}: Leistungen rund um Websites, Web-Apps, SEO, Google Ads und Print & Media — klar strukturiert, aus einer Hand.`,
+    title: `Leistungen | Webdesign, SEO & Print · Ansbach | ${SITE_NAME_ASCII}`,
+    description:
+      'Websites, lokale SEO, Google Ads, Web-Apps und Printdesign aus einer Hand — für Handwerk, Dienstleister und KMU in Ansbach und Mittelfranken. Leistungen ansehen und Kontakt aufnehmen.',
   },
   '/kontakt': {
     title: `Kontakt & Projekt anfragen | ${SITE_NAME_ASCII}`,
-    description: `Kontakt zu ${SITE_NAME}: Projekt anfragen, Erstgespräch und Rückmeldung — unverbindlich und direkt.`,
+    description:
+      'Projekt anfragen: Webdesign Ansbach, Web-Apps und Print — Antwort innerhalb eines Werktags, Erstgespräch kostenlos. Schreiben Sie uns oder rufen Sie an.',
+  },
+  '/ueber-uns': {
+    title: `Über uns & Inhaber | ${SITE_NAME_ASCII}`,
+    description:
+      'Christof Sörgel, SØRGEL-design: Webentwicklung, SEO und Design aus Merkendorf — für Kunden in Ansbach und Mittelfranken. Erfahrung, Arbeitsweise und Kontakt.',
   },
   '/impressum': {
     title: `Impressum | ${SITE_NAME_ASCII}`,
-    description: `Impressum und Anbieterkennzeichnung von ${SITE_NAME}.`,
+    description:
+      `Impressum und rechtliche Anbieterkennzeichnung von ${SITE_NAME}: Adresse Merkendorf, Kontakt, Umsatzsteuer-Hinweis.`,
   },
   '/datenschutz': {
     title: `Datenschutz | ${SITE_NAME_ASCII}`,
-    description: `Datenschutzerklärung zu ${SITE_NAME}: Informationen zur Verarbeitung personenbezogener Daten.`,
+    description:
+      `Datenschutzerklärung ${SITE_NAME}: Cookies, Kontaktformular, Hosting (Vercel), Rechte nach DSGVO — transparent erklärt.`,
   },
 }
 

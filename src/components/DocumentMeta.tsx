@@ -1,8 +1,13 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { canonicalUrl, getRouteMeta } from '../seo/routeMeta'
-import { breadcrumbJsonLd, organizationWebsiteGraph } from '../seo/schema'
-import { SITE_NAME } from '../site'
+import {
+  breadcrumbJsonLd,
+  faqPageJsonLd,
+  howToHomeJsonLd,
+  organizationWebsiteGraph,
+} from '../seo/schema'
+import { SITE_NAME, siteOgImageUrl } from '../site'
 
 function setMetaByName(name: string, content: string) {
   let el = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null
@@ -58,6 +63,11 @@ export function DocumentMeta() {
     setMetaByProperty('og:type', 'website')
     setMetaByProperty('og:site_name', SITE_NAME)
     setMetaByProperty('og:locale', 'de_DE')
+    const ogImage = siteOgImageUrl()
+    if (ogImage) {
+      setMetaByProperty('og:image', ogImage)
+      setMetaByName('twitter:image', ogImage)
+    }
     setMetaByName('twitter:card', 'summary_large_image')
     setMetaByName('twitter:title', title)
     setMetaByName('twitter:description', description)
@@ -99,6 +109,36 @@ export function DocumentMeta() {
       document.getElementById(scriptId)?.remove()
     }
   }, [])
+
+  useEffect(() => {
+    const scriptId = 'jsonld-faq'
+    document.getElementById(scriptId)?.remove()
+    const data = faqPageJsonLd(pathname)
+    if (!data) return
+    const script = document.createElement('script')
+    script.id = scriptId
+    script.type = 'application/ld+json'
+    script.textContent = JSON.stringify(data)
+    document.head.appendChild(script)
+    return () => {
+      document.getElementById(scriptId)?.remove()
+    }
+  }, [pathname])
+
+  useEffect(() => {
+    const scriptId = 'jsonld-howto'
+    document.getElementById(scriptId)?.remove()
+    const data = howToHomeJsonLd(pathname)
+    if (!data) return
+    const script = document.createElement('script')
+    script.id = scriptId
+    script.type = 'application/ld+json'
+    script.textContent = JSON.stringify(data)
+    document.head.appendChild(script)
+    return () => {
+      document.getElementById(scriptId)?.remove()
+    }
+  }, [pathname])
 
   return null
 }
