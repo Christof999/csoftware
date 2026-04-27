@@ -56,12 +56,17 @@ export function siteOgImageUrl(): string {
 }
 
 /**
- * Prüft öffentliche Maps-/GBP-Links. Ungültige oder Googles Fehler-Redirects
- * (z. B. share.google/.../error) werden verworfen — sonst landen Besucher auf
- * https://share.google/error .
+ * Prüft öffentliche Maps-/GBP-Links.
+ * Google Maps „Teilen“ liefert oft `https://share.google/…` (Kurzlink) —
+ * der ist gültig. Nur die echte Fehlerseite `share.google/error` blockieren.
  */
+function extractFirstHttpsUrl(raw: string): string {
+  const m = raw.match(/https:\/\/[^\s]+/i)
+  return m ? m[0].replace(/[),.;]+$/, '') : raw.trim()
+}
+
 function sanitizeGoogleBusinessUrl(raw: string): string {
-  const trimmed = raw.trim()
+  const trimmed = extractFirstHttpsUrl(raw)
   if (!trimmed) return ''
   if (!/^https:\/\//i.test(trimmed)) return ''
 
@@ -73,16 +78,25 @@ function sanitizeGoogleBusinessUrl(raw: string): string {
   }
 
   const host = url.hostname.toLowerCase()
-  const path = `${url.pathname}${url.search}`.toLowerCase()
+  const pathLower = `${url.pathname}${url.search}`.toLowerCase()
 
-  if (host === 'share.google' && (path.includes('/error') || path === '/error'))
-    return ''
+  // Nur die explizite Fehler-URL, nicht normale Kurzcodes wie /7ZoknUjvB4B8gboaQ
+  if (host === 'share.google') {
+    if (
+      pathLower === '/error' ||
+      pathLower.startsWith('/error?') ||
+      pathLower.includes('/error/')
+    ) {
+      return ''
+    }
+  }
   if (trimmed.toLowerCase().includes('share.google/error')) return ''
 
   // Kurzlinks + Places; regional oft www.google.de/maps/... (nicht nur .com)
   const googleCcTld =
     /^([a-z0-9-]+\.)*google\.(com|de|at|ch|co\.uk|fr|nl|pl|cz|it|es)$/i
   const okHost =
+    host === 'share.google' ||
     host === 'maps.app.goo.gl' ||
     host === 'goo.gl' ||
     host === 'g.page' ||
@@ -98,8 +112,9 @@ function sanitizeGoogleBusinessUrl(raw: string): string {
 
 /**
  * Google Business Profile (Maps) — optional per VITE_GOOGLE_BUSINESS_URL setzen.
- * Empfohlen: „Link teilen“ aus Google Maps (Place-URL oder maps.app.goo.gl),
- * nicht die Fehler-URL aus dem Browser kopieren.
+ * Erlaubt u. a.: share.google/… (Teilen in Maps), maps.app.goo.gl, g.page,
+ * google.de/maps/… — oder Text mit Firmenname davor; die erste https-URL wird
+ * verwendet. Nicht verwenden: nur die Seite share.google/error.
  * Wichtig: Bei Vite muss die Variable beim **Build** gesetzt sein (z. B. Vercel
  * Environment → Production → Redeploy).
  */
@@ -109,7 +124,7 @@ export const SITE_GOOGLE_BUSINESS_URL: string = (() => {
   const out = sanitizeGoogleBusinessUrl(raw)
   if (import.meta.env.DEV && raw.trim().length > 0 && !out) {
     console.warn(
-      '[site] VITE_GOOGLE_BUSINESS_URL wird ignoriert (ungültige oder fehlerhafte URL). In Google Maps: „Teilen“ → Link kopieren (z. B. maps.app.goo.gl oder g.page).',
+      '[site] VITE_GOOGLE_BUSINESS_URL wird ignoriert (ungültige oder fehlerhafte URL). In Google Maps: „Teilen“ → Link kopieren (share.google/…, maps.app.goo.gl, google.de/maps/…).',
     )
   }
   return out
