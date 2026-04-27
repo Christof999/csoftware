@@ -7,6 +7,7 @@ import { DatenschutzPage } from './pages/DatenschutzPage'
 import { HomePage } from './pages/HomePage'
 import { ImpressumPage } from './pages/ImpressumPage'
 import { NotFoundPage } from './pages/NotFoundPage'
+import { AboutPage } from './pages/AboutPage'
 import { ServicesPage } from './pages/ServicesPage'
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
           <Route index element={<HomePage />} />
           <Route path="leistungen" element={<ServicesPage />} />
           <Route path="kontakt" element={<ContactPage />} />
+          <Route path="ueber-uns" element={<AboutPage />} />
           <Route path="impressum" element={<ImpressumPage />} />
           <Route path="datenschutz" element={<DatenschutzPage />} />
           <Route path="*" element={<NotFoundPage />} />

@@ -516,6 +516,213 @@ export function Services() {
         )
       })}
 
+      {/* SEO / AEO: Definitionen, Longtail, Vergleich */}
+      <section className="border-b border-gallery-line bg-gallery-surface py-20 sm:py-28">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+            variants={staggerContainer}
+            className="space-y-14"
+          >
+            <div>
+              <motion.h2
+                custom={0}
+                variants={fadeInUp}
+                className="font-display text-2xl font-semibold tracking-tight text-gallery-ink sm:text-3xl"
+              >
+                Webdesign in Ansbach und Mittelfranken
+              </motion.h2>
+              <motion.p
+                custom={1}
+                variants={fadeInUp}
+                className="mt-4 text-sm leading-relaxed text-shell-muted"
+              >
+                <strong className="font-medium text-gallery-ink">Webdesign</strong> ist
+                mehr als eine schöne Oberfläche: Es verbindet klare Botschaften, schnelle
+                Ladezeiten und eine Struktur, mit der Besucherinnen und Besucher sofort
+                verstehen, was Sie anbieten und wie sie Kontakt aufnehmen. Für Betriebe
+                in Ansbach, Rothenburg, Weißenburg und der weiteren Region Mittelfranken
+                ist ein professioneller Auftritt oft der erste „Berührungspunkt“ mit
+                Neukundinnen — analog zu Schaufenster und Aushang, nur digital.
+              </motion.p>
+              <motion.p
+                custom={2}
+                variants={fadeInUp}
+                className="mt-4 text-sm leading-relaxed text-shell-muted"
+              >
+                <strong className="font-medium text-gallery-ink">Eine Web-App</strong>{' '}
+                ist eine webbasierte Anwendung mit Logik und Daten: z. B. Buchungen,
+                interne Übersichten oder Formularketten, die über den Browser laufen und
+                auf Servern gespeichert werden. Typische Websites informieren und
+                verweisen auf Kontakt; Web-Apps erledigen wiederkehrende Arbeitsschritte
+                digital und sparen Zeit — besonders dort, wo Tabellen und E-Mail-Pingpong
+                heute noch den Alltag bestimmen.
+              </motion.p>
+            </div>
+
+            <div>
+              <motion.h2
+                custom={0}
+                variants={fadeInUp}
+                className="font-display text-xl font-semibold text-gallery-ink sm:text-2xl"
+              >
+                Was kostet Webdesign in Ansbach?
+              </motion.h2>
+              <motion.p
+                custom={1}
+                variants={fadeInUp}
+                className="mt-4 text-sm leading-relaxed text-shell-muted"
+              >
+                Es gibt keine pauschale „Preisliste“, die für jeden passt: Umfang,
+                Pflegebedarf, Schnittstellen und rechtliche Anforderungen variieren stark.
+                Orientierung geben wir im Erstgespräch mit einer nachvollziehbaren
+                Einschätzung — von schlanker Landingpage bis zu mehrsprachiger
+                Unternehmenswebsite. Wichtig ist: Sie erhalten keine versteckten Pakete,
+                sondern eine Aufteilung, die zu Ihren Prioritäten passt (Launch zuerst,
+                Erweiterungen später).
+              </motion.p>
+            </div>
+
+            <div>
+              <motion.h2
+                custom={0}
+                variants={fadeInUp}
+                className="font-display text-xl font-semibold text-gallery-ink sm:text-2xl"
+              >
+                Lokale SEO Ansbach: worum geht es?
+              </motion.h2>
+              <motion.p
+                custom={1}
+                variants={fadeInUp}
+                className="mt-4 text-sm leading-relaxed text-shell-muted"
+              >
+                Bei <strong className="font-medium text-gallery-ink">lokaler SEO</strong>{' '}
+                geht es darum, dass Menschen in Ihrer Region Sie finden, wenn sie z. B.
+                „Handwerker Website Ansbach“ oder „Dienstleister Mittelfranken“ suchen.
+                Dazu gehören konsistente Unternehmensdaten (Name, Adresse, Telefon),
+                verständliche Seitentexte und eine technisch saubere Website. Ein
+                gepflegtes Google-Unternehmensprofil verstärkt das Signal zusätzlich — wir
+                helfen bei der Abstimmung von Website und lokalem Auftritt.
+              </motion.p>
+            </div>
+
+            <div>
+              <motion.h2
+                custom={0}
+                variants={fadeInUp}
+                className="font-display text-xl font-semibold text-gallery-ink sm:text-2xl"
+              >
+                Website vs. Web-App: Wann macht was Sinn?
+              </motion.h2>
+              <motion.div custom={1} variants={fadeInUp} className="mt-6 overflow-x-auto">
+                <table className="w-full min-w-[280px] border-collapse text-left text-sm text-shell-muted">
+                  <caption className="sr-only">
+                    Vergleich Website und Web-App für KMU
+                  </caption>
+                  <thead>
+                    <tr className="border-b border-gallery-line">
+                      <th className="py-3 pr-4 font-display font-semibold text-gallery-ink">
+                        Kriterium
+                      </th>
+                      <th className="py-3 pr-4 font-display font-semibold text-gallery-ink">
+                        Website
+                      </th>
+                      <th className="py-3 font-display font-semibold text-gallery-ink">
+                        Web-App
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b border-gallery-line">
+                      <th className="py-3 pr-4 align-top font-medium text-gallery-ink">
+                        Hauptziel
+                      </th>
+                      <td className="py-3 pr-4 align-top">
+                        Informieren, Vertrauen aufbauen, Kontakt & Anfragen
+                      </td>
+                      <td className="py-3 align-top">
+                        Prozesse abbilden, Daten erfassen, Rollen & Logik
+                      </td>
+                    </tr>
+                    <tr className="border-b border-gallery-line">
+                      <th className="py-3 pr-4 align-top font-medium text-gallery-ink">
+                        Typische Nutzerin
+                      </th>
+                      <td className="py-3 pr-4 align-top">
+                        Interessentinnen, die sich orientieren möchten
+                      </td>
+                      <td className="py-3 align-top">
+                        Team, Kundinnen oder Partner mit wiederkehrenden Aufgaben
+                      </td>
+                    </tr>
+                    <tr className="border-b border-gallery-line">
+                      <th className="py-3 pr-4 align-top font-medium text-gallery-ink">
+                        Beispiel
+                      </th>
+                      <td className="py-3 pr-4 align-top">
+                        Leistungsseiten, Referenzen, Kontaktformular
+                      </td>
+                      <td className="py-3 align-top">
+                        Buchungsstrecke, internes Dashboard, Kundenportal
+                      </td>
+                    </tr>
+                    <tr>
+                      <th className="py-3 pr-4 align-top font-medium text-gallery-ink">
+                        Wann lohnt es sich?
+                      </th>
+                      <td className="py-3 pr-4 align-top">
+                        Wenn Sichtbarkeit und Glaubwürdigkeit im Vordergrund stehen
+                      </td>
+                      <td className="py-3 align-top">
+                        Wenn derselbe Ablauf oft digital wiederholt werden soll
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </motion.div>
+            </div>
+
+            <div>
+              <motion.h2
+                custom={0}
+                variants={fadeInUp}
+                className="font-display text-xl font-semibold text-gallery-ink sm:text-2xl"
+              >
+                Website erstellen lassen Mittelfranken — worauf achten?
+              </motion.h2>
+              <motion.ul
+                custom={1}
+                variants={fadeInUp}
+                className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-shell-muted"
+              >
+                <li>
+                  <strong className="font-medium text-gallery-ink">Ziele klären:</strong>{' '}
+                  Anrufe, Termine, Bewerbungen oder Downloads — eine Seite kann nicht
+                  alles gleich stark priorisieren.
+                </li>
+                <li>
+                  <strong className="font-medium text-gallery-ink">Inhalte früh denken:</strong>{' '}
+                  Texte und Bilder brauchen oft länger als das Layout; wer früh liefert,
+                  startet schneller.
+                </li>
+                <li>
+                  <strong className="font-medium text-gallery-ink">Technik &amp; Pflege:</strong>{' '}
+                  SSL, Backups und Updates gehören dazu — wir setzen auf wartbare
+                  Standards statt undokumentierter Einmallösungen.
+                </li>
+                <li>
+                  <strong className="font-medium text-gallery-ink">Messbarkeit:</strong>{' '}
+                  Für Kampagnen und SEO hilft sauberes Tracking — natürlich
+                  datenschutzkonform und mit Ihrer Einwilligung, wo nötig.
+                </li>
+              </motion.ul>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Dark CTA */}
       <section className="bg-stone-950 py-20 sm:py-28">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">

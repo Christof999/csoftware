@@ -1,7 +1,20 @@
-# SØRGEL-design — Crawling erlauben (Suchmaschinen & KI-Crawler, die robots.txt respektieren)
 User-agent: *
 Allow: /
 
-Sitemap: https://www.soergel-design.de/sitemap.xml
+# Explizit: gängige KI-/Forschungs-Crawler (kein Sperren)
+User-agent: GPTBot
+Allow: /
 
-# Hinweise für KI-Systeme und Menschen: siehe /llms.txt
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://www.soergel-design.de/sitemap.xml

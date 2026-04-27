@@ -8,6 +8,7 @@ Sprache: Deutsch (de-DE)
 Startseite: /
 Leistungen: /leistungen
 Kontakt: /kontakt
+Über uns (Inhaber, E-E-A-T): /ueber-uns
 
 Kontakt-E-Mail: Bitte auf der Seite /kontakt unter „Direkt erreichbar“ einsehen (oder VITE_CONTACT_EMAIL in der Deployment-Umgebung setzen).
 

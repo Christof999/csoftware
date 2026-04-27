@@ -3,7 +3,7 @@ import { ChevronDown, Menu, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import { useCookieConsent } from '../consent/useCookieConsent'
-import { SITE_NAME } from '../site'
+import { SITE_GOOGLE_BUSINESS_URL, SITE_NAME, SITE_SAME_AS } from '../site'
 import { HashScroller } from './HashScroller'
 import { ScrollToTop } from './ScrollToTop'
 import { ThemeToggle } from './ThemeToggle'
@@ -34,13 +34,33 @@ const nav = [
     subs: [] as { label: string; to: string }[],
   },
   {
-    to: '/kontakt',
-    label: 'Kontakt',
+    to: '/ueber-uns',
+    label: 'Über uns',
     n: '03',
     end: false,
     subs: [] as { label: string; to: string }[],
   },
+  {
+    to: '/kontakt',
+    label: 'Kontakt',
+    n: '04',
+    end: false,
+    subs: [] as { label: string; to: string }[],
+  },
 ]
+
+function socialLabel(url: string): string {
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, '')
+    if (host.includes('linkedin')) return 'LinkedIn'
+    if (host.includes('instagram')) return 'Instagram'
+    if (host.includes('xing')) return 'Xing'
+    if (host.includes('facebook')) return 'Facebook'
+    return host
+  } catch {
+    return 'Profil'
+  }
+}
 
 // ─── Layout ──────────────────────────────────────────────────────────────────
 
@@ -355,16 +375,50 @@ export function Layout() {
       </main>
 
       <footer className="border-t border-gallery-line bg-gallery-surface py-10">
-        <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <div>
-            <p className="text-sm font-medium text-gallery-ink">{SITE_NAME}</p>
-            <p className="mt-1 text-sm text-shell-muted">
-              Websites & digitale Lösungen — klar, direkt, für Sie gebaut.
-            </p>
+        <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="text-sm font-medium text-gallery-ink">{SITE_NAME}</p>
+              <p className="mt-1 text-sm text-shell-muted">
+                Websites & digitale Lösungen — klar, direkt, für Sie gebaut.
+              </p>
+            </div>
+            <nav
+              aria-label="Seiten und Profile"
+              className="flex flex-col gap-3 text-xs text-shell-muted sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-2"
+            >
+              <Link
+                to="/ueber-uns"
+                className="transition hover:text-gallery-ink"
+              >
+                Über uns
+              </Link>
+              {SITE_GOOGLE_BUSINESS_URL ? (
+                <a
+                  href={SITE_GOOGLE_BUSINESS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition hover:text-gallery-ink"
+                >
+                  Google Business
+                </a>
+              ) : null}
+              {SITE_SAME_AS.map((url) => (
+                <a
+                  key={url}
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition hover:text-gallery-ink"
+                >
+                  {socialLabel(url)}
+                </a>
+              ))}
+            </nav>
           </div>
           <nav
             aria-label="Rechtliche Hinweise"
-            className="flex flex-col gap-3 text-xs text-shell-muted sm:flex-row sm:items-center sm:gap-6"
+            className="flex flex-col gap-3 border-t border-gallery-line pt-8 text-xs text-shell-muted sm:flex-row sm:items-center sm:gap-6"
           >
             <Link
               to="/impressum"

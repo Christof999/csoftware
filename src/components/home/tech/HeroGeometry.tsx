@@ -235,7 +235,9 @@ export function HeroGeometry() {
       const tiltX = (m.y - 0.5) * 0.45
       const tiltY = (m.x - 0.5) * 0.45
 
-      const isDark = document.documentElement.classList.contains('dark')
+      const isDark =
+        typeof document !== 'undefined' &&
+        document.documentElement.classList.contains('dark')
       const scale = Math.max(0.45, width / REF_W)
 
       scene.current.forEach(obj => {
