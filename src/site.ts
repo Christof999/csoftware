@@ -56,11 +56,59 @@ export function siteOgImageUrl(): string {
 }
 
 /**
- * Google Business Profile (Maps) — optional per VITE_GOOGLE_BUSINESS_URL setzen,
- * z. B. https://maps.app.goo.gl/... für Footer, Kontakt und sameAs.
+ * Prüft öffentliche Maps-/GBP-Links. Ungültige oder Googles Fehler-Redirects
+ * (z. B. share.google/.../error) werden verworfen — sonst landen Besucher auf
+ * https://share.google/error .
  */
-export const SITE_GOOGLE_BUSINESS_URL: string =
-  typeof import.meta.env.VITE_GOOGLE_BUSINESS_URL === 'string' &&
-  import.meta.env.VITE_GOOGLE_BUSINESS_URL.trim().length > 0
-    ? import.meta.env.VITE_GOOGLE_BUSINESS_URL.trim()
-    : ''
+function sanitizeGoogleBusinessUrl(raw: string): string {
+  const trimmed = raw.trim()
+  if (!trimmed) return ''
+  if (!/^https:\/\//i.test(trimmed)) return ''
+
+  let url: URL
+  try {
+    url = new URL(trimmed)
+  } catch {
+    return ''
+  }
+
+  const host = url.hostname.toLowerCase()
+  const path = `${url.pathname}${url.search}`.toLowerCase()
+
+  if (host === 'share.google' && (path.includes('/error') || path === '/error'))
+    return ''
+  if (trimmed.toLowerCase().includes('share.google/error')) return ''
+
+  const okHost =
+    host === 'maps.app.goo.gl' ||
+    host === 'goo.gl' ||
+    host === 'g.page' ||
+    host.endsWith('.g.page') ||
+    host === 'www.google.com' ||
+    host === 'google.com' ||
+    host === 'maps.google.com' ||
+    host.endsWith('.google.com')
+
+  if (!okHost) return ''
+
+  return trimmed
+}
+
+/**
+ * Google Business Profile (Maps) — optional per VITE_GOOGLE_BUSINESS_URL setzen.
+ * Empfohlen: „Link teilen“ aus Google Maps (Place-URL oder maps.app.goo.gl),
+ * nicht die Fehler-URL aus dem Browser kopieren.
+ * Wichtig: Bei Vite muss die Variable beim **Build** gesetzt sein (z. B. Vercel
+ * Environment → Production → Redeploy).
+ */
+export const SITE_GOOGLE_BUSINESS_URL: string = (() => {
+  const raw = import.meta.env.VITE_GOOGLE_BUSINESS_URL
+  if (typeof raw !== 'string') return ''
+  const out = sanitizeGoogleBusinessUrl(raw)
+  if (import.meta.env.DEV && raw.trim().length > 0 && !out) {
+    console.warn(
+      '[site] VITE_GOOGLE_BUSINESS_URL wird ignoriert (ungültige oder fehlerhafte URL). In Google Maps: „Teilen“ → Link kopieren (z. B. maps.app.goo.gl oder g.page).',
+    )
+  }
+  return out
+})()
