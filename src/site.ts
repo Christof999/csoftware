@@ -79,15 +79,17 @@ function sanitizeGoogleBusinessUrl(raw: string): string {
     return ''
   if (trimmed.toLowerCase().includes('share.google/error')) return ''
 
+  // Kurzlinks + Places; regional oft www.google.de/maps/... (nicht nur .com)
+  const googleCcTld =
+    /^([a-z0-9-]+\.)*google\.(com|de|at|ch|co\.uk|fr|nl|pl|cz|it|es)$/i
   const okHost =
     host === 'maps.app.goo.gl' ||
     host === 'goo.gl' ||
     host === 'g.page' ||
     host.endsWith('.g.page') ||
-    host === 'www.google.com' ||
-    host === 'google.com' ||
     host === 'maps.google.com' ||
-    host.endsWith('.google.com')
+    host === 'maps.google.de' ||
+    googleCcTld.test(host)
 
   if (!okHost) return ''
 
