@@ -32,6 +32,8 @@ export function breadcrumbJsonLd(pathname: string): object | null {
   ]
   if (pathname === '/leistungen') {
     items.push({ name: 'Leistungen', url: `${SITE_ORIGIN}/leistungen` })
+  } else if (pathname === '/blog') {
+    items.push({ name: 'Blog', url: `${SITE_ORIGIN}/blog` })
   } else if (pathname === '/kontakt') {
     items.push({ name: 'Kontakt', url: `${SITE_ORIGIN}/kontakt` })
   } else if (pathname === '/ueber-uns') {

@@ -19,6 +19,7 @@ const HOME_TITLE = `${SITE_NAME} | Webdesign & SEO · Ansbach`
 export const KNOWN_PATHS = [
   '/',
   '/leistungen',
+  '/blog',
   '/kontakt',
   '/ueber-uns',
   '/impressum',
@@ -43,6 +44,11 @@ const ROUTE_META: Record<KnownPath, Omit<RouteMeta, 'indexable'>> = {
     title: `Leistungen | Webdesign, SEO & Print · Ansbach | ${SITE_NAME_ASCII}`,
     description:
       'Websites, lokale SEO, Google Ads, Web-Apps und Printdesign aus einer Hand — für Handwerk, Dienstleister und KMU in Ansbach und Mittelfranken. Leistungen ansehen und Kontakt aufnehmen.',
+  },
+  '/blog': {
+    title: `Blog | Webdesign, SEO & Digitales · ${SITE_NAME_ASCII}`,
+    description:
+      'Blog zu Webdesign, SEO, Performance und digitalen Themen — Einblicke und Tipps von SØRGEL-design aus Ansbach und Mittelfranken.',
   },
   '/kontakt': {
     title: `Kontakt & Projekt anfragen | ${SITE_NAME_ASCII}`,
