@@ -140,12 +140,14 @@ export function DatenschutzPage() {
             </p>
           </LegalBlock>
 
-          <LegalBlock title="5. Cookies & lokaler Speicher">
+          <LegalBlock id="cookies" title="5. Cookies & lokaler Speicher">
             <p>
-              Diese Website setzt grundsätzlich keine Tracking- oder
+              Diese Website setzt grundsätzlich keine werblichen Tracking- oder
               Marketing-Cookies. Im lokalen Speicher des Browsers
-              (localStorage) werden lediglich technisch notwendige oder
-              funktionale Einstellungen abgelegt:
+              (localStorage) werden technisch notwendige oder funktionale
+              Einstellungen abgelegt. Wenn Sie dem entsprechen, werden zudem
+              Inhalte von Drittanbietern geladen bzw. deren Skripte
+              ausgeführt — siehe unten (Google Fonts, Soro).
             </p>
             <ul className="mt-4 list-disc space-y-1 pl-5">
               <li>
@@ -168,9 +170,13 @@ export function DatenschutzPage() {
               <p className="mt-6 rounded-lg border border-gallery-line bg-gallery-surface px-4 py-3 text-xs text-shell-muted">
                 Aktuell gespeicherte Einwilligung:{' '}
                 <span className="font-medium text-gallery-ink">
-                  {preferences.fonts
-                    ? 'Notwendig + Externe Schriften'
-                    : 'Nur Notwendiges'}
+                  {[
+                    'Notwendiges',
+                    preferences.fonts && 'externe Schriften (Google Fonts)',
+                    preferences.embeds && 'Blog-Einbettung (Soro)',
+                  ]
+                    .filter(Boolean)
+                    .join(' · ')}
                 </span>{' '}
                 &middot; erteilt am{' '}
                 {new Date(decidedAt).toLocaleString('de-DE')}.
@@ -228,7 +234,42 @@ export function DatenschutzPage() {
             </p>
           </LegalBlock>
 
-          <LegalBlock title="7. Verschlüsselung (TLS/SSL)">
+          <LegalBlock title="7. Blog-Einbettung Soro (TrySoro)">
+            <p>
+              Auf der Seite <strong>/blog</strong> können wir Inhalte über
+              ein eingebettetes Blog-Widget der Plattform <strong>Soro</strong>{' '}
+              (TrySoro) anzeigen. Dazu wird — nur, wenn Sie dem in den
+              Cookie-Einstellungen zustimmen — ein Skript von{' '}
+              <span className="font-mono text-[0.9em]">app.trysoro.com</span>{' '}
+              geladen. Beim Abruf kann Ihr Browser u. a. Ihre IP-Adresse, den
+              User-Agent und technische Metadaten an Soro bzw. deren
+              Infrastruktur übermitteln. Soro bzw. der Anbieter kann dabei
+              auch Cookies oder ähnliche Technologien im Browser setzen, um
+              die Darstellung, Sitzung oder Sicherheit des Dienstes zu
+              gewährleisten; Details entnehmen Sie bitte der Datenschutzerklärung
+              des Anbieters.
+            </p>
+            <p className="mt-4">
+              Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO
+              (Einwilligung). Ohne Ihre Zustimmung wird das Soro-Skript auf
+              unserer Website nicht ausgeführt; der Blog-Bereich bleibt dann
+              ohne das eingebettete Widget.
+            </p>
+            <p className="mt-4">
+              Anbieterangaben und weitere Informationen:{' '}
+              <a
+                href="https://trysoro.com/privacy-policy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-gallery-line underline-offset-4 transition hover:decoration-gallery-ink"
+              >
+                trysoro.com/privacy-policy
+              </a>
+              .
+            </p>
+          </LegalBlock>
+
+          <LegalBlock title="8. Verschlüsselung (TLS/SSL)">
             <p>
               Diese Website nutzt aus Sicherheitsgründen eine TLS/SSL-
               Verschlüsselung. Sie erkennen eine verschlüsselte Verbindung
@@ -237,7 +278,7 @@ export function DatenschutzPage() {
             </p>
           </LegalBlock>
 
-          <LegalBlock title="8. Ihre Rechte">
+          <LegalBlock title="9. Ihre Rechte">
             <p>
               Sie haben uns gegenüber folgende Rechte hinsichtlich Ihrer
               personenbezogenen Daten:
@@ -266,7 +307,7 @@ export function DatenschutzPage() {
             </p>
           </LegalBlock>
 
-          <LegalBlock title="9. Beschwerderecht bei der Aufsichtsbehörde">
+          <LegalBlock title="10. Beschwerderecht bei der Aufsichtsbehörde">
             <p>
               Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde
               über die Verarbeitung Ihrer personenbezogenen Daten zu
@@ -288,7 +329,7 @@ export function DatenschutzPage() {
             </p>
           </LegalBlock>
 
-          <LegalBlock title="10. Änderungen dieser Datenschutzerklärung">
+          <LegalBlock title="11. Änderungen dieser Datenschutzerklärung">
             <p>
               Wir passen diese Datenschutzerklärung an, wenn sich die
               Rechtslage oder die von uns eingesetzten Dienste ändern. Es
@@ -306,14 +347,18 @@ export function DatenschutzPage() {
 }
 
 function LegalBlock({
+  id,
   title,
   children,
 }: {
+  id?: string
   title: string
   children: React.ReactNode
 }) {
   return (
     <motion.div
+      id={id}
+      className={id ? 'scroll-mt-24' : undefined}
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
