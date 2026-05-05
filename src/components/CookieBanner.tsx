@@ -107,6 +107,27 @@ const CATEGORIES: Array<{
       },
     ],
   },
+  {
+    key: 'embeds',
+    label: 'Blog-Einbettung (Soro)',
+    description:
+      'Lädt auf der Seite „Blog“ das eingebettete Blog-Widget von Soro (TrySoro). Ohne Zustimmung wird kein Skript von app.trysoro.com geladen.',
+    required: false,
+    services: [
+      {
+        id: 'soro-blog-embed',
+        category: 'embeds',
+        name: 'Soro Blog Embed',
+        purpose:
+          'Anzeige des Blog-Inhalts und des zugehörigen Widgets (Script von app.trysoro.com) auf der Seite /blog.',
+        provider: 'Soro / TrySoro (Betreiber laut Anbieter-Datenschutzhinweis, z. B. Digimeri OÜ, Estland)',
+        providerCountry: 'Estland / ggf. weitere Rechenzentren weltweit',
+        transferToThirdCountry: true,
+        legalBasis: 'Art. 6 Abs. 1 lit. a DSGVO (Einwilligung)',
+        duration: 'Sitzungs- bzw. anbieterabhängig; siehe Anbieter-Hinweis',
+      },
+    ],
+  },
 ]
 
 // ─── Banner ──────────────────────────────────────────────────────────────────
@@ -280,12 +301,13 @@ function SummaryView({
             transition={{ delay: 0.26, duration: 0.4 }}
             className="mt-2 text-sm leading-relaxed text-shell-muted"
           >
-            Wir nutzen kein Tracking und keine Werbe-Cookies. Für eine schönere
-            Typografie laden wir die Schrift{' '}
-            <span className="font-medium text-gallery-ink">Inter</span> von
-            Google Fonts — nur mit Ihrer Zustimmung. Dabei kann Ihre IP-Adresse
-            an Google in den USA übertragen werden. Ohne Zustimmung verwenden
-            wir die System-Schrift Ihres Geräts.
+            Wir nutzen kein werbliches Tracking. Für die Schrift „Inter" (Google
+            Fonts) und optional für den Blog auf dieser Website ein eingebettetes
+            Widget von Soro — jeweils nur mit Ihrer Zustimmung. Dabei kann Ihre
+            IP-Adresse u. a. an Anbieter in Drittländern (z. B. USA) übertragen
+            werden. Ohne Zustimmung zur Schrift nutzen wir die System-Schrift;
+            ohne Zustimmung zum Blog-Embed bleibt der Blog-Bereich ohne
+            Soro-Dienste.
           </motion.p>
           <motion.p
             initial={{ opacity: 0, y: 8 }}

@@ -34,7 +34,7 @@ export default defineConfig({
     vitePrerenderPlugin({
       renderTarget: '#root',
       prerenderScript: prerenderEntry,
-      additionalPrerenderRoutes: ['/ueber-uns'],
+      additionalPrerenderRoutes: ['/ueber-uns', '/blog'],
     }),
     exitAfterProductionBuild(),
   ],

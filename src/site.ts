@@ -55,6 +55,10 @@ export function siteOgImageUrl(): string {
   return `${SITE_ORIGIN}${SITE_OG_IMAGE_PATH}`
 }
 
+/** Soro Blog-Embed (externes Widget unter app.trysoro.com) */
+export const SORO_EMBED_SCRIPT_SRC =
+  'https://app.trysoro.com/api/embed/57e54aad-c6d6-4d34-848b-c8b3edf59a07'
+
 /**
  * Prüft öffentliche Maps-/GBP-Links.
  * Google Maps „Teilen“ liefert oft `https://share.google/…` (Kurzlink) —

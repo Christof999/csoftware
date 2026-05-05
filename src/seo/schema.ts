@@ -16,7 +16,7 @@ import {
 } from '../site'
 import { CONTACT_FAQ_ITEMS } from './contactFaq'
 import { HOME_PROCESS_STEPS } from './homeProcessSteps'
-import { isKnownPath } from './routeMeta'
+import { isKnownPath, normalizeRoutePath } from './routeMeta'
 
 const TEL_E164 = SITE_PHONE_TEL.replace(/^tel:/, '')
 
@@ -25,20 +25,23 @@ const GEO_LATITUDE = 49.2047
 const GEO_LONGITUDE = 10.6819
 
 export function breadcrumbJsonLd(pathname: string): object | null {
-  if (!SITE_ORIGIN || !isKnownPath(pathname)) return null
+  const path = normalizeRoutePath(pathname)
+  if (!SITE_ORIGIN || !isKnownPath(path)) return null
 
   const items: { name: string; url: string }[] = [
     { name: 'Start', url: `${SITE_ORIGIN}/` },
   ]
-  if (pathname === '/leistungen') {
+  if (path === '/leistungen') {
     items.push({ name: 'Leistungen', url: `${SITE_ORIGIN}/leistungen` })
-  } else if (pathname === '/kontakt') {
+  } else if (path === '/blog') {
+    items.push({ name: 'Blog', url: `${SITE_ORIGIN}/blog` })
+  } else if (path === '/kontakt') {
     items.push({ name: 'Kontakt', url: `${SITE_ORIGIN}/kontakt` })
-  } else if (pathname === '/ueber-uns') {
+  } else if (path === '/ueber-uns') {
     items.push({ name: 'Über uns', url: `${SITE_ORIGIN}/ueber-uns` })
-  } else if (pathname === '/impressum') {
+  } else if (path === '/impressum') {
     items.push({ name: 'Impressum', url: `${SITE_ORIGIN}/impressum` })
-  } else if (pathname === '/datenschutz') {
+  } else if (path === '/datenschutz') {
     items.push({ name: 'Datenschutz', url: `${SITE_ORIGIN}/datenschutz` })
   }
 
@@ -68,7 +71,7 @@ function sameAsUrls(): string[] {
 }
 
 export function faqPageJsonLd(pathname: string): object | null {
-  if (!SITE_ORIGIN || pathname !== '/kontakt') return null
+  if (!SITE_ORIGIN || normalizeRoutePath(pathname) !== '/kontakt') return null
 
   return {
     '@context': 'https://schema.org',
@@ -85,7 +88,7 @@ export function faqPageJsonLd(pathname: string): object | null {
 }
 
 export function howToHomeJsonLd(pathname: string): object | null {
-  if (!SITE_ORIGIN || pathname !== '/') return null
+  if (!SITE_ORIGIN || normalizeRoutePath(pathname) !== '/') return null
 
   return {
     '@context': 'https://schema.org',
