@@ -30,8 +30,19 @@ export type KnownPath = (typeof KNOWN_PATHS)[number]
 
 const KNOWN_SET = new Set<string>(KNOWN_PATHS)
 
+/**
+ * Gleicht Pfade mit dem Router ab: ohne trailing slash (außer Root `/`).
+ * Sonst liefert z. B. `/blog/` keine Treffer in KNOWN_PATHS und die Seite
+ * bekäme fälschlich noindex (404-Meta).
+ */
+export function normalizeRoutePath(pathname: string): string {
+  const raw = pathname.trim()
+  if (raw === '' || raw === '/') return '/'
+  return raw.replace(/\/+$/, '')
+}
+
 export function isKnownPath(pathname: string): boolean {
-  return KNOWN_SET.has(pathname)
+  return KNOWN_SET.has(normalizeRoutePath(pathname))
 }
 
 const ROUTE_META: Record<KnownPath, Omit<RouteMeta, 'indexable'>> = {
@@ -73,8 +84,9 @@ const ROUTE_META: Record<KnownPath, Omit<RouteMeta, 'indexable'>> = {
 }
 
 export function getRouteMeta(pathname: string): RouteMeta {
-  if (isKnownPath(pathname)) {
-    const base = ROUTE_META[pathname as KnownPath]
+  const path = normalizeRoutePath(pathname)
+  if (isKnownPath(path)) {
+    const base = ROUTE_META[path as KnownPath]
     return { ...base, indexable: true }
   }
   return {
@@ -86,5 +98,6 @@ export function getRouteMeta(pathname: string): RouteMeta {
 
 export function canonicalUrl(pathname: string): string {
   if (!SITE_ORIGIN) return ''
-  return `${SITE_ORIGIN}${pathname === '/' ? '' : pathname}`
+  const path = normalizeRoutePath(pathname)
+  return `${SITE_ORIGIN}${path === '/' ? '' : path}`
 }
