@@ -257,8 +257,10 @@ function AutomationMockup() {
             className="flex min-w-[100px] flex-[1.15] flex-col rounded-lg border border-gallery-ink/20 bg-gallery-surface p-3 shadow-sm"
           >
             <div className="flex items-center gap-2 mb-2">
-              <div className="h-6 w-6 rounded-md border border-gallery-line bg-gallery-bg flex items-center justify-center">
-                <span className="font-mono text-[9px] font-semibold text-gallery-ink">n8</span>
+              <div className="h-6 min-w-[1.75rem] rounded-md border border-gallery-line bg-gallery-bg flex items-center justify-center px-1">
+                <span className="font-mono text-[8px] font-semibold tracking-tight text-gallery-ink leading-none">
+                  n8n
+                </span>
               </div>
               <div className="flex-1 space-y-1">
                 <div className="h-2 w-full rounded-sm bg-gallery-ink/20" />

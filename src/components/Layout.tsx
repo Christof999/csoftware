@@ -19,6 +19,7 @@ const nav = [
     subs: [
       { label: 'Websites',           to: '/#websites' },
       { label: 'Web Apps',           to: '/#webapps' },
+      { label: 'Automatisierung',    to: '/#automatisierung' },
       { label: 'Print & Media',      to: '/#print-media' },
       { label: 'Ihre Vorteile',      to: '/#ihre-vorteile' },
       { label: 'Unser Versprechen',  to: '/#unser-versprechen' },
