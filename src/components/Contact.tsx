@@ -183,9 +183,11 @@ export function Contact() {
     const processDescription = String(data.get('processDescription') ?? '').trim()
     const honeypot = String(data.get('website') ?? '')
 
-    if (serviceType === 'webapp' && !processDescription) {
-      setErrorMessage('Bitte beschreiben Sie Ihren Prozess.')
-      return
+    if (serviceType === 'webapp' || serviceType === 'business_automation') {
+      if (!processDescription) {
+        setErrorMessage('Bitte beschreiben Sie Ihr Anliegen.')
+        return
+      }
     }
 
     const payload: Record<string, unknown> = {
@@ -200,7 +202,7 @@ export function Contact() {
     if (serviceType === 'website') {
       payload.hasWebsite = yesNoToBool(hasWebsite)
       payload.hasLogo = yesNoToBool(hasLogo)
-    } else if (serviceType === 'webapp') {
+    } else if (serviceType === 'webapp' || serviceType === 'business_automation') {
       payload.processDescription = processDescription
     } else {
       payload.hasLogo = yesNoToBool(hasLogo)
@@ -381,6 +383,10 @@ export function Contact() {
                           [
                             ['website', SERVICE_TYPE_LABEL.website],
                             ['webapp', SERVICE_TYPE_LABEL.webapp],
+                            [
+                              'business_automation',
+                              SERVICE_TYPE_LABEL.business_automation,
+                            ],
                             ['design_print', SERVICE_TYPE_LABEL.design_print],
                           ] as const
                         ).map(([value, label]) => (
@@ -500,9 +506,9 @@ export function Contact() {
                           </motion.div>
                         )}
 
-                        {serviceType === 'webapp' && (
+                        {serviceType === 'webapp' || serviceType === 'business_automation' ? (
                           <motion.div
-                            key="webapp-fields"
+                            key={`process-fields-${serviceType}`}
                             initial={{ opacity: 0, y: 8 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -6 }}
@@ -511,9 +517,19 @@ export function Contact() {
                           >
                             <label htmlFor="contact-process" className="block w-full">
                               <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
-                                Beschreiben Sie Ihren Prozess{' '}
-                                <span aria-hidden="true">*</span>
-                                <span className="sr-only">Pflichtfeld</span>
+                                {serviceType === 'webapp' ? (
+                                  <>
+                                    Beschreiben Sie Ihren Prozess{' '}
+                                    <span aria-hidden="true">*</span>
+                                    <span className="sr-only">Pflichtfeld</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    Welche Aufgaben sollen automatisiert werden?{' '}
+                                    <span aria-hidden="true">*</span>
+                                    <span className="sr-only">Pflichtfeld</span>
+                                  </>
+                                )}
                               </span>
                               <AutoGrowTextarea
                                 id="contact-process"
@@ -523,15 +539,19 @@ export function Contact() {
                                 maxLength={5000}
                                 minRows={4}
                                 className={textareaClass}
-                                placeholder="Was soll verbessert oder digital abgebildet werden?"
+                                placeholder={
+                                  serviceType === 'webapp'
+                                    ? 'Was soll verbessert oder digital abgebildet werden?'
+                                    : 'z. B. E-Mails mit Rechnungs-PDF erkennen und drucken, KI-Telefonassistent, n8n-Anbindung an CRM …'
+                                }
                               />
                             </label>
-                            <label htmlFor="contact-notes-webapp" className="block w-full">
+                            <label htmlFor="contact-notes-process" className="block w-full">
                               <span className="mb-2 block text-xs font-medium uppercase tracking-wide text-shell-subtle">
                                 Anmerkungen
                               </span>
                               <AutoGrowTextarea
-                                id="contact-notes-webapp"
+                                id="contact-notes-process"
                                 name="notes"
                                 maxLength={5000}
                                 minRows={3}
@@ -540,7 +560,7 @@ export function Contact() {
                               />
                             </label>
                           </motion.div>
-                        )}
+                        ) : null}
 
                         {serviceType === 'design_print' && (
                           <motion.div

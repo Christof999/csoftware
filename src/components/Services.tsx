@@ -1,10 +1,13 @@
 import { motion } from 'framer-motion'
 import {
   ArrowRight,
+  Bot,
   Globe,
   LayoutTemplate,
   LineChart,
+  Mail,
   Palette,
+  Phone,
   Printer,
   Search,
   Smartphone,
@@ -186,6 +189,152 @@ const SWATCHES = [
   '#d6523c',
 ]
 
+function ConnectorArrow() {
+  return (
+    <div className="flex flex-1 items-center justify-center min-w-[12px] px-1">
+      <motion.div
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.35, ease: 'easeOut' }}
+        className="h-px w-full origin-left bg-gradient-to-r from-gallery-line via-gallery-ink/25 to-gallery-line"
+        aria-hidden
+      />
+      <span className="mx-0.5 shrink-0 text-[10px] text-shell-subtle" aria-hidden>
+        ▶
+      </span>
+      <motion.div
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.35, delay: 0.08, ease: 'easeOut' }}
+        className="h-px w-full origin-left bg-gradient-to-r from-gallery-line via-gallery-ink/25 to-gallery-line"
+        aria-hidden
+      />
+    </div>
+  )
+}
+
+function AutomationMockup() {
+  return (
+    <div className="rounded-xl border border-gallery-line bg-gallery-surface shadow-xl overflow-hidden select-none">
+      <div className="flex items-center gap-2 border-b border-gallery-line bg-gallery-bg px-4 py-3">
+        <div className="flex gap-1.5">
+          <div className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
+          <div className="h-2.5 w-2.5 rounded-full bg-yellow-400/70" />
+          <div className="h-2.5 w-2.5 rounded-full bg-green-400/70" />
+        </div>
+        <div className="ml-2 flex-1 rounded border border-gallery-line bg-gallery-surface px-3 py-1 text-[11px] text-shell-subtle">
+          automation · entwurf
+        </div>
+      </div>
+      <div className="p-5 space-y-5">
+        <p className="text-[10px] font-medium uppercase tracking-widest text-shell-subtle">
+          Workflow
+        </p>
+        {/* Hauptpfad: Eingang → Automation → Ausgang */}
+        <div className="flex flex-wrap items-stretch gap-y-3 sm:flex-nowrap">
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.35 }}
+            className="flex min-w-[88px] flex-1 flex-col rounded-lg border border-gallery-line bg-gallery-bg p-3"
+          >
+            <div className="h-2 w-10 rounded-sm bg-gallery-ink/25 mb-2" />
+            <div className="h-1.5 w-full rounded-sm bg-gallery-ink/10 mb-1" />
+            <div className="h-1.5 w-4/5 rounded-sm bg-gallery-ink/8" />
+            <p className="mt-3 text-[9px] font-medium uppercase tracking-wide text-shell-muted">
+              E-Mail
+            </p>
+          </motion.div>
+          <ConnectorArrow />
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.35, delay: 0.1 }}
+            className="flex min-w-[100px] flex-[1.15] flex-col rounded-lg border border-gallery-ink/20 bg-gallery-surface p-3 shadow-sm"
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <div className="h-6 w-6 rounded-md border border-gallery-line bg-gallery-bg flex items-center justify-center">
+                <span className="font-mono text-[9px] font-semibold text-gallery-ink">n8</span>
+              </div>
+              <div className="flex-1 space-y-1">
+                <div className="h-2 w-full rounded-sm bg-gallery-ink/20" />
+                <div className="h-1.5 w-2/3 rounded-sm bg-gallery-ink/10" />
+              </div>
+            </div>
+            <div className="rounded border border-dashed border-gallery-line px-2 py-1.5 text-[9px] text-shell-muted leading-snug">
+              KI · Regeln · APIs
+            </div>
+            <p className="mt-2 text-[9px] font-medium uppercase tracking-wide text-shell-muted">
+              Automation
+            </p>
+          </motion.div>
+          <ConnectorArrow />
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.35, delay: 0.2 }}
+            className="flex min-w-[88px] flex-1 flex-col rounded-lg border border-gallery-line bg-gallery-bg p-3"
+          >
+            <div className="h-8 w-full rounded-md bg-gallery-ink/12 mb-2" />
+            <div className="h-1.5 w-3/4 rounded-sm bg-gallery-ink/10" />
+            <p className="mt-3 text-[9px] font-medium uppercase tracking-wide text-shell-muted">
+              Druck / Archiv
+            </p>
+          </motion.div>
+        </div>
+        {/* Zweig: Sprache */}
+        <div className="flex items-start gap-3 border-t border-gallery-line pt-4">
+          <motion.div
+            initial={{ opacity: 0, x: -6 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.35, delay: 0.15 }}
+            className="w-28 shrink-0 rounded-lg border border-gallery-line bg-gallery-bg p-3"
+          >
+            <div className="h-2 w-8 rounded-sm bg-gallery-ink/20 mb-2" />
+            <div className="h-6 w-full rounded-md border border-gallery-line bg-gallery-surface" />
+            <p className="mt-2 text-[9px] font-medium uppercase tracking-wide text-shell-muted">
+              Anruf
+            </p>
+          </motion.div>
+          <div className="flex flex-1 flex-col items-center pt-4 text-shell-subtle">
+            <motion.div
+              initial={{ height: 0 }}
+              whileInView={{ height: 20 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: 0.2 }}
+              className="w-px bg-gallery-line"
+              aria-hidden
+            />
+            <span className="text-[9px] mt-1">→ Workflow</span>
+          </div>
+          <motion.div
+            initial={{ opacity: 0, x: 6 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.35, delay: 0.25 }}
+            className="flex-1 rounded-lg border border-gallery-line bg-gallery-bg p-3 min-h-[72px]"
+          >
+            <div className="h-2 w-16 rounded-sm bg-gallery-ink/15 mb-2" />
+            <div className="space-y-1">
+              <div className="h-1.5 w-full rounded-sm bg-gallery-ink/10" />
+              <div className="h-1.5 w-5/6 rounded-sm bg-gallery-ink/8" />
+            </div>
+            <p className="mt-2 text-[9px] font-medium uppercase tracking-wide text-shell-muted">
+              CRM / Ticket
+            </p>
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function DesignMockup() {
   return (
     <div className="rounded-xl border border-gallery-line bg-gallery-surface shadow-xl overflow-hidden select-none">
@@ -345,6 +494,44 @@ const CHAPTERS = [
     ],
     Mockup: DesignMockup,
     bg: 'bg-gallery-bg',
+  },
+  {
+    id: 'chapter-04',
+    n: '04',
+    eyebrow: 'Automatisierung & KI',
+    title: 'Wiederkehrende Aufgaben — zuverlässig im Hintergrund.',
+    lead:
+      'Wir verbinden Postfach, Telefonie, CRM, Shop oder Drucker mit Automatisierungs-Tools wie n8n und sinnvollen KI-Bausteinen: weniger Copy-and-Paste, weniger Fehler, mehr Zeit fürs Kerngeschäft — für KMU, Handwerk und Dienstleister in Mittelfranken.',
+    uses: [
+      'E-Mail-Kategorisierung & Belege',
+      'KI-Telefonassistent',
+      'Rechnungs-Workflow & automatischer Druck',
+      'n8n-Workflows & Schnittstellen',
+    ],
+    features: [
+      {
+        Icon: Bot,
+        title: 'KI-gestützte Schritte',
+        text: 'Anfragen klassifizieren, Freitexte strukturieren oder Voicemails auswerten — mit klaren Regeln und menschlicher Freigabe, wo es nötig ist.',
+      },
+      {
+        Icon: Phone,
+        title: 'Voice & Erreichbarkeit',
+        text: 'Telefonassistent, Weiterleitung nach Thema oder Brücke ins Ticketsystem — damit Anrufe nicht in der Mailbox hängen bleiben.',
+      },
+      {
+        Icon: Mail,
+        title: 'Postfach & Dokumente',
+        text: 'E-Mails nach Absender oder Inhalt sortieren, PDF-Rechnungen erkennen und automatisch drucken oder ins Archiv legen.',
+      },
+      {
+        Icon: Workflow,
+        title: 'n8n & Integrationen',
+        text: 'Stabile Workflows zwischen Google Workspace, Microsoft 365, ERP/Shop und APIs — dokumentiert, testbar und wartbar.',
+      },
+    ],
+    Mockup: AutomationMockup,
+    bg: 'bg-gallery-surface',
   },
 ]
 
@@ -605,6 +792,32 @@ export function Services() {
                 verständliche Seitentexte und eine technisch saubere Website. Ein
                 gepflegtes Google-Unternehmensprofil verstärkt das Signal zusätzlich — wir
                 helfen bei der Abstimmung von Website und lokalem Auftritt.
+              </motion.p>
+            </div>
+
+            <div>
+              <motion.h2
+                custom={0}
+                variants={fadeInUp}
+                className="font-display text-xl font-semibold text-gallery-ink sm:text-2xl"
+              >
+                Business Automation mit n8n und KI — wofür eignet sich das?
+              </motion.h2>
+              <motion.p
+                custom={1}
+                variants={fadeInUp}
+                className="mt-4 text-sm leading-relaxed text-shell-muted"
+              >
+                <strong className="font-medium text-gallery-ink">Business Automation</strong>{' '}
+                bedeutet: wiederkehrende Schritte im Betrieb laufen ohne ständiges
+                Nachklicken — z. B. wenn eine Rechnung als PDF eintrifft, automatisch
+                kategorisiert, abgelegt und zum Drucker geschickt wird, oder wenn ein{' '}
+                <strong className="font-medium text-gallery-ink">KI-Telefonassistent</strong>{' '}
+                Standardfragen beantwortet und komplexe Fälle an Ihr Team übergibt. Mit
+                Tools wie <strong className="font-medium text-gallery-ink">n8n</strong>{' '}
+                lassen sich E-Mail, Kalender, Cloud-Speicher und Branchensoftware zuverlässig
+                verknüpfen; KI ergänzt dort, wo flexible Text- oder Bildauswertung nötig ist —
+                immer im Rahmen von Datenschutz und nachvollziehbaren Regeln.
               </motion.p>
             </div>
 

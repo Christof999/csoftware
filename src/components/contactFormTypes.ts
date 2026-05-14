@@ -1,10 +1,11 @@
 /** Werte für das Kontaktformular (API + E-Mail-Aufbau) */
 
-export type ServiceType = 'website' | 'webapp' | 'design_print'
+export type ServiceType = 'website' | 'webapp' | 'business_automation' | 'design_print'
 
 export const SERVICE_TYPE_LABEL: Record<ServiceType, string> = {
   website: 'Website',
   webapp: 'Web-App',
+  business_automation: 'Business-Automatisierung',
   design_print: 'Design & Druck',
 }
 

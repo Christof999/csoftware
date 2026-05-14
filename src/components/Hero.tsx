@@ -24,7 +24,7 @@ export function Hero() {
             className="inline-flex items-center gap-3 text-xs font-medium uppercase tracking-widest text-shell-muted"
           >
             <span className="h-px w-8 bg-shell-subtle inline-block" aria-hidden />
-            Websites · WebApps · SEO · Media
+            Websites · WebApps · Automatisierung · SEO · Media
           </motion.p>
 
           <motion.h1
@@ -42,7 +42,8 @@ export function Hero() {
             variants={fadeInUp}
             className="mt-4 font-display text-xl font-semibold tracking-tight text-gallery-ink sm:text-2xl"
           >
-            Von der Idee zur digitalen Lösung – Websites & Web-Apps aus einer Hand.
+            Von der Idee zur digitalen Lösung – Websites, Web-Apps und Automatisierung aus
+            einer Hand.
           </motion.p>
 
           <motion.div

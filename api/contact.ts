@@ -18,7 +18,7 @@ import nodemailer from 'nodemailer'
  *                     keine Konfigurationsdetails preis (404).
  */
 
-type ServiceType = 'website' | 'webapp' | 'design_print'
+type ServiceType = 'website' | 'webapp' | 'business_automation' | 'design_print'
 
 type ContactBody = {
   name?: string
@@ -40,6 +40,8 @@ function serviceTypeLabel(t: ServiceType): string {
       return 'Website'
     case 'webapp':
       return 'Web-App'
+    case 'business_automation':
+      return 'Business-Automatisierung'
     case 'design_print':
       return 'Design & Druck'
     default:
@@ -179,7 +181,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         .filter((id) => allowedFocus.has(id))
     : []
 
-  const validTypes: ServiceType[] = ['website', 'webapp', 'design_print']
+  const validTypes: ServiceType[] = ['website', 'webapp', 'business_automation', 'design_print']
   if (!validTypes.includes(serviceType)) {
     return res
       .status(400)
@@ -213,10 +215,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
   }
 
-  if (serviceType === 'webapp' && !processDescription) {
+  if (
+    (serviceType === 'webapp' || serviceType === 'business_automation') &&
+    !processDescription
+  ) {
     return res.status(400).json({
       ok: false,
-      error: 'Bitte beschreiben Sie Ihren Prozess (Web-App).',
+      error: 'Bitte beschreiben Sie Ihr Anliegen (Prozess bzw. Automatisierung).',
     })
   }
 
@@ -235,8 +240,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       detailLines.push('Anmerkungen:')
       detailLines.push(notes)
     }
-  } else if (serviceType === 'webapp') {
-    detailLines.push('Beschreiben Sie Ihren Prozess:')
+  } else if (serviceType === 'webapp' || serviceType === 'business_automation') {
+    detailLines.push(
+      serviceType === 'webapp'
+        ? 'Beschreiben Sie Ihren Prozess:'
+        : 'Gewünschte Automatisierung:',
+    )
     detailLines.push(processDescription)
     if (notes) {
       detailLines.push('')
