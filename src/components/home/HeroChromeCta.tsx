@@ -76,7 +76,7 @@ export function HeroChromeCta({ to }: { to: string }) {
   return (
     <Link
       to={to}
-      className="group relative inline-flex min-h-[3rem] select-none items-center justify-center gap-2 overflow-hidden rounded-full border border-white/35 px-7 py-3 text-sm font-semibold tracking-tight text-neutral-800 shadow-[0_10px_28px_-6px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.55)] transition-[transform,box-shadow] duration-200 hover:scale-[1.02] hover:shadow-[0_14px_36px_-8px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.65)] active:scale-[0.99] dark:border-white/12 dark:text-neutral-100 dark:shadow-[0_12px_32px_-6px_rgba(0,0,0,0.75),inset_0_1px_0_rgba(255,255,255,0.14)] dark:hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.18)]"
+      className="group relative inline-flex min-h-[3.75rem] select-none items-center justify-center gap-2 overflow-hidden rounded-full border border-white/35 px-8 py-4 text-sm font-semibold tracking-tight text-neutral-800 shadow-[0_10px_28px_-6px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.55)] transition-[transform,box-shadow] duration-200 hover:scale-[1.02] hover:shadow-[0_14px_36px_-8px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.65)] active:scale-[0.99] dark:border-white/12 dark:text-neutral-100 dark:shadow-[0_12px_32px_-6px_rgba(0,0,0,0.75),inset_0_1px_0_rgba(255,255,255,0.14)] dark:hover:shadow-[0_16px_40px_-8px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.18)]"
     >
       {/* Statische Metallfläche (immer) */}
       <span
@@ -116,7 +116,7 @@ export function HeroChromeCta({ to }: { to: string }) {
       >
         Unverbindlich anfragen
         <ArrowRight
-          className="h-4 w-4 shrink-0 opacity-90"
+          className="h-5 w-5 shrink-0 opacity-90"
           strokeWidth={2}
           aria-hidden
         />
