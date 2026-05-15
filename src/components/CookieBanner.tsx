@@ -132,7 +132,7 @@ const CATEGORIES: Array<{
     key: 'camera',
     label: 'Gerätekamera (Startseite)',
     description:
-      'Erlaubt auf der Startseite einen Live-Spiegel-Effekt auf dem Button „Unverbindlich anfragen“. Es wird nichts aufgezeichnet oder übertragen — nur die lokale Vorschau im Browser.',
+      'Erlaubt auf der Startseite einen Live-Spiegel-Effekt auf dem Button „Unverbindlich anfragen“. Enthalten in „Alle akzeptieren“; Ihr Browser fragt danach gesondert nach Kamera-Zugriff. Es wird nichts aufgezeichnet oder übertragen — nur die lokale Vorschau im Browser.',
     required: false,
     services: [
       {
@@ -325,13 +325,15 @@ function SummaryView({
             Wir nutzen kein werbliches Tracking. Für die Schrift „Inter" (Google
             Fonts), optional für den Blog ein eingebettetes Widget von Soro sowie
             optional die Gerätekamera für einen Spiegel-Effekt auf der Startseite —
-            jeweils nur mit Ihrer Zustimmung in den Einstellungen. Bei Fonts und
-            Blog kann Ihre IP-Adresse u. a. an Anbieter in Drittländern (z. B. USA)
+            jeweils nur mit Ihrer Zustimmung über diesen Hinweis. Bei Fonts und Blog
+            kann Ihre IP-Adresse u. a. an Anbieter in Drittländern (z. B. USA)
             übertragen werden. Ohne Zustimmung zur Schrift nutzen wir die
-            System-Schrift; ohne Blog-Zustimmung bleibt der Blog-Bereich ohne
-            Soro; ohne Kamera-Zustimmung bleibt der Button in reiner Chrom-Optik
-            ohne Livebild. „Alle akzeptieren“ aktiviert die Kamera nicht — dafür
-            bitte Einstellungen öffnen.
+            System-Schrift; ohne Blog-Zustimmung bleibt der Blog-Bereich ohne Soro.
+            Wenn Sie der Kamera-Einwilligung zustimmen (über „Alle akzeptieren“ oder
+            in den Einstellungen), fragt Ihr Browser beim Besuch der Startseite{' '}
+            <strong className="font-medium text-gallery-ink">gesondert</strong> nach
+            Zugriff auf die Kamera — dort können Sie erlauben oder ablehnen; ohne
+            Browser-Erlaubnis bleibt der Button in reiner Chrom-Optik ohne Livebild.
           </motion.p>
           <motion.p
             initial={{ opacity: 0, y: 8 }}

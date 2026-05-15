@@ -39,6 +39,13 @@ export function HeroChromeCta({ to }: { to: string }) {
 
     async function run() {
       try {
+        // Kurz warten, bis der Cookie-Dialog zu ist — sonst kann der Browser-Prompt
+        // leicht übersehen werden oder hinter dem Overlay hängen.
+        await new Promise<void>((resolve) => {
+          window.setTimeout(resolve, 400)
+        })
+        if (cancelled) return
+
         const stream = await navigator.mediaDevices.getUserMedia({
           video: { facingMode: 'user', width: { ideal: 720 }, height: { ideal: 480 } },
           audio: false,

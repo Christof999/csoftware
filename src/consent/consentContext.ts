@@ -3,7 +3,7 @@ import { createContext } from 'react'
 /** Wird bei strukturellen Änderungen (neuer Dienst, neue Kategorie …) erhöht.
  * Führt dazu, dass gespeicherte ältere Entscheidungen als ungültig behandelt
  * werden und das Banner erneut erscheint. */
-export const CONSENT_VERSION = 4
+export const CONSENT_VERSION = 5
 
 export const CONSENT_STORAGE_KEY = 'sorgel-design-consent'
 

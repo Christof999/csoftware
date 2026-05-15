@@ -107,7 +107,7 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const acceptAll = useCallback(() => {
-    persist({ necessary: true, fonts: true, embeds: true, camera: false })
+    persist({ necessary: true, fonts: true, embeds: true, camera: true })
   }, [persist])
 
   const rejectAll = useCallback(() => {

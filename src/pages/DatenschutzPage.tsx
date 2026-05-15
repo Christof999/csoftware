@@ -276,21 +276,25 @@ export function DatenschutzPage() {
 
           <LegalBlock title="8. Gerätekamera (optional, Startseite)">
             <p>
-              Wenn Sie in den Cookie-Einstellungen der Website ausdrücklich
-              zustimmen, kann Ihr Browser auf die integrierte oder angeschlossene
-              Kamera zugreifen (<span className="font-mono text-[0.9em]">getUserMedia</span>),
+              Wenn Sie im Cookie-Hinweis der Website ausdrücklich zustimmen
+              (über „Alle akzeptieren“ oder die Einzelwahl in den Einstellungen),
+              kann Ihr Browser auf die integrierte oder angeschlossene Kamera
+              zugreifen (<span className="font-mono text-[0.9em]">getUserMedia</span>),
               um auf der Startseite einen Spiegel-Effekt auf dem Button
-              „Unverbindlich anfragen“ darzustellen. Das Bild wird nur lokal im
-              Browser verarbeitet und weder von uns gespeichert noch an uns oder
-              Dritte übermittelt. Beenden Sie den Seitenaufruf oder widerrufen
-              Sie die Einwilligung, endet der Zugriff; es wird kein separates
-              Cookie gesetzt — die Einstellung ist in{' '}
+              „Unverbindlich anfragen“ darzustellen. Zusätzlich fragt der Browser
+              in der Regel noch einmal gesondert nach Erlaubnis für den
+              Kamera-Zugriff; ohne diese Browser-Freigabe bleibt es bei der
+              statischen Chrom-Optik. Das Bild wird nur lokal im Browser verarbeitet
+              und weder von uns gespeichert noch an uns oder Dritte übermittelt.
+              Beenden Sie den Seitenaufruf oder widerrufen Sie die Einwilligung,
+              endet der Zugriff; es wird kein separates Cookie gesetzt — die
+              Einstellung ist in{' '}
               <span className="font-mono text-[0.9em]">sorgel-design-consent</span>{' '}
               (localStorage) enthalten.
             </p>
             <p className="mt-4">
               Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO (Einwilligung).
-              Ohne Ihre Zustimmung in den Einstellungen wird die Kamera nicht
+              Ohne Ihre Zustimmung im Cookie-Hinweis wird die Kamera nicht
               angesprochen; der Button erscheint weiterhin in einer statischen
               Chrom-Optik ohne Livebild.
             </p>
