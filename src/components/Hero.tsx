@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { fadeInUp } from '../lib/motion'
+import { HeroChromeCta } from './home/HeroChromeCta'
 import { HeroGeometry } from './home/tech/HeroGeometry'
 
 export function Hero() {
@@ -51,13 +51,7 @@ export function Hero() {
             variants={fadeInUp}
             className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
           >
-            <Link
-              to="/kontakt"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 px-6 py-3.5 text-sm font-medium text-white transition hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
-            >
-              Unverbindlich anfragen
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
+            <HeroChromeCta to="/kontakt" />
             <Link
               to="/leistungen"
               className="inline-flex items-center justify-center rounded-lg border border-gallery-line bg-gallery-bg px-6 py-3.5 text-sm font-medium text-gallery-ink transition hover:border-stone-400 dark:hover:border-stone-600"

@@ -128,6 +128,27 @@ const CATEGORIES: Array<{
       },
     ],
   },
+  {
+    key: 'camera',
+    label: 'Gerätekamera (Startseite)',
+    description:
+      'Erlaubt auf der Startseite einen Live-Spiegel-Effekt auf dem Button „Unverbindlich anfragen“. Es wird nichts aufgezeichnet oder übertragen — nur die lokale Vorschau im Browser.',
+    required: false,
+    services: [
+      {
+        id: 'hero-chrome-camera',
+        category: 'camera',
+        name: 'Kamera-Vorschau (Chrome-Button)',
+        purpose:
+          'Optionaler Zugriff auf die Gerätekamera ausschließlich für einen visuellen Spiegel-/Metall-Effekt auf dem primären Call-to-Action der Startseite. Keine Speicherung, kein Versand des Bildes an unsere Server.',
+        provider: 'Eigene Website (Browser getUserMedia)',
+        providerCountry: 'Lokal im Browser',
+        transferToThirdCountry: false,
+        legalBasis: 'Art. 6 Abs. 1 lit. a DSGVO (Einwilligung)',
+        duration: 'Nur während der aktiven Seitenansicht; kein Cookie — Einstellung in sorgel-design-consent',
+      },
+    ],
+  },
 ]
 
 // ─── Banner ──────────────────────────────────────────────────────────────────
@@ -302,12 +323,15 @@ function SummaryView({
             className="mt-2 text-sm leading-relaxed text-shell-muted"
           >
             Wir nutzen kein werbliches Tracking. Für die Schrift „Inter" (Google
-            Fonts) und optional für den Blog auf dieser Website ein eingebettetes
-            Widget von Soro — jeweils nur mit Ihrer Zustimmung. Dabei kann Ihre
-            IP-Adresse u. a. an Anbieter in Drittländern (z. B. USA) übertragen
-            werden. Ohne Zustimmung zur Schrift nutzen wir die System-Schrift;
-            ohne Zustimmung zum Blog-Embed bleibt der Blog-Bereich ohne
-            Soro-Dienste.
+            Fonts), optional für den Blog ein eingebettetes Widget von Soro sowie
+            optional die Gerätekamera für einen Spiegel-Effekt auf der Startseite —
+            jeweils nur mit Ihrer Zustimmung in den Einstellungen. Bei Fonts und
+            Blog kann Ihre IP-Adresse u. a. an Anbieter in Drittländern (z. B. USA)
+            übertragen werden. Ohne Zustimmung zur Schrift nutzen wir die
+            System-Schrift; ohne Blog-Zustimmung bleibt der Blog-Bereich ohne
+            Soro; ohne Kamera-Zustimmung bleibt der Button in reiner Chrom-Optik
+            ohne Livebild. „Alle akzeptieren“ aktiviert die Kamera nicht — dafür
+            bitte Einstellungen öffnen.
           </motion.p>
           <motion.p
             initial={{ opacity: 0, y: 8 }}
