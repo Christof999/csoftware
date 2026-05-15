@@ -4,16 +4,17 @@ import { Link } from 'react-router-dom'
 import { fadeInUp, staggerContainer } from '../../lib/motion'
 
 const EXAMPLES = [
-  'Zeiterfassungsapp',
-  'Auftragsmanagement',
-  'Kundenportal',
+  'E-Mail & Belege',
+  'KI-Telefonassistent',
+  'n8n-Workflows',
+  'Rechnung & Druck',
 ]
 
-export function HomeManifesto() {
+export function HomeAutomation() {
   return (
     <section
-      id="webapps"
-      className="bg-gallery-surface py-20 sm:py-28 dark:bg-stone-950"
+      id="automatisierung"
+      className="border-y border-gallery-line bg-gallery-bg py-20 sm:py-28 dark:border-stone-800 dark:bg-stone-950"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -28,7 +29,7 @@ export function HomeManifesto() {
             variants={fadeInUp}
             className="pt-1 text-xs font-medium uppercase tracking-widest text-shell-muted dark:text-stone-500"
           >
-            Web Apps
+            Automatisierung
           </motion.p>
 
           <div>
@@ -41,7 +42,7 @@ export function HomeManifesto() {
                 className="inline-block h-px w-8 bg-gallery-line dark:bg-stone-700"
                 aria-hidden
               />
-              Web Apps · Prozessautomationen · Prozessabbildungen
+              Business Automation · n8n · KI · Schnittstellen
             </motion.p>
 
             <motion.h2
@@ -49,9 +50,10 @@ export function HomeManifesto() {
               variants={fadeInUp}
               className="mt-5 font-display text-3xl font-semibold leading-tight tracking-tight text-gallery-ink sm:text-4xl sm:leading-[1.12] dark:text-stone-100"
             >
-              Ideen umsetzen.{' '}
-              <span className="text-shell-muted dark:text-stone-500">Probleme lösen.</span>{' '}
-              Alltag erleichtern.
+              Routine erledigen —{' '}
+              <span className="text-shell-muted dark:text-stone-500">
+                damit Sie Zeit für Wichtiges haben.
+              </span>
             </motion.h2>
 
             <motion.p
@@ -59,10 +61,10 @@ export function HomeManifesto() {
               variants={fadeInUp}
               className="mt-6 text-base leading-relaxed text-shell-muted sm:text-lg dark:text-stone-400"
             >
-              Wir verwandeln Ihre Ideen in funktionierende Lösungen — und
-              räumen die digitalen Stolpersteine aus dem Weg, die den
-              Arbeitsalltag bremsen. Das Ergebnis: ein Auftritt und Tools,
-              die einfach funktionieren. Ohne Frust, ohne Umwege.
+              Mit Tools wie n8n und gezieltem KI-Einsatz verknüpfen wir Postfach, Telefonie,
+              CRM und Drucker: z. B. E-Mails klassifizieren, Rechnungen automatisch drucken oder
+              einen KI-Telefonassistenten für Standardanfragen — transparent dokumentiert und an
+              Ihre Abläufe angepasst.
             </motion.p>
 
             <motion.div
@@ -73,7 +75,7 @@ export function HomeManifesto() {
               {EXAMPLES.map((ex) => (
                 <span
                   key={ex}
-                  className="inline-block cursor-default rounded-full border border-gallery-line bg-gallery-bg px-4 py-2 text-xs font-medium text-shell-muted dark:border-stone-700 dark:bg-stone-900 dark:text-stone-400"
+                  className="inline-block cursor-default rounded-full border border-gallery-line bg-gallery-surface px-4 py-2 text-xs font-medium text-shell-muted dark:border-stone-700 dark:bg-stone-900 dark:text-stone-400"
                 >
                   {ex}
                 </span>
@@ -82,10 +84,10 @@ export function HomeManifesto() {
 
             <motion.div custom={5} variants={fadeInUp} className="mt-8">
               <Link
-                to="/leistungen#chapter-02"
-                className="inline-flex items-center gap-2 rounded-lg border border-gallery-line bg-gallery-bg px-5 py-2.5 text-sm font-medium text-gallery-ink transition hover:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-300 dark:hover:border-stone-500 dark:hover:text-white"
+                to="/leistungen#chapter-04"
+                className="inline-flex items-center gap-2 rounded-lg border border-gallery-line bg-gallery-surface px-5 py-2.5 text-sm font-medium text-gallery-ink transition hover:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-300 dark:hover:border-stone-500 dark:hover:text-white"
               >
-                Mehr zu Web Apps
+                Mehr zu Automatisierung
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
             </motion.div>

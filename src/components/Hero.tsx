@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { fadeInUp } from '../lib/motion'
+import { HeroChromeCta } from './home/HeroChromeCta'
 import { HeroGeometry } from './home/tech/HeroGeometry'
 
 export function Hero() {
@@ -24,7 +24,7 @@ export function Hero() {
             className="inline-flex items-center gap-3 text-xs font-medium uppercase tracking-widest text-shell-muted"
           >
             <span className="h-px w-8 bg-shell-subtle inline-block" aria-hidden />
-            Websites · WebApps · SEO · Media
+            Websites · WebApps · Automatisierung · SEO · Media
           </motion.p>
 
           <motion.h1
@@ -42,7 +42,8 @@ export function Hero() {
             variants={fadeInUp}
             className="mt-4 font-display text-xl font-semibold tracking-tight text-gallery-ink sm:text-2xl"
           >
-            Von der Idee zur digitalen Lösung – Websites & Web-Apps aus einer Hand.
+            Von der Idee zur digitalen Lösung – Websites, Web-Apps und Automatisierung aus
+            einer Hand.
           </motion.p>
 
           <motion.div
@@ -50,13 +51,7 @@ export function Hero() {
             variants={fadeInUp}
             className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
           >
-            <Link
-              to="/kontakt"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 px-6 py-3.5 text-sm font-medium text-white transition hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
-            >
-              Unverbindlich anfragen
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
+            <HeroChromeCta to="/kontakt" />
             <Link
               to="/leistungen"
               className="inline-flex items-center justify-center rounded-lg border border-gallery-line bg-gallery-bg px-6 py-3.5 text-sm font-medium text-gallery-ink transition hover:border-stone-400 dark:hover:border-stone-600"

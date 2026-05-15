@@ -147,7 +147,11 @@ export function DatenschutzPage() {
               (localStorage) werden technisch notwendige oder funktionale
               Einstellungen abgelegt. Wenn Sie dem entsprechen, werden zudem
               Inhalte von Drittanbietern geladen bzw. deren Skripte
-              ausgeführt — siehe unten (Google Fonts, Soro).
+              ausgeführt — siehe unten (Google Fonts, Soro). Optional kann
+              zudem die Gerätekamera für einen rein visuellen Effekt auf der
+              Startseite genutzt werden — nur nach ausdrücklicher Einwilligung
+              in den Cookie-Einstellungen; es findet keine Aufzeichnung oder
+              Übermittlung des Kamerabildes an uns statt.
             </p>
             <ul className="mt-4 list-disc space-y-1 pl-5">
               <li>
@@ -174,6 +178,7 @@ export function DatenschutzPage() {
                     'Notwendiges',
                     preferences.fonts && 'externe Schriften (Google Fonts)',
                     preferences.embeds && 'Blog-Einbettung (Soro)',
+                    preferences.camera && 'Gerätekamera (Startseite, Spiegel-Effekt)',
                   ]
                     .filter(Boolean)
                     .join(' · ')}
@@ -269,7 +274,33 @@ export function DatenschutzPage() {
             </p>
           </LegalBlock>
 
-          <LegalBlock title="8. Verschlüsselung (TLS/SSL)">
+          <LegalBlock title="8. Gerätekamera (optional, Startseite)">
+            <p>
+              Wenn Sie im Cookie-Hinweis der Website ausdrücklich zustimmen
+              (über „Alle akzeptieren“ oder die Einzelwahl in den Einstellungen),
+              kann Ihr Browser auf die integrierte oder angeschlossene Kamera
+              zugreifen (<span className="font-mono text-[0.9em]">getUserMedia</span>),
+              um auf der Startseite einen Spiegel-Effekt auf dem Button
+              „Unverbindlich anfragen“ darzustellen. Zusätzlich fragt der Browser
+              in der Regel noch einmal gesondert nach Erlaubnis für den
+              Kamera-Zugriff; ohne diese Browser-Freigabe bleibt es bei der
+              statischen Chrom-Optik. Das Bild wird nur lokal im Browser verarbeitet
+              und weder von uns gespeichert noch an uns oder Dritte übermittelt.
+              Beenden Sie den Seitenaufruf oder widerrufen Sie die Einwilligung,
+              endet der Zugriff; es wird kein separates Cookie gesetzt — die
+              Einstellung ist in{' '}
+              <span className="font-mono text-[0.9em]">sorgel-design-consent</span>{' '}
+              (localStorage) enthalten.
+            </p>
+            <p className="mt-4">
+              Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO (Einwilligung).
+              Ohne Ihre Zustimmung im Cookie-Hinweis wird die Kamera nicht
+              angesprochen; der Button erscheint weiterhin in einer statischen
+              Chrom-Optik ohne Livebild.
+            </p>
+          </LegalBlock>
+
+          <LegalBlock title="9. Verschlüsselung (TLS/SSL)">
             <p>
               Diese Website nutzt aus Sicherheitsgründen eine TLS/SSL-
               Verschlüsselung. Sie erkennen eine verschlüsselte Verbindung
@@ -278,7 +309,7 @@ export function DatenschutzPage() {
             </p>
           </LegalBlock>
 
-          <LegalBlock title="9. Ihre Rechte">
+          <LegalBlock title="10. Ihre Rechte">
             <p>
               Sie haben uns gegenüber folgende Rechte hinsichtlich Ihrer
               personenbezogenen Daten:
@@ -307,7 +338,7 @@ export function DatenschutzPage() {
             </p>
           </LegalBlock>
 
-          <LegalBlock title="10. Beschwerderecht bei der Aufsichtsbehörde">
+          <LegalBlock title="11. Beschwerderecht bei der Aufsichtsbehörde">
             <p>
               Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde
               über die Verarbeitung Ihrer personenbezogenen Daten zu
@@ -329,7 +360,7 @@ export function DatenschutzPage() {
             </p>
           </LegalBlock>
 
-          <LegalBlock title="11. Änderungen dieser Datenschutzerklärung">
+          <LegalBlock title="12. Änderungen dieser Datenschutzerklärung">
             <p>
               Wir passen diese Datenschutzerklärung an, wenn sich die
               Rechtslage oder die von uns eingesetzten Dienste ändern. Es

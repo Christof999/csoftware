@@ -49,12 +49,12 @@ const ROUTE_META: Record<KnownPath, Omit<RouteMeta, 'indexable'>> = {
   '/': {
     title: HOME_TITLE,
     description:
-      'Webdesign, SEO und Web-Apps für Unternehmen in Ansbach und Mittelfranken: schnelle Sites, klare Struktur, persönliche Betreuung. Jetzt unverbindlich anfragen.',
+      'Webdesign, SEO, Web-Apps und Business-Automatisierung (n8n, KI-Workflows) für Unternehmen in Ansbach und Mittelfranken: schnelle Sites, klare Struktur, persönliche Betreuung. Jetzt unverbindlich anfragen.',
   },
   '/leistungen': {
     title: `Leistungen | Webdesign, SEO & Print · Ansbach | ${SITE_NAME_ASCII}`,
     description:
-      'Websites, lokale SEO, Google Ads, Web-Apps und Printdesign aus einer Hand — für Handwerk, Dienstleister und KMU in Ansbach und Mittelfranken. Leistungen ansehen und Kontakt aufnehmen.',
+      'Websites, lokale SEO, Google Ads, Web-Apps, Business-Automatisierung mit n8n und KI sowie Printdesign aus einer Hand — für Handwerk, Dienstleister und KMU in Ansbach und Mittelfranken. Leistungen ansehen und Kontakt aufnehmen.',
   },
   '/blog': {
     title: `Blog | Webdesign, SEO & Digitales · ${SITE_NAME_ASCII}`,
@@ -64,7 +64,7 @@ const ROUTE_META: Record<KnownPath, Omit<RouteMeta, 'indexable'>> = {
   '/kontakt': {
     title: `Kontakt & Projekt anfragen | ${SITE_NAME_ASCII}`,
     description:
-      'Projekt anfragen: Webdesign Ansbach, Web-Apps und Print — Antwort innerhalb eines Werktags, Erstgespräch kostenlos. Schreiben Sie uns oder rufen Sie an.',
+      'Projekt anfragen: Webdesign Ansbach, Web-Apps, Business-Automatisierung (n8n, KI) und Print — Antwort innerhalb eines Werktags, Erstgespräch kostenlos. Schreiben Sie uns oder rufen Sie an.',
   },
   '/ueber-uns': {
     title: `Über uns & Inhaber | ${SITE_NAME_ASCII}`,

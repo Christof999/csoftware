@@ -1,4 +1,5 @@
 import { Hero } from '../components/Hero'
+import { HomeAutomation } from '../components/home/HomeAutomation'
 import { HomeCapabilities } from '../components/home/HomeCapabilities'
 import { HomeCta } from '../components/home/HomeCta'
 import { HomeManifesto } from '../components/home/HomeManifesto'
@@ -14,6 +15,7 @@ export function HomePage() {
       <Hero />
       <HomeWebsites />
       <HomeManifesto />
+      <HomeAutomation />
       <HomePrint />
       <HomeValueProps />
       <HomePromise />
