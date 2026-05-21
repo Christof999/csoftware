@@ -776,48 +776,28 @@ export function Contact() {
         </div>
       </section>
 
+      {/*
+       * FAQ ohne Framer-Motion-Wrapper: Antworten müssen im prerenderten HTML
+       * von Anfang an sichtbar sein (kein opacity:0 / kein whileInView), damit
+       * AEO/SEO-Crawler ohne JS-Ausführung die Inhalte erfassen.
+       */}
       <section id="faq" className="bg-gallery-surface py-20 sm:py-28">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-60px' }}
-            variants={staggerContainer}
-          >
+          <div>
             <div className="flex items-center gap-4 border-b border-gallery-line pb-8">
-              <motion.span
-                custom={0}
-                variants={fadeInUp}
-                className="font-mono text-xs text-shell-subtle"
-              >
-                02
-              </motion.span>
-              <motion.p
-                custom={0}
-                variants={fadeInUp}
-                className="text-xs font-medium uppercase tracking-widest text-shell-muted"
-              >
+              <span className="font-mono text-xs text-shell-subtle">02</span>
+              <p className="text-xs font-medium uppercase tracking-widest text-shell-muted">
                 Häufige Fragen
-              </motion.p>
+              </p>
             </div>
-            <motion.h2
-              custom={1}
-              variants={fadeInUp}
-              className="mt-10 max-w-xl font-display text-2xl font-semibold tracking-tight text-gallery-ink sm:text-3xl"
-            >
+            <h2 className="mt-10 max-w-xl font-display text-2xl font-semibold tracking-tight text-gallery-ink sm:text-3xl">
               Was andere auch gefragt haben.
-            </motion.h2>
-          </motion.div>
+            </h2>
+          </div>
 
-          <motion.ul
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-40px' }}
-            variants={staggerContainer}
-            className="mt-10 space-y-3"
-          >
-            {CONTACT_FAQ_ITEMS.map((item, i) => (
-              <motion.li key={item.q} custom={i} variants={fadeInUp}>
+          <ul className="mt-10 space-y-3">
+            {CONTACT_FAQ_ITEMS.map((item) => (
+              <li key={item.q}>
                 <CursorGlow className="rounded-xl border border-gallery-line bg-gallery-bg">
                   <div className="px-6 py-5">
                     <h3 className="font-display text-sm font-semibold text-gallery-ink">
@@ -828,9 +808,9 @@ export function Contact() {
                     </p>
                   </div>
                 </CursorGlow>
-              </motion.li>
+              </li>
             ))}
-          </motion.ul>
+          </ul>
         </div>
       </section>
     </div>

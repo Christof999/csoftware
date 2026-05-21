@@ -1,9 +1,4 @@
-import {
-  SITE_DESCRIPTION,
-  SITE_NAME,
-  SITE_NAME_ASCII,
-  SITE_ORIGIN,
-} from '../site'
+import { SITE_DESCRIPTION, SITE_NAME, SITE_ORIGIN } from '../site'
 
 export type RouteMeta = {
   title: string
@@ -52,32 +47,32 @@ const ROUTE_META: Record<KnownPath, Omit<RouteMeta, 'indexable'>> = {
       'Webdesign, SEO, Web-Apps und Business-Automatisierung (n8n, KI-Workflows) für Unternehmen in Ansbach und Mittelfranken: schnelle Sites, klare Struktur, persönliche Betreuung. Jetzt unverbindlich anfragen.',
   },
   '/leistungen': {
-    title: `Leistungen | Webdesign, SEO & Print · Ansbach | ${SITE_NAME_ASCII}`,
+    title: `Leistungen | Webdesign, SEO & Print · Ansbach | ${SITE_NAME}`,
     description:
       'Websites, lokale SEO, Google Ads, Web-Apps, Business-Automatisierung mit n8n und KI sowie Printdesign aus einer Hand — für Handwerk, Dienstleister und KMU in Ansbach und Mittelfranken. Leistungen ansehen und Kontakt aufnehmen.',
   },
   '/blog': {
-    title: `Blog | Webdesign, SEO & Digitales · ${SITE_NAME_ASCII}`,
+    title: `Blog | Webdesign, SEO & Digitales · ${SITE_NAME}`,
     description:
       'Blog zu Webdesign, SEO, Performance und digitalen Themen — Einblicke und Tipps von SØRGEL-design aus Ansbach und Mittelfranken.',
   },
   '/kontakt': {
-    title: `Kontakt & Projekt anfragen | ${SITE_NAME_ASCII}`,
+    title: `Kontakt & Projekt anfragen | ${SITE_NAME}`,
     description:
       'Projekt anfragen: Webdesign Ansbach, Web-Apps, Business-Automatisierung (n8n, KI) und Print — Antwort innerhalb eines Werktags, Erstgespräch kostenlos. Schreiben Sie uns oder rufen Sie an.',
   },
   '/ueber-uns': {
-    title: `Über uns & Inhaber | ${SITE_NAME_ASCII}`,
+    title: `Über uns & Inhaber | ${SITE_NAME}`,
     description:
       'Christof Sörgel, SØRGEL-design: Webentwicklung, SEO und Design aus Merkendorf — für Kunden in Ansbach und Mittelfranken. Erfahrung, Arbeitsweise und Kontakt.',
   },
   '/impressum': {
-    title: `Impressum | ${SITE_NAME_ASCII}`,
+    title: `Impressum | ${SITE_NAME}`,
     description:
       `Impressum und rechtliche Anbieterkennzeichnung von ${SITE_NAME}: Adresse Merkendorf, Kontakt, Umsatzsteuer-Hinweis.`,
   },
   '/datenschutz': {
-    title: `Datenschutz | ${SITE_NAME_ASCII}`,
+    title: `Datenschutz | ${SITE_NAME}`,
     description:
       `Datenschutzerklärung ${SITE_NAME}: Cookies, Kontaktformular, Hosting (Vercel), Rechte nach DSGVO — transparent erklärt.`,
   },
@@ -90,7 +85,7 @@ export function getRouteMeta(pathname: string): RouteMeta {
     return { ...base, indexable: true }
   }
   return {
-    title: `Seite nicht gefunden | ${SITE_NAME_ASCII}`,
+    title: `Seite nicht gefunden | ${SITE_NAME}`,
     description: `Die Seite wurde nicht gefunden. ${SITE_DESCRIPTION}`,
     indexable: false,
   }
