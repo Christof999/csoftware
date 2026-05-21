@@ -96,8 +96,13 @@ export function getRouteMeta(pathname: string): RouteMeta {
   }
 }
 
+/**
+ * Canonical pro Route. Root behält den Trailing-Slash (`/`), damit er mit
+ * sitemap.xml übereinstimmt und Google keine zwei Varianten der Startseite
+ * als unterschiedliche URLs interpretiert.
+ */
 export function canonicalUrl(pathname: string): string {
   if (!SITE_ORIGIN) return ''
   const path = normalizeRoutePath(pathname)
-  return `${SITE_ORIGIN}${path === '/' ? '' : path}`
+  return `${SITE_ORIGIN}${path}`
 }
