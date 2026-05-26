@@ -72,9 +72,9 @@ export function getFirebaseDb(): Firestore | null {
   return getFirestore(app)
 }
 
-/** Firestore-Sammlung für Blog-Beiträge (VITE_FIRESTORE_BLOG_COLLECTION, Standard: posts) */
+/** Firestore-Sammlung für Blog-Beiträge (VITE_FIRESTORE_BLOG_COLLECTION, Standard: articles) */
 export function getBlogCollectionName(): string {
   const raw = import.meta.env.VITE_FIRESTORE_BLOG_COLLECTION
   if (typeof raw === 'string' && raw.trim().length > 0) return raw.trim()
-  return 'posts'
+  return 'articles'
 }
