@@ -9,6 +9,8 @@ import { ImpressumPage } from './pages/ImpressumPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import { AboutPage } from './pages/AboutPage'
 import { BlogPage } from './pages/BlogPage'
+import { Blog2Page } from './pages/Blog2Page'
+import { Blog2PostPage } from './pages/Blog2PostPage'
 import { ServicesPage } from './pages/ServicesPage'
 
 export default function App() {
@@ -20,6 +22,8 @@ export default function App() {
           <Route index element={<HomePage />} />
           <Route path="leistungen" element={<ServicesPage />} />
           <Route path="blog" element={<BlogPage />} />
+          <Route path="blog-2" element={<Blog2Page />} />
+          <Route path="blog-2/:slug" element={<Blog2PostPage />} />
           <Route path="kontakt" element={<ContactPage />} />
           <Route path="ueber-uns" element={<AboutPage />} />
           <Route path="impressum" element={<ImpressumPage />} />

@@ -40,6 +40,52 @@
   }
 }
 
+/* HTML-Inhalt aus Firebase (Blog 2) */
+@layer components {
+  .blog-prose h2,
+  .blog-prose h3,
+  .blog-prose h4 {
+    @apply mt-10 font-display text-xl font-semibold tracking-tight text-gallery-ink first:mt-0;
+  }
+
+  .blog-prose h3 {
+    @apply text-lg;
+  }
+
+  .blog-prose p {
+    @apply mt-4;
+  }
+
+  .blog-prose ul,
+  .blog-prose ol {
+    @apply mt-4 list-outside pl-6;
+  }
+
+  .blog-prose ul {
+    @apply list-disc;
+  }
+
+  .blog-prose ol {
+    @apply list-decimal;
+  }
+
+  .blog-prose li {
+    @apply mt-2;
+  }
+
+  .blog-prose a {
+    @apply font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 transition hover:decoration-gallery-ink;
+  }
+
+  .blog-prose strong {
+    @apply font-semibold text-gallery-ink;
+  }
+
+  .blog-prose blockquote {
+    @apply mt-6 border-l-2 border-gallery-line pl-4 italic text-shell-muted;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto !important;

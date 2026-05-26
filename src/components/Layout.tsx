@@ -42,6 +42,13 @@ const nav = [
     subs: [] as { label: string; to: string }[],
   },
   {
+    to: '/blog-2',
+    label: 'Blog 2',
+    n: '03b',
+    end: false,
+    subs: [] as { label: string; to: string }[],
+  },
+  {
     to: '/ueber-uns',
     label: 'Über uns',
     n: '04',

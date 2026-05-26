@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { canonicalUrl, getRouteMeta } from '../seo/routeMeta'
+import { canonicalUrl, getRouteMeta, isBlog2PostPath } from '../seo/routeMeta'
 import {
   breadcrumbJsonLd,
   faqPageJsonLd,
@@ -43,11 +43,13 @@ function setLinkRel(rel: string, href: string) {
 
 export function DocumentMeta() {
   const { pathname } = useLocation()
+  const blogPostPage = isBlog2PostPath(pathname)
   const meta = getRouteMeta(pathname)
   const { title, description, indexable } = meta
   const canonical = canonicalUrl(pathname)
 
   useEffect(() => {
+    if (blogPostPage) return
     document.title = title
     setMetaByName('description', description)
     setMetaByName(
@@ -71,7 +73,7 @@ export function DocumentMeta() {
     setMetaByName('twitter:card', 'summary_large_image')
     setMetaByName('twitter:title', title)
     setMetaByName('twitter:description', description)
-  }, [title, description, canonical, indexable])
+  }, [title, description, canonical, indexable, blogPostPage])
 
   useEffect(() => {
     const scriptId = 'jsonld-breadcrumbs'
