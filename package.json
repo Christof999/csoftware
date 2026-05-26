@@ -5,13 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "node scripts/generate-blog-manifest.mjs && tsc -b && vite build",
     "build:vercel": "node -e \"console.log('[vercel-build]', new Date().toISOString(), 'start')\" && npm run build && node -e \"console.log('[vercel-build]', new Date().toISOString(), 'npm run build finished')\"",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
-    "firebase": "^12.13.0",
     "framer-motion": "^12.38.0",
     "lucide-react": "^1.7.0",
     "nodemailer": "^8.0.5",

@@ -2,15 +2,12 @@ import { motion } from 'framer-motion'
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { BlogProse } from '../components/blog/BlogProse'
+import { fetchBlogPostFromApi } from '../lib/blogApi'
+import { formatBlogDate } from '../lib/blogPosts'
 import { fadeInUp, staggerContainer } from '../lib/motion'
-import {
-  fetchBlogPostBySlug,
-  formatBlogDate,
-} from '../lib/blogPosts'
-import { isFirebaseConfigured } from '../lib/firebase'
-import { blogPostingJsonLd, blog2PostBreadcrumbJsonLd } from '../seo/schema'
-import { useJsonLd, usePageHead } from '../seo/usePageHead'
 import { canonicalUrl } from '../seo/routeMeta'
+import { blog2PostBreadcrumbJsonLd, blogPostingJsonLd } from '../seo/schema'
+import { useJsonLd, usePageHead } from '../seo/usePageHead'
 import type { BlogPost } from '../types/blog'
 import { SITE_NAME } from '../site'
 
@@ -33,18 +30,8 @@ export function Blog2PostPage() {
         return
       }
 
-      if (!isFirebaseConfigured()) {
-        if (!cancelled) {
-          setError(
-            'Firebase ist noch nicht konfiguriert. Bitte VITE_FIREBASE_* in der Build-Umgebung setzen.',
-          )
-          setLoading(false)
-        }
-        return
-      }
-
       try {
-        const data = await fetchBlogPostBySlug(slug)
+        const data = await fetchBlogPostFromApi(slug)
         if (cancelled) return
         if (!data) {
           setNotFound(true)
@@ -123,10 +110,7 @@ export function Blog2PostPage() {
           <nav aria-label="Brotkrumen" className="mb-8 text-sm text-shell-muted">
             <ol className="flex flex-wrap items-center gap-2">
               <li>
-                <Link
-                  to="/"
-                  className="transition hover:text-gallery-ink"
-                >
+                <Link to="/" className="transition hover:text-gallery-ink">
                   Start
                 </Link>
               </li>
@@ -134,10 +118,7 @@ export function Blog2PostPage() {
                 /
               </li>
               <li>
-                <Link
-                  to="/blog-2"
-                  className="transition hover:text-gallery-ink"
-                >
+                <Link to="/blog-2" className="transition hover:text-gallery-ink">
                   Blog 2
                 </Link>
               </li>
@@ -145,9 +126,11 @@ export function Blog2PostPage() {
           </nav>
 
           {loading && (
-            <p className="text-sm text-shell-muted" role="status">
-              Beitrag wird geladen …
-            </p>
+            <div className="animate-pulse space-y-4" role="status" aria-live="polite">
+              <span className="sr-only">Beitrag wird geladen</span>
+              <div className="h-3 w-28 rounded bg-gallery-line" />
+              <div className="h-10 w-full max-w-2xl rounded bg-gallery-line" />
+            </div>
           )}
 
           {error && (
@@ -209,7 +192,7 @@ export function Blog2PostPage() {
             <footer className="mt-12 border-t border-gallery-line pt-8">
               <Link
                 to="/blog-2"
-                className="text-sm font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 transition hover:decoration-gallery-ink"
+                className="mt-6 inline-flex text-sm font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 transition hover:decoration-gallery-ink"
               >
                 ← Alle Beiträge
               </Link>

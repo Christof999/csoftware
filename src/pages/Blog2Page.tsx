@@ -1,14 +1,18 @@
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { BlogListSkeleton } from '../components/blog/BlogListSkeleton'
+import {
+  fetchBlogListFromApi,
+  fetchBlogListManifest,
+} from '../lib/blogApi'
+import { formatBlogDate } from '../lib/blogPosts'
 import { fadeInUp, staggerContainer } from '../lib/motion'
-import { fetchBlogPosts, formatBlogDate } from '../lib/blogPosts'
-import { isFirebaseConfigured } from '../lib/firebase'
-import type { BlogPost } from '../types/blog'
+import type { BlogPostListItem } from '../types/blog'
 import { SITE_NAME } from '../site'
 
 export function Blog2Page() {
-  const [posts, setPosts] = useState<BlogPost[]>([])
+  const [posts, setPosts] = useState<BlogPostListItem[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -16,24 +20,22 @@ export function Blog2Page() {
     let cancelled = false
 
     async function load() {
-      if (!isFirebaseConfigured()) {
-        if (!cancelled) {
-          setError(
-            'Firebase ist noch nicht konfiguriert. Bitte VITE_FIREBASE_* in der Build-Umgebung setzen.',
-          )
-          setLoading(false)
-        }
-        return
+      const manifest = await fetchBlogListManifest()
+      if (cancelled) return
+
+      if (manifest && manifest.length > 0) {
+        setPosts(manifest)
+        setLoading(false)
       }
 
       try {
-        const data = await fetchBlogPosts()
+        const fresh = await fetchBlogListFromApi()
         if (!cancelled) {
-          setPosts(data)
+          setPosts(fresh)
           setError(null)
         }
       } catch (e) {
-        if (!cancelled) {
+        if (!cancelled && (!manifest || manifest.length === 0)) {
           setError(
             e instanceof Error
               ? e.message
@@ -50,6 +52,8 @@ export function Blog2Page() {
       cancelled = true
     }
   }, [])
+
+  const showSkeleton = loading && posts.length === 0
 
   return (
     <div>
@@ -93,10 +97,11 @@ export function Blog2Page() {
 
       <section className="bg-gallery-bg py-12 sm:py-20">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-          {loading && (
-            <p className="text-sm text-shell-muted" role="status">
-              Beiträge werden geladen …
-            </p>
+          {showSkeleton && (
+            <div role="status" aria-live="polite">
+              <span className="sr-only">Beiträge werden geladen</span>
+              <BlogListSkeleton />
+            </div>
           )}
 
           {error && (
@@ -114,7 +119,7 @@ export function Blog2Page() {
             </p>
           )}
 
-          {!loading && !error && posts.length > 0 && (
+          {posts.length > 0 && (
             <ul className="divide-y divide-gallery-line border-y border-gallery-line">
               {posts.map((post, index) => (
                 <motion.li
