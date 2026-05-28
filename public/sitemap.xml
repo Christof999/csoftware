@@ -21,6 +21,11 @@
     <priority>0.75</priority>
   </url>
   <url>
+    <loc>https://www.soergel-design.de/blog-2</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://www.soergel-design.de/ueber-uns</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>

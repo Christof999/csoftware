@@ -16,6 +16,7 @@ import {
 } from '../site'
 import { CONTACT_FAQ_ITEMS } from './contactFaq'
 import { HOME_PROCESS_STEPS } from './homeProcessSteps'
+import type { BlogPost } from '../types/blog'
 import { isKnownPath, normalizeRoutePath } from './routeMeta'
 
 const TEL_E164 = SITE_PHONE_TEL.replace(/^tel:/, '')
@@ -35,6 +36,8 @@ export function breadcrumbJsonLd(pathname: string): object | null {
     items.push({ name: 'Leistungen', url: `${SITE_ORIGIN}/leistungen` })
   } else if (path === '/blog') {
     items.push({ name: 'Blog', url: `${SITE_ORIGIN}/blog` })
+  } else if (path === '/blog-2') {
+    items.push({ name: 'Blog', url: `${SITE_ORIGIN}/blog-2` })
   } else if (path === '/kontakt') {
     items.push({ name: 'Kontakt', url: `${SITE_ORIGIN}/kontakt` })
   } else if (path === '/ueber-uns') {
@@ -104,6 +107,75 @@ export function howToHomeJsonLd(pathname: string): object | null {
       text: s.text,
     })),
   }
+}
+
+export function blog2PostBreadcrumbJsonLd(
+  postTitle: string,
+  pathname: string,
+): object | null {
+  const path = normalizeRoutePath(pathname)
+  if (!SITE_ORIGIN || !path.startsWith('/blog-2/')) return null
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Start',
+        item: `${SITE_ORIGIN}/`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: `${SITE_ORIGIN}/blog-2`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: postTitle,
+        item: `${SITE_ORIGIN}${path}`,
+      },
+    ],
+  }
+}
+
+export function blogPostingJsonLd(post: BlogPost, pathname: string): object | null {
+  const path = normalizeRoutePath(pathname)
+  if (!SITE_ORIGIN || !path.startsWith('/blog-2/')) return null
+
+  const article: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.metaDescription || post.title,
+    datePublished: post.publishedAt.toISOString(),
+    dateModified: post.publishedAt.toISOString(),
+    inLanguage: 'de-DE',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${SITE_ORIGIN}${path}`,
+    },
+    author: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_ORIGIN,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_ORIGIN,
+    },
+  }
+
+  const ogImage = siteOgImageUrl()
+  if (ogImage) {
+    article.image = ogImage
+  }
+
+  return article
 }
 
 export function organizationWebsiteGraph(): object {
