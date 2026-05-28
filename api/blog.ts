@@ -5,7 +5,8 @@ import {
   getBlogFirestoreConfig,
 } from './lib/blogFirestore'
 
-const LIST_CACHE = 'public, s-maxage=300, stale-while-revalidate=3600'
+/** Kurz cachen — neue Beiträge sollen zeitnah sichtbar werden. */
+const LIST_CACHE = 'public, s-maxage=60, stale-while-revalidate=300'
 const POST_CACHE = 'public, s-maxage=600, stale-while-revalidate=86400'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

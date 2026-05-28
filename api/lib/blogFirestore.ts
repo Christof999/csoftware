@@ -1,7 +1,13 @@
 /**
  * Firestore-Zugriff per REST (Server/Vite-Dev) — ohne schweres Client-SDK.
- * Liest öffentliche Blog-Dokumente; Security Rules müssen read erlauben.
  */
+
+import {
+  fieldAsHtmlContent,
+  fieldAsIsoDate,
+  fieldAsString,
+  type FirestoreFields,
+} from './firestoreValue'
 
 export type BlogPostJson = {
   id: string
@@ -11,13 +17,6 @@ export type BlogPostJson = {
   publishedAt: string
   content?: string
 }
-
-type FirestoreValue = {
-  stringValue?: string
-  timestampValue?: string
-}
-
-type FirestoreFields = Record<string, FirestoreValue>
 
 type RunQueryRow = {
   document?: {
@@ -56,41 +55,31 @@ function docIdFromName(name: string | undefined): string {
   return parts[parts.length - 1] ?? ''
 }
 
-function fieldString(fields: FirestoreFields | undefined, key: string): string {
-  const v = fields?.[key]
-  return typeof v?.stringValue === 'string' ? v.stringValue.trim() : ''
-}
-
-function fieldTimestampIso(
-  fields: FirestoreFields | undefined,
-  key: string,
-): string {
-  const v = fields?.[key]
-  if (typeof v?.timestampValue === 'string' && v.timestampValue.length > 0) {
-    return new Date(v.timestampValue).toISOString()
-  }
-  return new Date().toISOString()
-}
-
 function mapDocument(
   row: RunQueryRow,
   includeContent: boolean,
 ): BlogPostJson | null {
-  const fields = row.document?.fields
-  const title = fieldString(fields, 'title')
-  const slug = fieldString(fields, 'slug')
+  if (!row.document?.fields) return null
+
+  const fields = row.document.fields
+  const title = fieldAsString(fields, 'title')
+  const slug = fieldAsString(fields, 'slug')
   if (!title || !slug) return null
 
   const post: BlogPostJson = {
-    id: docIdFromName(row.document?.name),
+    id: docIdFromName(row.document.name),
     title,
     slug,
-    metaDescription: fieldString(fields, 'meta_description'),
-    publishedAt: fieldTimestampIso(fields, 'published_at'),
+    metaDescription: fieldAsString(
+      fields,
+      'meta_description',
+      'metaDescription',
+    ),
+    publishedAt: fieldAsIsoDate(fields, 'published_at', 'publishedAt'),
   }
 
   if (includeContent) {
-    post.content = fieldString(fields, 'content')
+    post.content = fieldAsHtmlContent(fields, 'content', 'body', 'html')
   }
 
   return post
@@ -118,35 +107,22 @@ async function runQuery(
   if (!res.ok) {
     const body = await res.text().catch(() => '')
     throw new Error(
-      `Firestore-Anfrage fehlgeschlagen (${res.status}): ${body.slice(0, 200)}`,
+      `Firestore-Anfrage fehlgeschlagen (${res.status}): ${body.slice(0, 300)}`,
     )
   }
 
   const data = (await res.json()) as RunQueryRow[]
-  return Array.isArray(data) ? data : []
+  return Array.isArray(data) ? data.filter((row) => row.document?.fields) : []
 }
 
+/** Alle Beiträge laden — ohne orderBy (fehlendes published_at würde sonst Docs ausblenden). */
 export async function fetchBlogListFromFirestore(): Promise<BlogPostJson[]> {
   const config = getBlogFirestoreConfig()
   if (!config) return []
 
   const rows = await runQuery({
     from: [{ collectionId: config.collection }],
-    select: {
-      fields: [
-        { fieldPath: 'title' },
-        { fieldPath: 'slug' },
-        { fieldPath: 'meta_description' },
-        { fieldPath: 'published_at' },
-      ],
-    },
-    orderBy: [
-      {
-        field: { fieldPath: 'published_at' },
-        direction: 'DESCENDING',
-      },
-    ],
-    limit: 100,
+    limit: 200,
   })
 
   return rows

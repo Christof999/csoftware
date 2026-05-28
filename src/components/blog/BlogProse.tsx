@@ -1,5 +1,7 @@
+import { normalizeBlogHtml } from '../../lib/blogContent'
+
 type BlogProseProps = {
-  html: string
+  html: unknown
   className?: string
 }
 
@@ -8,10 +10,19 @@ type BlogProseProps = {
  * Inhalt stammt aus dem eigenen Redaktionssystem — kein untrusted User-Input.
  */
 export function BlogProse({ html, className = '' }: BlogProseProps) {
+  const safeHtml = normalizeBlogHtml(html)
+  if (!safeHtml) {
+    return (
+      <p className="text-sm text-shell-muted" role="status">
+        Für diesen Beitrag ist noch kein Textinhalt hinterlegt.
+      </p>
+    )
+  }
+
   return (
     <div
       className={`blog-prose text-base leading-relaxed text-shell-muted ${className}`.trim()}
-      dangerouslySetInnerHTML={{ __html: html }}
+      dangerouslySetInnerHTML={{ __html: safeHtml }}
     />
   )
 }

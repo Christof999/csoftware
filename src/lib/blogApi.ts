@@ -1,3 +1,4 @@
+import { normalizeBlogHtml } from './blogContent'
 import type { BlogPost, BlogPostListItem } from '../types/blog'
 
 type ListResponse = {
@@ -16,10 +17,10 @@ function parseListItem(raw: BlogPostListItem): BlogPostListItem {
   }
 }
 
-function parsePost(raw: BlogPost): BlogPost {
+function parsePost(raw: BlogPost & { content?: unknown }): BlogPost {
   return {
     ...raw,
-    content: raw.content ?? '',
+    content: normalizeBlogHtml(raw.content),
     publishedAt: new Date(raw.publishedAt),
   }
 }
@@ -27,6 +28,7 @@ function parsePost(raw: BlogPost): BlogPost {
 async function readJson<T>(url: string): Promise<T> {
   const res = await fetch(url, {
     headers: { Accept: 'application/json' },
+    cache: 'no-store',
   })
   if (!res.ok) {
     const body = (await res.json().catch(() => null)) as { error?: string } | null

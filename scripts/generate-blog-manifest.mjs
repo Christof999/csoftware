@@ -1,6 +1,6 @@
 /**
- * Erzeugt public/blog2-list.json beim Build — Übersicht ohne HTML-Content.
- * Nutzt dieselbe Firestore-REST-Logik wie /api/blog (schneller Erstaufbau).
+ * Erzeugt public/blog2-list.json beim Build.
+ * Logik analog api/lib/firestoreValue.ts (ohne orderBy — alle Docs mit title+slug).
  */
 import { writeFile, mkdir } from 'node:fs/promises'
 import path from 'node:path'
@@ -17,17 +17,45 @@ function envFirst(...keys) {
   return ''
 }
 
-function fieldString(fields, key) {
-  const v = fields?.[key]
-  return typeof v?.stringValue === 'string' ? v.stringValue.trim() : ''
+function parseValue(value) {
+  if (!value) return undefined
+  if (value.nullValue !== undefined) return null
+  if (typeof value.stringValue === 'string') return value.stringValue
+  if (typeof value.integerValue === 'string') return value.integerValue
+  if (typeof value.doubleValue === 'number') return value.doubleValue
+  if (typeof value.timestampValue === 'string') return new Date(value.timestampValue)
+  if (value.mapValue?.fields) {
+    const out = {}
+    for (const [k, v] of Object.entries(value.mapValue.fields)) {
+      out[k] = parseValue(v)
+    }
+    return out
+  }
+  return undefined
 }
 
-function fieldTimestampIso(fields, key) {
-  const v = fields?.[key]
-  if (typeof v?.timestampValue === 'string') {
-    return new Date(v.timestampValue).toISOString()
+function fieldString(fields, ...names) {
+  for (const name of names) {
+    const raw = parseValue(fields?.[name])
+    if (typeof raw === 'string') return raw.trim()
+    if (typeof raw === 'number') return String(raw)
   }
-  return new Date().toISOString()
+  return ''
+}
+
+function fieldIso(fields, ...names) {
+  for (const name of names) {
+    const raw = parseValue(fields?.[name])
+    if (raw instanceof Date && !Number.isNaN(raw.getTime())) return raw.toISOString()
+    if (typeof raw === 'string' || typeof raw === 'number') {
+      const d = new Date(raw)
+      if (!Number.isNaN(d.getTime())) return d.toISOString()
+    }
+    if (raw && typeof raw === 'object' && typeof raw.seconds === 'number') {
+      return new Date(raw.seconds * 1000).toISOString()
+    }
+  }
+  return new Date(0).toISOString()
 }
 
 async function runQuery(projectId, apiKey, collection) {
@@ -42,21 +70,7 @@ async function runQuery(projectId, apiKey, collection) {
     body: JSON.stringify({
       structuredQuery: {
         from: [{ collectionId: collection }],
-        select: {
-          fields: [
-            { fieldPath: 'title' },
-            { fieldPath: 'slug' },
-            { fieldPath: 'meta_description' },
-            { fieldPath: 'published_at' },
-          ],
-        },
-        orderBy: [
-          {
-            field: { fieldPath: 'published_at' },
-            direction: 'DESCENDING',
-          },
-        ],
-        limit: 100,
+        limit: 200,
       },
     }),
   })
@@ -89,19 +103,19 @@ async function main() {
   try {
     const rows = await runQuery(projectId, apiKey, collection)
     const posts = (Array.isArray(rows) ? rows : [])
+      .filter((row) => row.document?.fields)
       .map((row) => {
-        const fields = row.document?.fields
+        const fields = row.document.fields
         const title = fieldString(fields, 'title')
         const slug = fieldString(fields, 'slug')
         if (!title || !slug) return null
-        const name = row.document?.name ?? ''
-        const id = name.split('/').pop() ?? ''
+        const name = row.document.name ?? ''
         return {
-          id,
+          id: name.split('/').pop() ?? '',
           title,
           slug,
-          metaDescription: fieldString(fields, 'meta_description'),
-          publishedAt: fieldTimestampIso(fields, 'published_at'),
+          metaDescription: fieldString(fields, 'meta_description', 'metaDescription'),
+          publishedAt: fieldIso(fields, 'published_at', 'publishedAt'),
         }
       })
       .filter(Boolean)
