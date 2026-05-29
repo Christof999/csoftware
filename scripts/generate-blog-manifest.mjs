@@ -24,12 +24,16 @@ function parseValue(value) {
   if (typeof value.integerValue === 'string') return value.integerValue
   if (typeof value.doubleValue === 'number') return value.doubleValue
   if (typeof value.timestampValue === 'string') return new Date(value.timestampValue)
+  if (typeof value.booleanValue === 'boolean') return value.booleanValue
   if (value.mapValue?.fields) {
     const out = {}
     for (const [k, v] of Object.entries(value.mapValue.fields)) {
       out[k] = parseValue(v)
     }
     return out
+  }
+  if (value.arrayValue?.values) {
+    return value.arrayValue.values.map((v) => parseValue(v))
   }
   return undefined
 }
@@ -41,6 +45,74 @@ function fieldString(fields, ...names) {
     if (typeof raw === 'number') return String(raw)
   }
   return ''
+}
+
+function isUnusable(value) {
+  const t = String(value).trim()
+  return t === '' || t === '[object Object]' || t === 'undefined' || t === 'null'
+}
+
+const CONTENT_KEYS = ['html', 'content', 'body', 'text', 'markdown', 'md', 'value', 'rendered']
+
+function deepFindContent(value, depth = 0) {
+  if (depth > 6) return ''
+  if (typeof value === 'string') return isUnusable(value) ? '' : value
+  if (Array.isArray(value)) {
+    return value.map((v) => deepFindContent(v, depth + 1)).filter(Boolean).join('\n')
+  }
+  if (value && typeof value === 'object') {
+    for (const key of CONTENT_KEYS) {
+      if (typeof value[key] === 'string' && !isUnusable(value[key])) return value[key]
+    }
+    for (const nested of Object.values(value)) {
+      if (nested && typeof nested === 'object') {
+        const found = deepFindContent(nested, depth + 1)
+        if (found) return found
+      }
+    }
+  }
+  return ''
+}
+
+function fieldContent(fields, ...names) {
+  for (const name of names) {
+    const raw = parseValue(fields?.[name])
+    const found = deepFindContent(raw)
+    if (found) return found
+  }
+  return ''
+}
+
+function htmlToText(html) {
+  return html
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function titleFromSlug(slug) {
+  const words = slug.trim().replace(/[-_/]+/g, ' ').replace(/\s+/g, ' ').trim()
+  if (!words) return ''
+  return words.charAt(0).toUpperCase() + words.slice(1)
+}
+
+function deriveTitle({ title, content, metaDescription, slug }) {
+  if (title && title.trim()) return title.trim()
+  if (content) {
+    const heading = content.match(/<h[1-3][^>]*>([\s\S]*?)<\/h[1-3]>/i)
+    if (heading) {
+      const text = htmlToText(heading[1])
+      if (text) return text.slice(0, 120)
+    }
+    const plain = htmlToText(content)
+    if (plain) return (plain.split(/(?<=[.!?])\s/)[0] ?? plain).slice(0, 120).trim()
+  }
+  if (metaDescription && metaDescription.trim()) {
+    const m = metaDescription.trim()
+    return (m.split(/(?<=[.!?])\s/)[0] ?? m).slice(0, 120).trim()
+  }
+  return titleFromSlug(slug) || 'Beitrag'
 }
 
 function fieldIso(fields, ...names) {
@@ -106,15 +178,23 @@ async function main() {
       .filter((row) => row.document?.fields)
       .map((row) => {
         const fields = row.document.fields
-        const title = fieldString(fields, 'title')
-        const slug = fieldString(fields, 'slug')
-        if (!title || !slug) return null
         const name = row.document.name ?? ''
+        const id = name.split('/').pop() ?? ''
+        const slug = fieldString(fields, 'slug') || id
+        if (!slug) return null
+        const metaDescription = fieldString(fields, 'meta_description', 'metaDescription')
+        const content = fieldContent(fields, 'content', 'body', 'html')
+        const title = deriveTitle({
+          title: fieldString(fields, 'title'),
+          content,
+          metaDescription,
+          slug,
+        })
         return {
-          id: name.split('/').pop() ?? '',
+          id,
           title,
           slug,
-          metaDescription: fieldString(fields, 'meta_description', 'metaDescription'),
+          metaDescription,
           publishedAt: fieldIso(fields, 'published_at', 'publishedAt'),
         }
       })

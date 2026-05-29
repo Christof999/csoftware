@@ -31,8 +31,19 @@ async function readJson<T>(url: string): Promise<T> {
     cache: 'no-store',
   })
   if (!res.ok) {
-    const body = (await res.json().catch(() => null)) as { error?: string } | null
-    throw new Error(body?.error ?? `Anfrage fehlgeschlagen (${res.status})`)
+    const body = (await res.json().catch(() => null)) as
+      | { error?: unknown }
+      | null
+    const raw = body?.error
+    let message = `Anfrage fehlgeschlagen (${res.status})`
+    if (typeof raw === 'string' && raw.trim()) {
+      message = raw
+    } else if (raw && typeof raw === 'object') {
+      // Firestore-/Fremdfehler liefern { error: { message } } — niemals "[object Object]" zeigen.
+      const inner = (raw as { message?: unknown }).message
+      if (typeof inner === 'string' && inner.trim()) message = inner
+    }
+    throw new Error(message)
   }
   return res.json() as Promise<T>
 }

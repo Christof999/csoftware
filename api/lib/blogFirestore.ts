@@ -3,6 +3,7 @@
  */
 
 import {
+  deriveTitle,
   fieldAsHtmlContent,
   fieldAsIsoDate,
   fieldAsString,
@@ -62,24 +63,36 @@ function mapDocument(
   if (!row.document?.fields) return null
 
   const fields = row.document.fields
-  const title = fieldAsString(fields, 'title')
-  const slug = fieldAsString(fields, 'slug')
-  if (!title || !slug) return null
+  const id = docIdFromName(row.document.name)
+  // Slug ist die einzige harte Voraussetzung; ohne ihn fällt er auf die Doc-ID zurück.
+  const slug = fieldAsString(fields, 'slug') || id
+  if (!slug) return null
+
+  const metaDescription = fieldAsString(
+    fields,
+    'meta_description',
+    'metaDescription',
+  )
+  // Content für jede Karte parsen, damit ein fehlender Titel daraus abgeleitet werden kann.
+  const content = fieldAsHtmlContent(fields, 'content', 'body', 'html')
+
+  const title = deriveTitle({
+    title: fieldAsString(fields, 'title'),
+    content,
+    metaDescription,
+    slug,
+  })
 
   const post: BlogPostJson = {
-    id: docIdFromName(row.document.name),
+    id,
     title,
     slug,
-    metaDescription: fieldAsString(
-      fields,
-      'meta_description',
-      'metaDescription',
-    ),
+    metaDescription,
     publishedAt: fieldAsIsoDate(fields, 'published_at', 'publishedAt'),
   }
 
   if (includeContent) {
-    post.content = fieldAsHtmlContent(fields, 'content', 'body', 'html')
+    post.content = content
   }
 
   return post
