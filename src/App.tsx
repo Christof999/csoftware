@@ -9,14 +9,13 @@ import { HomePage } from './pages/HomePage'
 import { ImpressumPage } from './pages/ImpressumPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import { AboutPage } from './pages/AboutPage'
-import { BlogPage } from './pages/BlogPage'
 import { ServicesPage } from './pages/ServicesPage'
 
-const Blog2Page = lazy(() =>
-  import('./pages/Blog2Page').then((m) => ({ default: m.Blog2Page })),
+const BlogPage = lazy(() =>
+  import('./pages/BlogPage').then((m) => ({ default: m.BlogPage })),
 )
-const Blog2PostPage = lazy(() =>
-  import('./pages/Blog2PostPage').then((m) => ({ default: m.Blog2PostPage })),
+const BlogPostPage = lazy(() =>
+  import('./pages/BlogPostPage').then((m) => ({ default: m.BlogPostPage })),
 )
 
 function BlogRouteFallback() {
@@ -37,20 +36,19 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="leistungen" element={<ServicesPage />} />
-          <Route path="blog" element={<BlogPage />} />
           <Route
-            path="blog-2"
+            path="blog"
             element={
               <Suspense fallback={<BlogRouteFallback />}>
-                <Blog2Page />
+                <BlogPage />
               </Suspense>
             }
           />
           <Route
-            path="blog-2/:slug"
+            path="blog/:slug"
             element={
               <Suspense fallback={<BlogRouteFallback />}>
-                <Blog2PostPage />
+                <BlogPostPage />
               </Suspense>
             }
           />

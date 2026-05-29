@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { canonicalUrl, getRouteMeta, isBlog2PostPath } from '../seo/routeMeta'
+import { canonicalUrl, getRouteMeta, isBlogPostPath } from '../seo/routeMeta'
 import {
   breadcrumbJsonLd,
   faqPageJsonLd,
@@ -43,7 +43,7 @@ function setLinkRel(rel: string, href: string) {
 
 export function DocumentMeta() {
   const { pathname } = useLocation()
-  const blogPostPage = isBlog2PostPath(pathname)
+  const blogPostPage = isBlogPostPath(pathname)
   const meta = getRouteMeta(pathname)
   const { title, description, indexable } = meta
   const canonical = canonicalUrl(pathname)

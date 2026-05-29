@@ -15,17 +15,16 @@ export const KNOWN_PATHS = [
   '/',
   '/leistungen',
   '/blog',
-  '/blog-2',
   '/kontakt',
   '/ueber-uns',
   '/impressum',
   '/datenschutz',
 ] as const
 
-/** Einzelner Firebase-Blog-Beitrag unter /blog-2/:slug */
-export function isBlog2PostPath(pathname: string): boolean {
+/** Einzelner Firebase-Blog-Beitrag unter /blog/:slug */
+export function isBlogPostPath(pathname: string): boolean {
   const path = normalizeRoutePath(pathname)
-  return /^\/blog-2\/[^/]+$/.test(path)
+  return /^\/blog\/[^/]+$/.test(path)
 }
 
 export type KnownPath = (typeof KNOWN_PATHS)[number]
@@ -63,11 +62,6 @@ const ROUTE_META: Record<KnownPath, Omit<RouteMeta, 'indexable'>> = {
     description:
       'Blog zu Webdesign, SEO, Performance und digitalen Themen — Einblicke und Tipps von SØRGEL-design aus Ansbach und Mittelfranken.',
   },
-  '/blog-2': {
-    title: `Blog | Webdesign, SEO & Local SEO · ${SITE_NAME}`,
-    description:
-      'Aktuelle Beiträge zu Webdesign, SEO, Local SEO und Content Marketing für Unternehmen in Ansbach und Mittelfranken — Tipps und Einblicke von SØRGEL-design.',
-  },
   '/kontakt': {
     title: `Kontakt & Projekt anfragen | ${SITE_NAME}`,
     description:
@@ -92,7 +86,7 @@ const ROUTE_META: Record<KnownPath, Omit<RouteMeta, 'indexable'>> = {
 
 export function getRouteMeta(pathname: string): RouteMeta {
   const path = normalizeRoutePath(pathname)
-  if (isBlog2PostPath(path)) {
+  if (isBlogPostPath(path)) {
     return {
       title: `Blog | ${SITE_NAME}`,
       description:

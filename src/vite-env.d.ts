@@ -9,7 +9,7 @@ interface ImportMetaEnv {
   readonly VITE_SITE_SAME_AS?: string
   /** Google Business Profile / Maps-Link für Footer, Kontakt und Schema */
   readonly VITE_GOOGLE_BUSINESS_URL?: string
-  /** Firebase Web-App (öffentlich, für Blog 2 / Firestore-Lesen) */
+  /** Firebase Web-App (öffentlich, für den Blog / Firestore-Lesen) */
   readonly VITE_FIREBASE_API_KEY?: string
   readonly VITE_FIREBASE_AUTH_DOMAIN?: string
   readonly VITE_FIREBASE_PROJECT_ID?: string

@@ -1,6 +1,6 @@
 /**
  * Direkter Firestore-REST-Zugriff aus dem Browser (öffentlicher Web-API-Key).
- * Dient als zuverlässiger Lesepfad für Blog 2 — unabhängig von der
+ * Dient als zuverlässiger Lesepfad für den Blog — unabhängig von der
  * Serverless-Function /api/blog. Nutzt dieselbe robuste Parsing-Logik.
  */
 import type { BlogPost, BlogPostListItem } from '../types/blog'

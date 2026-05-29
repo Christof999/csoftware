@@ -1,48 +1,59 @@
 import { motion } from 'framer-motion'
-import { useEffect, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useCookieConsent } from '../consent/useCookieConsent'
+import { BlogListSkeleton } from '../components/blog/BlogListSkeleton'
+import {
+  fetchBlogListFromApi,
+  fetchBlogListManifest,
+} from '../lib/blogApi'
+import { formatBlogDate } from '../lib/blogPosts'
 import { fadeInUp, staggerContainer } from '../lib/motion'
-import { SITE_NAME, SORO_EMBED_SCRIPT_SRC } from '../site'
-
-const SORO_SCRIPT_ID = 'soro-blog-embed-script'
+import type { BlogPostListItem } from '../types/blog'
+import { SITE_NAME } from '../site'
 
 export function BlogPage() {
-  const mountRef = useRef<HTMLDivElement>(null)
-  const { preferences, openBanner } = useCookieConsent()
-  const embedAllowed = preferences.embeds
+  const [posts, setPosts] = useState<BlogPostListItem[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
 
-    if (!embedAllowed) {
-      document.getElementById(SORO_SCRIPT_ID)?.remove()
-      const el = mountRef.current
-      if (el) el.replaceChildren()
-      return () => {
-        cancelled = true
+    async function load() {
+      const manifest = await fetchBlogListManifest()
+      if (cancelled) return
+
+      if (manifest && manifest.length > 0) {
+        setPosts(manifest)
+        setLoading(false)
+      }
+
+      try {
+        const fresh = await fetchBlogListFromApi()
+        if (!cancelled) {
+          setPosts(fresh)
+          setError(null)
+        }
+      } catch (e) {
+        if (!cancelled && (!manifest || manifest.length === 0)) {
+          setError(
+            e instanceof Error
+              ? e.message
+              : 'Beiträge konnten nicht geladen werden.',
+          )
+        }
+      } finally {
+        if (!cancelled) setLoading(false)
       }
     }
 
-    const inject = () => {
-      if (cancelled) return
-      document.getElementById(SORO_SCRIPT_ID)?.remove()
-      const script = document.createElement('script')
-      script.id = SORO_SCRIPT_ID
-      script.src = SORO_EMBED_SCRIPT_SRC
-      script.defer = true
-      document.body.appendChild(script)
-    }
-
-    inject()
-
+    void load()
     return () => {
       cancelled = true
-      document.getElementById(SORO_SCRIPT_ID)?.remove()
-      const el = mountRef.current
-      if (el) el.replaceChildren()
     }
-  }, [embedAllowed])
+  }, [])
+
+  const showSkeleton = loading && posts.length === 0
 
   return (
     <div>
@@ -76,33 +87,70 @@ export function BlogPage() {
       </section>
 
       <section className="bg-gallery-bg py-12 sm:py-20">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          {!embedAllowed && (
-            <div
-              className="mb-8 rounded-xl border border-gallery-line bg-gallery-surface px-5 py-5 text-sm text-shell-muted"
-              role="status"
-            >
-              <p>
-                Der Blog wird über ein eingebettetes Widget von Soro geladen. Dafür
-                benötigen wir Ihre Einwilligung in den{' '}
-                <Link
-                  to="/datenschutz#cookies"
-                  className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 transition hover:decoration-gallery-ink"
-                >
-                  Cookie- und Datenschutzhinweisen
-                </Link>
-                . Ohne Zustimmung wird kein Inhalt von Soro geladen.
-              </p>
-              <button
-                type="button"
-                onClick={openBanner}
-                className="mt-4 inline-flex items-center gap-2 rounded-lg bg-stone-900 px-4 py-2.5 text-xs font-medium text-white transition hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
-              >
-                Einwilligung in den Einstellungen erteilen
-              </button>
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+          {showSkeleton && (
+            <div role="status" aria-live="polite">
+              <span className="sr-only">Beiträge werden geladen</span>
+              <BlogListSkeleton />
             </div>
           )}
-          <div ref={mountRef} id="soro-blog" />
+
+          {error && (
+            <div
+              className="rounded-xl border border-amber-200 bg-amber-50 px-5 py-5 text-sm text-amber-950 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-100"
+              role="alert"
+            >
+              {error}
+            </div>
+          )}
+
+          {!loading && !error && posts.length === 0 && (
+            <p className="text-sm text-shell-muted" role="status">
+              Noch keine veröffentlichten Beiträge in der Datenbank.
+            </p>
+          )}
+
+          {posts.length > 0 && (
+            <ul className="divide-y divide-gallery-line border-y border-gallery-line">
+              {posts.map((post, index) => (
+                <motion.li
+                  key={post.id}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05, duration: 0.25 }}
+                  className="py-8 first:pt-0 last:pb-0"
+                >
+                  <article>
+                    <time
+                      dateTime={post.publishedAt.toISOString()}
+                      className="text-xs font-medium uppercase tracking-widest text-shell-subtle"
+                    >
+                      {formatBlogDate(post.publishedAt)}
+                    </time>
+                    <h2 className="mt-3 font-display text-2xl font-semibold tracking-tight text-gallery-ink">
+                      <Link
+                        to={`/blog/${encodeURIComponent(post.slug)}`}
+                        className="transition hover:text-stone-600 dark:hover:text-stone-300"
+                      >
+                        {post.title}
+                      </Link>
+                    </h2>
+                    {post.metaDescription ? (
+                      <p className="mt-3 text-sm leading-relaxed text-shell-muted">
+                        {post.metaDescription}
+                      </p>
+                    ) : null}
+                    <Link
+                      to={`/blog/${encodeURIComponent(post.slug)}`}
+                      className="mt-4 inline-flex text-sm font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 transition hover:decoration-gallery-ink"
+                    >
+                      Weiterlesen
+                    </Link>
+                  </article>
+                </motion.li>
+              ))}
+            </ul>
+          )}
         </div>
       </section>
     </div>

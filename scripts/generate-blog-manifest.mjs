@@ -8,6 +8,18 @@ import { fileURLToPath } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const outPath = path.resolve(__dirname, '../public/blog2-list.json')
+const sitemapPath = path.resolve(__dirname, '../public/sitemap.xml')
+
+/** Statische Routen für die sitemap.xml (konsistent mit dem Router). */
+const STATIC_ROUTES = [
+  { loc: '/', changefreq: 'weekly', priority: '1.0' },
+  { loc: '/leistungen', changefreq: 'monthly', priority: '0.9' },
+  { loc: '/kontakt', changefreq: 'monthly', priority: '0.8' },
+  { loc: '/blog', changefreq: 'daily', priority: '0.8' },
+  { loc: '/ueber-uns', changefreq: 'monthly', priority: '0.75' },
+  { loc: '/impressum', changefreq: 'yearly', priority: '0.3' },
+  { loc: '/datenschutz', changefreq: 'yearly', priority: '0.3' },
+]
 
 function envFirst(...keys) {
   for (const key of keys) {
@@ -15,6 +27,39 @@ function envFirst(...keys) {
     if (typeof v === 'string' && v.trim()) return v.trim()
   }
   return ''
+}
+
+function siteOrigin() {
+  const raw = envFirst('VITE_SITE_URL', 'SITE_URL') || 'https://www.soergel-design.de'
+  return raw.replace(/\/+$/, '')
+}
+
+/** Erzeugt sitemap.xml mit statischen Routen + allen Blog-Beiträgen (für Google). */
+function buildSitemap(posts, origin) {
+  const entries = STATIC_ROUTES.map(
+    (r) =>
+      `  <url>\n    <loc>${origin}${r.loc}</loc>\n    <changefreq>${r.changefreq}</changefreq>\n    <priority>${r.priority}</priority>\n  </url>`,
+  )
+  for (const p of posts) {
+    if (!p?.slug) continue
+    const day = String(p.publishedAt || '').slice(0, 10)
+    const lastmod = /^\d{4}-\d{2}-\d{2}$/.test(day) ? `\n    <lastmod>${day}</lastmod>` : ''
+    entries.push(
+      `  <url>\n    <loc>${origin}/blog/${encodeURIComponent(p.slug)}</loc>${lastmod}\n    <changefreq>weekly</changefreq>\n    <priority>0.6</priority>\n  </url>`,
+    )
+  }
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join('\n')}\n</urlset>\n`
+}
+
+async function writeSitemap(posts) {
+  try {
+    await writeFile(sitemapPath, buildSitemap(posts, siteOrigin()))
+    console.log(
+      `[blog-manifest] sitemap.xml: ${STATIC_ROUTES.length} statische + ${posts.length} Blog-URLs`,
+    )
+  } catch (e) {
+    console.warn('[blog-manifest] sitemap-Fehler:', e instanceof Error ? e.message : e)
+  }
 }
 
 function parseValue(value) {
@@ -169,6 +214,7 @@ async function main() {
       outPath,
       JSON.stringify({ posts: [], generatedAt: new Date().toISOString() }),
     )
+    await writeSitemap([])
     return
   }
 
@@ -212,12 +258,14 @@ async function main() {
       }),
     )
     console.log(`[blog-manifest] ${posts.length} Beiträge → public/blog2-list.json`)
+    await writeSitemap(posts)
   } catch (e) {
     console.warn('[blog-manifest] Fehler:', e instanceof Error ? e.message : e)
     await writeFile(
       outPath,
       JSON.stringify({ posts: [], generatedAt: new Date().toISOString() }),
     )
+    await writeSitemap([])
   }
 }
 

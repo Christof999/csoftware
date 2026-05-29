@@ -6,12 +6,12 @@ import { fetchBlogPostFromApi } from '../lib/blogApi'
 import { formatBlogDate } from '../lib/blogPosts'
 import { fadeInUp, staggerContainer } from '../lib/motion'
 import { canonicalUrl } from '../seo/routeMeta'
-import { blog2PostBreadcrumbJsonLd, blogPostingJsonLd } from '../seo/schema'
+import { blogPostBreadcrumbJsonLd, blogPostingJsonLd } from '../seo/schema'
 import { useJsonLd, usePageHead } from '../seo/usePageHead'
 import type { BlogPost } from '../types/blog'
 import { SITE_NAME } from '../site'
 
-export function Blog2PostPage() {
+export function BlogPostPage() {
   const { slug: slugParam } = useParams<{ slug: string }>()
   const slug = slugParam ? decodeURIComponent(slugParam) : ''
 
@@ -64,7 +64,7 @@ export function Blog2PostPage() {
     }
   }, [slug])
 
-  const pathname = slug ? `/blog-2/${slug}` : '/blog-2'
+  const pathname = slug ? `/blog/${slug}` : '/blog'
   const canonical = canonicalUrl(pathname)
 
   const pageMeta = useMemo(() => {
@@ -96,12 +96,12 @@ export function Blog2PostPage() {
     [post, pathname],
   )
   const breadcrumbLd = useMemo(
-    () => (post ? blog2PostBreadcrumbJsonLd(post.title, pathname) : null),
+    () => (post ? blogPostBreadcrumbJsonLd(post.title, pathname) : null),
     [post, pathname],
   )
 
   useJsonLd('jsonld-blog-posting', postingLd)
-  useJsonLd('jsonld-blog2-breadcrumbs', breadcrumbLd)
+  useJsonLd('jsonld-blog-breadcrumbs', breadcrumbLd)
 
   return (
     <div>
@@ -118,8 +118,8 @@ export function Blog2PostPage() {
                 /
               </li>
               <li>
-                <Link to="/blog-2" className="transition hover:text-gallery-ink">
-                  Blog 2
+                <Link to="/blog" className="transition hover:text-gallery-ink">
+                  Blog
                 </Link>
               </li>
             </ol>
@@ -151,7 +151,7 @@ export function Blog2PostPage() {
                 Unter diesem Link gibt es keinen veröffentlichten Beitrag.
               </p>
               <Link
-                to="/blog-2"
+                to="/blog"
                 className="mt-6 inline-flex text-sm font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4"
               >
                 Zurück zur Übersicht
@@ -191,7 +191,7 @@ export function Blog2PostPage() {
             <BlogProse html={post.content} />
             <footer className="mt-12 border-t border-gallery-line pt-8">
               <Link
-                to="/blog-2"
+                to="/blog"
                 className="mt-6 inline-flex text-sm font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 transition hover:decoration-gallery-ink"
               >
                 ← Alle Beiträge

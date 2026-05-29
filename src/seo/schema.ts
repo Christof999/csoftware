@@ -36,8 +36,6 @@ export function breadcrumbJsonLd(pathname: string): object | null {
     items.push({ name: 'Leistungen', url: `${SITE_ORIGIN}/leistungen` })
   } else if (path === '/blog') {
     items.push({ name: 'Blog', url: `${SITE_ORIGIN}/blog` })
-  } else if (path === '/blog-2') {
-    items.push({ name: 'Blog', url: `${SITE_ORIGIN}/blog-2` })
   } else if (path === '/kontakt') {
     items.push({ name: 'Kontakt', url: `${SITE_ORIGIN}/kontakt` })
   } else if (path === '/ueber-uns') {
@@ -109,12 +107,12 @@ export function howToHomeJsonLd(pathname: string): object | null {
   }
 }
 
-export function blog2PostBreadcrumbJsonLd(
+export function blogPostBreadcrumbJsonLd(
   postTitle: string,
   pathname: string,
 ): object | null {
   const path = normalizeRoutePath(pathname)
-  if (!SITE_ORIGIN || !path.startsWith('/blog-2/')) return null
+  if (!SITE_ORIGIN || !path.startsWith('/blog/')) return null
 
   return {
     '@context': 'https://schema.org',
@@ -130,7 +128,7 @@ export function blog2PostBreadcrumbJsonLd(
         '@type': 'ListItem',
         position: 2,
         name: 'Blog',
-        item: `${SITE_ORIGIN}/blog-2`,
+        item: `${SITE_ORIGIN}/blog`,
       },
       {
         '@type': 'ListItem',
@@ -144,7 +142,7 @@ export function blog2PostBreadcrumbJsonLd(
 
 export function blogPostingJsonLd(post: BlogPost, pathname: string): object | null {
   const path = normalizeRoutePath(pathname)
-  if (!SITE_ORIGIN || !path.startsWith('/blog-2/')) return null
+  if (!SITE_ORIGIN || !path.startsWith('/blog/')) return null
 
   const article: Record<string, unknown> = {
     '@context': 'https://schema.org',
