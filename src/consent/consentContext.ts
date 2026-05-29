@@ -3,20 +3,19 @@ import { createContext } from 'react'
 /** Wird bei strukturellen Änderungen (neuer Dienst, neue Kategorie …) erhöht.
  * Führt dazu, dass gespeicherte ältere Entscheidungen als ungültig behandelt
  * werden und das Banner erneut erscheint. */
-export const CONSENT_VERSION = 5
+export const CONSENT_VERSION = 6
 
 export const CONSENT_STORAGE_KEY = 'sorgel-design-consent'
 
 /** Alle Kategorien, für die wir Einwilligung einholen. `necessary` ist
  *  technisch nötig und kann nicht abgewählt werden. */
-export type ConsentCategory = 'necessary' | 'fonts' | 'embeds' | 'camera'
+export type ConsentCategory = 'necessary' | 'fonts' | 'camera'
 
 export type ConsentPreferences = Record<ConsentCategory, boolean>
 
 export const DEFAULT_PREFERENCES: ConsentPreferences = {
   necessary: true,
   fonts: false,
-  embeds: false,
   camera: false,
 }
 

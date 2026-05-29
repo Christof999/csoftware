@@ -147,7 +147,7 @@ export function DatenschutzPage() {
               (localStorage) werden technisch notwendige oder funktionale
               Einstellungen abgelegt. Wenn Sie dem entsprechen, werden zudem
               Inhalte von Drittanbietern geladen bzw. deren Skripte
-              ausgeführt — siehe unten (Google Fonts, Soro). Optional kann
+              ausgeführt — siehe unten (Google Fonts). Optional kann
               zudem die Gerätekamera für einen rein visuellen Effekt auf der
               Startseite genutzt werden — nur nach ausdrücklicher Einwilligung
               in den Cookie-Einstellungen; es findet keine Aufzeichnung oder
@@ -177,7 +177,6 @@ export function DatenschutzPage() {
                   {[
                     'Notwendiges',
                     preferences.fonts && 'externe Schriften (Google Fonts)',
-                    preferences.embeds && 'Blog-Einbettung (Soro)',
                     preferences.camera && 'Gerätekamera (Startseite, Spiegel-Effekt)',
                   ]
                     .filter(Boolean)
@@ -239,42 +238,7 @@ export function DatenschutzPage() {
             </p>
           </LegalBlock>
 
-          <LegalBlock title="7. Blog-Einbettung Soro (TrySoro)">
-            <p>
-              Auf der Seite <strong>/blog</strong> können wir Inhalte über
-              ein eingebettetes Blog-Widget der Plattform <strong>Soro</strong>{' '}
-              (TrySoro) anzeigen. Dazu wird — nur, wenn Sie dem in den
-              Cookie-Einstellungen zustimmen — ein Skript von{' '}
-              <span className="font-mono text-[0.9em]">app.trysoro.com</span>{' '}
-              geladen. Beim Abruf kann Ihr Browser u. a. Ihre IP-Adresse, den
-              User-Agent und technische Metadaten an Soro bzw. deren
-              Infrastruktur übermitteln. Soro bzw. der Anbieter kann dabei
-              auch Cookies oder ähnliche Technologien im Browser setzen, um
-              die Darstellung, Sitzung oder Sicherheit des Dienstes zu
-              gewährleisten; Details entnehmen Sie bitte der Datenschutzerklärung
-              des Anbieters.
-            </p>
-            <p className="mt-4">
-              Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO
-              (Einwilligung). Ohne Ihre Zustimmung wird das Soro-Skript auf
-              unserer Website nicht ausgeführt; der Blog-Bereich bleibt dann
-              ohne das eingebettete Widget.
-            </p>
-            <p className="mt-4">
-              Anbieterangaben und weitere Informationen:{' '}
-              <a
-                href="https://trysoro.com/privacy-policy"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline decoration-gallery-line underline-offset-4 transition hover:decoration-gallery-ink"
-              >
-                trysoro.com/privacy-policy
-              </a>
-              .
-            </p>
-          </LegalBlock>
-
-          <LegalBlock title="8. Gerätekamera (optional, Startseite)">
+          <LegalBlock title="7. Gerätekamera (optional, Startseite)">
             <p>
               Wenn Sie im Cookie-Hinweis der Website ausdrücklich zustimmen
               (über „Alle akzeptieren“ oder die Einzelwahl in den Einstellungen),
@@ -300,7 +264,7 @@ export function DatenschutzPage() {
             </p>
           </LegalBlock>
 
-          <LegalBlock title="9. Verschlüsselung (TLS/SSL)">
+          <LegalBlock title="8. Verschlüsselung (TLS/SSL)">
             <p>
               Diese Website nutzt aus Sicherheitsgründen eine TLS/SSL-
               Verschlüsselung. Sie erkennen eine verschlüsselte Verbindung
@@ -309,7 +273,7 @@ export function DatenschutzPage() {
             </p>
           </LegalBlock>
 
-          <LegalBlock title="10. Ihre Rechte">
+          <LegalBlock title="9. Ihre Rechte">
             <p>
               Sie haben uns gegenüber folgende Rechte hinsichtlich Ihrer
               personenbezogenen Daten:
@@ -338,7 +302,7 @@ export function DatenschutzPage() {
             </p>
           </LegalBlock>
 
-          <LegalBlock title="11. Beschwerderecht bei der Aufsichtsbehörde">
+          <LegalBlock title="10. Beschwerderecht bei der Aufsichtsbehörde">
             <p>
               Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde
               über die Verarbeitung Ihrer personenbezogenen Daten zu
@@ -360,7 +324,7 @@ export function DatenschutzPage() {
             </p>
           </LegalBlock>
 
-          <LegalBlock title="12. Änderungen dieser Datenschutzerklärung">
+          <LegalBlock title="11. Änderungen dieser Datenschutzerklärung">
             <p>
               Wir passen diese Datenschutzerklärung an, wenn sich die
               Rechtslage oder die von uns eingesetzten Dienste ändern. Es

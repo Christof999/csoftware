@@ -108,27 +108,6 @@ const CATEGORIES: Array<{
     ],
   },
   {
-    key: 'embeds',
-    label: 'Blog-Einbettung (Soro)',
-    description:
-      'Lädt auf der Seite „Blog“ das eingebettete Blog-Widget von Soro (TrySoro). Ohne Zustimmung wird kein Skript von app.trysoro.com geladen.',
-    required: false,
-    services: [
-      {
-        id: 'soro-blog-embed',
-        category: 'embeds',
-        name: 'Soro Blog Embed',
-        purpose:
-          'Anzeige des Blog-Inhalts und des zugehörigen Widgets (Script von app.trysoro.com) auf der Seite /blog.',
-        provider: 'Soro / TrySoro (Betreiber laut Anbieter-Datenschutzhinweis, z. B. Digimeri OÜ, Estland)',
-        providerCountry: 'Estland / ggf. weitere Rechenzentren weltweit',
-        transferToThirdCountry: true,
-        legalBasis: 'Art. 6 Abs. 1 lit. a DSGVO (Einwilligung)',
-        duration: 'Sitzungs- bzw. anbieterabhängig; siehe Anbieter-Hinweis',
-      },
-    ],
-  },
-  {
     key: 'camera',
     label: 'Gerätekamera (Startseite)',
     description:
@@ -323,13 +302,11 @@ function SummaryView({
             className="mt-2 text-sm leading-relaxed text-shell-muted"
           >
             Wir nutzen kein werbliches Tracking. Für die Schrift „Inter" (Google
-            Fonts), optional für den Blog ein eingebettetes Widget von Soro sowie
-            optional die Gerätekamera für einen Spiegel-Effekt auf der Startseite —
-            jeweils nur mit Ihrer Zustimmung über diesen Hinweis. Bei Fonts und Blog
-            kann Ihre IP-Adresse u. a. an Anbieter in Drittländern (z. B. USA)
+            Fonts) sowie optional die Gerätekamera für einen Spiegel-Effekt auf der
+            Startseite — jeweils nur mit Ihrer Zustimmung über diesen Hinweis. Bei
+            Fonts kann Ihre IP-Adresse u. a. an Anbieter in Drittländern (z. B. USA)
             übertragen werden. Ohne Zustimmung zur Schrift nutzen wir die
-            System-Schrift; ohne Blog-Zustimmung bleibt der Blog-Bereich ohne Soro.
-            Wenn Sie der Kamera-Einwilligung zustimmen (über „Alle akzeptieren“ oder
+            System-Schrift. Wenn Sie der Kamera-Einwilligung zustimmen (über „Alle akzeptieren“ oder
             in den Einstellungen), fragt Ihr Browser beim Besuch der Startseite{' '}
             <strong className="font-medium text-gallery-ink">gesondert</strong> nach
             Zugriff auf die Kamera — dort können Sie erlauben oder ablehnen; ohne
