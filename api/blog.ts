@@ -10,26 +10,26 @@ const LIST_CACHE = 'public, s-maxage=60, stale-while-revalidate=300'
 const POST_CACHE = 'public, s-maxage=600, stale-while-revalidate=86400'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== 'GET') {
-    res.setHeader('Allow', 'GET')
-    return res.status(405).json({ error: 'Method not allowed' })
-  }
-
-  if (!getBlogFirestoreConfig()) {
-    return res.status(503).json({
-      error: 'Firebase nicht konfiguriert',
-    })
-  }
-
-  const slugParam = req.query.slug
-  const slug =
-    typeof slugParam === 'string'
-      ? slugParam
-      : Array.isArray(slugParam)
-        ? slugParam[0]
-        : undefined
-
+  // Alles in einen Schutz-Block — kein Fehler darf als undurchsichtiger
+  // Plattform-Crash ("A server error has occurred") nach außen dringen.
   try {
+    if (req.method !== 'GET') {
+      res.setHeader('Allow', 'GET')
+      return res.status(405).json({ error: 'Method not allowed' })
+    }
+
+    if (!getBlogFirestoreConfig()) {
+      return res.status(503).json({ error: 'Firebase nicht konfiguriert' })
+    }
+
+    const slugParam = req.query?.slug
+    const slug =
+      typeof slugParam === 'string'
+        ? slugParam
+        : Array.isArray(slugParam)
+          ? slugParam[0]
+          : undefined
+
     if (slug) {
       const post = await fetchBlogPostBySlugFromFirestore(slug)
       if (!post) {
@@ -49,6 +49,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     })
   } catch (e) {
     const message = e instanceof Error ? e.message : 'Unbekannter Fehler'
+    // In Vercel-Function-Logs sichtbar, hilft bei der Ursachenanalyse.
+    console.error('[api/blog] Fehler:', e)
     return res.status(500).json({ error: message })
   }
 }

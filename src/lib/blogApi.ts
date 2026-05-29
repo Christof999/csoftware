@@ -1,4 +1,9 @@
 import { normalizeBlogHtml } from './blogContent'
+import {
+  fetchBlogListDirect,
+  fetchBlogPostBySlugDirect,
+  isFirestoreClientConfigured,
+} from './firestoreBlog'
 import type { BlogPost, BlogPostListItem } from '../types/blog'
 
 type ListResponse = {
@@ -63,13 +68,35 @@ export async function fetchBlogListManifest(): Promise<BlogPostListItem[] | null
   }
 }
 
-/** Gecachte Server-API — nur Metadaten, kein HTML-Content. */
+/**
+ * Beitragsliste laden. Bevorzugt den direkten Firestore-Lesepfad im Browser
+ * (zuverlässig, kein Cold-Start) und fällt auf die Serverless-API zurück.
+ */
 export async function fetchBlogListFromApi(): Promise<BlogPostListItem[]> {
+  if (isFirestoreClientConfigured()) {
+    try {
+      return await fetchBlogListDirect()
+    } catch {
+      // Netz-/Berechtigungsproblem → Serverless-API als Fallback versuchen.
+    }
+  }
   const data = await readJson<ListResponse>('/api/blog')
   return data.posts.map(parseListItem)
 }
 
+/**
+ * Einzelbeitrag laden. Direkter Firestore-Lesepfad zuerst; ein dort
+ * authoritatives "nicht gefunden" (null) wird respektiert. Bei Lesefehler
+ * greift die Serverless-API als Fallback.
+ */
 export async function fetchBlogPostFromApi(slug: string): Promise<BlogPost | null> {
+  if (isFirestoreClientConfigured()) {
+    try {
+      return await fetchBlogPostBySlugDirect(slug)
+    } catch {
+      // Direkter Lesepfad fehlgeschlagen → Serverless-API als Fallback.
+    }
+  }
   const data = await readJson<PostResponse>(
     `/api/blog?slug=${encodeURIComponent(slug)}`,
   )
