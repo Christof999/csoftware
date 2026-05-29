@@ -11,6 +11,12 @@
   ],
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "soergel-design.de" }],
+      "destination": "https://www.soergel-design.de/:path*",
+      "permanent": true
+    },
+    {
       "source": "/blog-2",
       "destination": "/blog",
       "permanent": true
