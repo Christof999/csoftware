@@ -7,13 +7,18 @@ import {
   fetchBlogListManifest,
 } from '../lib/blogApi'
 import { formatBlogDate } from '../lib/blogPosts'
+import { getPrerenderedList } from '../lib/blogPrerenderStore'
 import { fadeInUp, staggerContainer } from '../lib/motion'
 import type { BlogPostListItem } from '../types/blog'
 import { SITE_NAME } from '../site'
 
 export function BlogPage() {
-  const [posts, setPosts] = useState<BlogPostListItem[]>([])
-  const [loading, setLoading] = useState(true)
+  // Beim Build-Prerender steht die Liste synchron bereit, damit /blog echte
+  // Links auf /blog/:slug ausliefert (interne Verlinkung für Crawler).
+  const prerenderedPosts = getPrerenderedList()
+
+  const [posts, setPosts] = useState<BlogPostListItem[]>(prerenderedPosts ?? [])
+  const [loading, setLoading] = useState(prerenderedPosts === null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {

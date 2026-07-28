@@ -1,6 +1,11 @@
 /**
  * Erzeugt public/blog2-list.json beim Build.
  * Logik analog api/lib/firestoreValue.ts (ohne orderBy — alle Docs mit title+slug).
+ *
+ * Zusätzlich entsteht `.blog-prerender.json` im Projektwurzelverzeichnis: dieselben
+ * Beiträge **inklusive HTML-Content**, ausschließlich für den Build-Zeit-Prerender
+ * (vite.config.ts). Diese Datei wird nicht ausgeliefert — der ausgelieferte
+ * public/blog2-list.json bleibt schlank ohne Content.
  */
 import { writeFile, mkdir } from 'node:fs/promises'
 import path from 'node:path'
@@ -9,6 +14,7 @@ import { fileURLToPath } from 'node:url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const outPath = path.resolve(__dirname, '../public/blog2-list.json')
 const sitemapPath = path.resolve(__dirname, '../public/sitemap.xml')
+const prerenderDataPath = path.resolve(__dirname, '../.blog-prerender.json')
 
 /** Statische Routen für die sitemap.xml (konsistent mit dem Router). */
 const STATIC_ROUTES = [
@@ -49,6 +55,27 @@ function buildSitemap(posts, origin) {
     )
   }
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join('\n')}\n</urlset>\n`
+}
+
+/**
+ * Build-Zeit-Daten für den Prerender (inkl. Content). Fehler hier dürfen den
+ * Build nicht abbrechen — ohne Datei werden schlicht keine Beiträge vorgerendert.
+ */
+async function writePrerenderData(postsWithContent) {
+  try {
+    await writeFile(
+      prerenderDataPath,
+      JSON.stringify({ posts: postsWithContent, generatedAt: new Date().toISOString() }),
+    )
+    console.log(
+      `[blog-manifest] ${postsWithContent.length} Beiträge → .blog-prerender.json (Prerender)`,
+    )
+  } catch (e) {
+    console.warn(
+      '[blog-manifest] Prerender-Daten-Fehler:',
+      e instanceof Error ? e.message : e,
+    )
+  }
 }
 
 async function writeSitemap(posts) {
@@ -215,6 +242,7 @@ async function main() {
       JSON.stringify({ posts: [], generatedAt: new Date().toISOString() }),
     )
     await writeSitemap([])
+    await writePrerenderData([])
     return
   }
 
@@ -242,6 +270,7 @@ async function main() {
           slug,
           metaDescription,
           publishedAt: fieldIso(fields, 'published_at', 'publishedAt'),
+          content,
         }
       })
       .filter(Boolean)
@@ -250,15 +279,19 @@ async function main() {
           new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
       )
 
+    // Ausgeliefertes Manifest bleibt ohne Content (Ladezeit der Blog-Übersicht).
+    const listPosts = posts.map(({ content: _content, ...rest }) => rest)
+
     await writeFile(
       outPath,
       JSON.stringify({
-        posts,
+        posts: listPosts,
         generatedAt: new Date().toISOString(),
       }),
     )
-    console.log(`[blog-manifest] ${posts.length} Beiträge → public/blog2-list.json`)
-    await writeSitemap(posts)
+    console.log(`[blog-manifest] ${listPosts.length} Beiträge → public/blog2-list.json`)
+    await writeSitemap(listPosts)
+    await writePrerenderData(posts)
   } catch (e) {
     console.warn('[blog-manifest] Fehler:', e instanceof Error ? e.message : e)
     await writeFile(
@@ -266,6 +299,7 @@ async function main() {
       JSON.stringify({ posts: [], generatedAt: new Date().toISOString() }),
     )
     await writeSitemap([])
+    await writePrerenderData([])
   }
 }
 

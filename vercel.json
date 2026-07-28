@@ -3,17 +3,23 @@
   "framework": "vite",
   "buildCommand": "npm run build:vercel",
   "outputDirectory": "dist",
+  "trailingSlash": false,
   "rewrites": [
     {
       "source": "/((?!api/).*)",
-      "destination": "/index.html"
+      "destination": "/app.html"
     }
   ],
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "soergel-design.de" }],
+      "has": [{ "type": "host", "value": "^soergel-design\\.de$" }],
       "destination": "https://www.soergel-design.de/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/app.html",
+      "destination": "/",
       "permanent": true
     },
     {

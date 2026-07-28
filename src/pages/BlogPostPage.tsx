@@ -4,8 +4,9 @@ import { Link, useParams } from 'react-router-dom'
 import { BlogProse } from '../components/blog/BlogProse'
 import { fetchBlogPostFromApi } from '../lib/blogApi'
 import { formatBlogDate } from '../lib/blogPosts'
+import { getPrerenderedPost } from '../lib/blogPrerenderStore'
 import { fadeInUp, staggerContainer } from '../lib/motion'
-import { canonicalUrl } from '../seo/routeMeta'
+import { blogPostRouteMeta, canonicalUrl } from '../seo/routeMeta'
 import { blogPostBreadcrumbJsonLd, blogPostingJsonLd } from '../seo/schema'
 import { useJsonLd, usePageHead } from '../seo/usePageHead'
 import type { BlogPost } from '../types/blog'
@@ -15,8 +16,12 @@ export function BlogPostPage() {
   const { slug: slugParam } = useParams<{ slug: string }>()
   const slug = slugParam ? decodeURIComponent(slugParam) : ''
 
-  const [post, setPost] = useState<BlogPost | null>(null)
-  const [loading, setLoading] = useState(true)
+  // Beim Build-Prerender liegt der Beitrag synchron vor → statisches HTML mit
+  // echtem Inhalt. Im Browser ist das immer `null`, es bleibt beim Laden per Effekt.
+  const prerendered = getPrerenderedPost(slug)
+
+  const [post, setPost] = useState<BlogPost | null>(prerendered)
+  const [loading, setLoading] = useState(prerendered === null)
   const [notFound, setNotFound] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -69,13 +74,11 @@ export function BlogPostPage() {
 
   const pageMeta = useMemo(() => {
     if (!post) return null
-    const description =
-      post.metaDescription ||
-      `${post.title} — Blog von ${SITE_NAME} zu Webdesign, SEO und digitaler Sichtbarkeit in Ansbach und Mittelfranken.`
+    // Gleiche Quelle wie der Prerender (src/prerender.tsx) — Roh-HTML und
+    // gerendertes DOM dürfen bei Titel/Description/Canonical nicht auseinanderlaufen.
+    const meta = blogPostRouteMeta(post)
     return {
-      title: `${post.title} | Blog · ${SITE_NAME}`,
-      description,
-      indexable: true,
+      ...meta,
       canonical: canonical || undefined,
       ogType: 'article' as const,
     }

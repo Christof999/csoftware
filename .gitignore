@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Build-Zeit-Blogdaten für den Prerender (aus Firestore, siehe scripts/generate-blog-manifest.mjs)
+.blog-prerender.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

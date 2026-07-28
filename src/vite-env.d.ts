@@ -23,3 +23,19 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }
+
+/**
+ * Blog-Beiträge inklusive Content, beim Build aus `.blog-prerender.json`
+ * eingebettet (siehe vite.config.ts). Nur der Prerender-Entry importiert
+ * dieses Modul — es landet nicht im Client-Bundle.
+ */
+declare module 'virtual:blog-prerender-data' {
+  export const posts: {
+    id: string
+    slug: string
+    title: string
+    metaDescription?: string
+    publishedAt: string
+    content?: string
+  }[]
+}

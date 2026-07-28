@@ -14,11 +14,20 @@ export type HeadElement = {
   children?: string
 }
 
+export type PrerenderHeadOptions = {
+  /** Blog-Beiträge sind `article`, alles andere `website`. */
+  ogType?: 'website' | 'article'
+  /** Zusätzliche JSON-LD-Blöcke (z. B. BlogPosting + Breadcrumbs eines Beitrags). */
+  jsonLd?: { id: string; data: object }[]
+}
+
 export function buildPrerenderHeadElements(
   meta: RouteMeta,
   canonical: string,
   pathname: string,
+  options: PrerenderHeadOptions = {},
 ): HeadElement[] {
+  const { ogType: ogTypeValue = 'website', jsonLd = [] } = options
   const robots = meta.indexable
     ? 'index,follow,max-image-preview:large'
     : 'noindex,nofollow'
@@ -37,7 +46,7 @@ export function buildPrerenderHeadElements(
       type: 'meta',
       props: { name: 'twitter:description', content: meta.description },
     },
-    { type: 'meta', props: { property: 'og:type', content: 'website' } },
+    { type: 'meta', props: { property: 'og:type', content: ogTypeValue } },
     { type: 'meta', props: { property: 'og:title', content: meta.title } },
     {
       type: 'meta',
@@ -96,6 +105,14 @@ export function buildPrerenderHeadElements(
       type: 'script',
       props: { type: 'application/ld+json', id: 'jsonld-howto' },
       children: JSON.stringify(howTo),
+    })
+  }
+
+  for (const entry of jsonLd) {
+    elements.push({
+      type: 'script',
+      props: { type: 'application/ld+json', id: entry.id },
+      children: JSON.stringify(entry.data),
     })
   }
 

@@ -84,6 +84,24 @@ const ROUTE_META: Record<KnownPath, Omit<RouteMeta, 'indexable'>> = {
   },
 }
 
+/**
+ * Meta eines konkreten Blog-Beitrags — gemeinsame Quelle für den Build-Prerender
+ * (statisches HTML) und die Client-Navigation, damit beide dieselben Werte setzen.
+ */
+export function blogPostRouteMeta(post: {
+  title: string
+  metaDescription?: string
+}): RouteMeta {
+  const title = post.title.trim() || 'Beitrag'
+  return {
+    title: `${title} | Blog · ${SITE_NAME}`,
+    description:
+      post.metaDescription?.trim() ||
+      `${title} — Blog von ${SITE_NAME} zu Webdesign, SEO und digitaler Sichtbarkeit in Ansbach und Mittelfranken.`,
+    indexable: true,
+  }
+}
+
 export function getRouteMeta(pathname: string): RouteMeta {
   const path = normalizeRoutePath(pathname)
   if (isBlogPostPath(path)) {
