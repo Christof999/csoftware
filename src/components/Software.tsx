@@ -10,6 +10,7 @@ import {
   Cloud,
   FileSignature,
   FileSpreadsheet,
+  FileStack,
   Inbox,
   KeyRound,
   Layers,
@@ -17,6 +18,7 @@ import {
   Mails,
   Receipt,
   Repeat,
+  Ruler,
   Scale,
   Search,
   Smartphone,
@@ -27,19 +29,44 @@ import { Link } from 'react-router-dom'
 import { fadeInUp, staggerContainer } from '../lib/motion'
 import { CaseStudyBlock } from './software/CaseStudies'
 import { CASE_STUDIES } from './software/caseStudyData'
+import { MockupNote, Reveal } from './software/chrome'
 import {
   AccountingMockup,
-  DashboardMockup,
-  InboxMockup,
-  InvoiceMockup,
-  MockupNote,
-  TimeTrackingMockup,
-} from './software/mockups'
+  InvoiceDashboardMockup,
+  InvoiceListMockup,
+  NachkalkulationMockup,
+} from './software/invoiceMockups'
+import { InboxMockup } from './software/inboxMockups'
+import {
+  DatevReportMockup,
+  TimeAdminOverviewMockup,
+  TimeTrackingPhoneMockup,
+} from './software/timeMockups'
 import { SystemFlow } from './software/SystemFlow'
 
 // ─── Daten ────────────────────────────────────────────────────────────────────
 
 type Feature = { Icon: typeof Clock; title: string; text: string }
+
+type View = { Mockup: () => React.ReactElement; note: string; narrow?: boolean }
+
+/**
+ * Eine schmale Ansicht (das Telefon) steht neben der nächsten, statt allein
+ * eine ganze Zeile zu belegen und rechts Leere zu lassen.
+ */
+function groupViews(views: View[]): View[][] {
+  const rows: View[][] = []
+  for (let i = 0; i < views.length; i += 1) {
+    const next = views[i + 1]
+    if (views[i].narrow && next) {
+      rows.push([views[i], next])
+      i += 1
+    } else {
+      rows.push([views[i]])
+    }
+  }
+  return rows
+}
 
 type Program = {
   id: string
@@ -49,11 +76,10 @@ type Program = {
   claim: string
   lead: string
   forWhom: string
+  views: View[]
   features: Feature[]
-  Mockup: () => React.ReactElement
-  note: string
-  Secondary?: () => React.ReactElement
-  secondaryNote?: string
+  /** Nur beim Rechnungsprogramm: was alles im Menü steht. */
+  modules?: { group: string; items: string[] }[]
   bg: string
 }
 
@@ -66,7 +92,23 @@ const PROGRAMS: Program[] = [
     claim: 'Die Stunde wird dort erfasst, wo sie entsteht.',
     lead:
       'Eine App fürs Handy für alle, die draußen arbeiten — und eine Büroansicht für alle, die daraus Berichte, Löhne und Rechnungen machen müssen. Gestempelt wird auf das Projekt, nicht ins Leere: was dabei verbaut, gefahren und fotografiert wurde, hängt am selben Eintrag.',
-    forWhom: 'Handwerk, Bau, Montage, Außendienst — überall dort, wo die Arbeit nicht am Schreibtisch stattfindet.',
+    forWhom:
+      'Handwerk, Bau, Montage, Außendienst — überall dort, wo die Arbeit nicht am Schreibtisch stattfindet.',
+    views: [
+      {
+        Mockup: TimeTrackingPhoneMockup,
+        note: 'Auf der Baustelle: Status, laufende Zeit und das Ausstempeln mit Pflichtfeld für die Pause.',
+        narrow: true,
+      },
+      {
+        Mockup: TimeAdminOverviewMockup,
+        note: 'Im Büro: wer eingestempelt ist, was heute passiert ist, welche Anträge offen sind.',
+      },
+      {
+        Mockup: DatevReportMockup,
+        note: 'Zum Monatsende: der Nachweis der täglichen Arbeitszeit im DATEV-Format — Abwesenheitstage mit Kürzel und Regelarbeitszeit.',
+      },
+    ],
     features: [
       {
         Icon: Smartphone,
@@ -86,7 +128,7 @@ const PROGRAMS: Program[] = [
       {
         Icon: Scale,
         title: 'Pausen nach Gesetz',
-        text: 'Pausen werden nach dem Arbeitszeitgesetz gesetzt, Kommen und Gehen auf ein 15-Minuten-Raster geglättet, regionale Feiertage hinterlegt. Der Nachweis entsteht nebenbei.',
+        text: 'Pausen werden nach dem Arbeitszeitgesetz gesetzt, Kommen und Gehen auf ein 15-Minuten-Raster geglättet, regionale Feiertage hinterlegt.',
       },
       {
         Icon: CalendarDays,
@@ -109,11 +151,6 @@ const PROGRAMS: Program[] = [
         text: 'Die Büroansicht wird aus Kacheln zusammengestellt: eingestempelte Mitarbeiter, aktive Projekte, offene Anträge, Live-Aktivitäten — jeder sieht, was er braucht.',
       },
     ],
-    Mockup: TimeTrackingMockup,
-    note:
-      'Nachgebaute Ansichten mit erfundenen Daten — Aufbau und Felder entsprechen dem Programm.',
-    Secondary: DashboardMockup,
-    secondaryNote: 'Die Büroansicht: Kacheln frei zusammenstellbar.',
     bg: 'bg-gallery-bg',
   },
   {
@@ -121,45 +158,74 @@ const PROGRAMS: Program[] = [
     n: '02',
     eyebrow: 'Angebot bis Zahlung',
     name: 'Auftrag & Rechnung',
-    claim: 'Ein Beleg entsteht aus dem vorherigen — nicht aus einer Vorlage.',
+    claim: 'Der ganze kaufmännische Teil, in eine Richtung und zurück.',
     lead:
-      'Angebot, Lieferschein, Rechnung, Mahnung: jeder Schritt baut auf dem davor auf. Dazu die Gegenrichtung — Eingangsrechnungen, Zahlungen, Bankabgleich und das Monatsbündel fürs Steuerbüro. Beide Seiten im selben Programm, weil sie im Betrieb auch zusammengehören.',
-    forWhom: 'Betriebe, die mit Aufmaß, Nachträgen und Teilrechnungen arbeiten — und denen Standardsoftware zu eng oder zu groß ist.',
+      'Hier läuft der kaufmännische Teil des Betriebs zusammen. In eine Richtung: Angebot, Lieferschein, Rechnung, Mahnung — jeder Beleg entsteht aus dem davor, keiner wird abgetippt. In die andere Richtung: Eingangsrechnungen, Zahlungen, Bankabgleich und das Monatsbündel fürs Steuerbüro. Dazwischen die Nachkalkulation, die beide Seiten mit der Zeiterfassung verbindet.',
+    forWhom:
+      'Betriebe, die mit Aufmaß, Nachträgen und Teilrechnungen arbeiten — und denen Standardsoftware zu eng oder zu groß ist.',
+    views: [
+      {
+        Mockup: InvoiceDashboardMockup,
+        note: 'Der Einstieg: offene Posten, ablaufende Angebote, eigene Aufgaben, Umsatz der letzten sechs Monate.',
+      },
+      {
+        Mockup: InvoiceListMockup,
+        note: 'Ausgangsrechnungen mit Bearbeiter, Fälligkeit und Status. Bezahltes und Storniertes wandert ins Archiv, damit die Arbeitsliste kurz bleibt.',
+      },
+      {
+        Mockup: NachkalkulationMockup,
+        note: 'Die Nachkalkulation in der Rechnung: Soll aus dem Angebot, Ist aus der Zeiterfassung — angehakt und übernommen.',
+      },
+      {
+        Mockup: AccountingMockup,
+        note: 'Die Gegenrichtung: Eingangsrechnungen mit Skonto und Fälligkeit, Bankabgleich, und der Hinweis auf eine eigene Rechnung, die hier nicht hingehört.',
+      },
+    ],
     features: [
       {
         Icon: FileSignature,
         title: 'Angebot → Lieferschein → Rechnung',
-        text: 'Belege lassen sich umwandeln statt abtippen. Positionen mit Variationen, kundenspezifische Preise, Textbausteine und eigene Briefköpfe je Firma.',
+        text: 'Belege lassen sich umwandeln statt abtippen. Positionen per Drag-and-drop sortieren, Zwischenüberschriften, Textbausteine, kundenspezifische Preise und eigene Briefköpfe je Firma.',
       },
       {
         Icon: Receipt,
         title: 'Nachkalkulation Soll/Ist',
-        text: 'Das Angebot ist das Soll, die Zeiterfassung liefert das Ist. Abweichungen stehen Zeile für Zeile da — und was zusätzlich verbaut wurde, als eigene Position.',
+        text: 'Das Angebot ist das Soll, die Zeiterfassung liefert das Ist. Abweichungen stehen Zeile für Zeile da; Azubi-Stunden laufen über einen eigenen Verrechnungssatz, nicht über den Facharbeitersatz.',
       },
       {
         Icon: Bot,
         title: 'Eingangsrechnungen lesen lassen',
-        text: 'PDF oder Foto hochladen, den Rest macht Texterkennung und KI: Lieferant, Nummer, Beträge, Steuer, Skontofrist, Bankverbindung. Geprüft und freigegeben wird von Hand.',
+        text: 'PDF oder Foto hochladen, den Rest machen Texterkennung und KI: Lieferant, Nummer, Netto, Steuer, Skontofrist, IBAN. Geprüft und freigegeben wird von Hand.',
       },
       {
         Icon: Banknote,
         title: 'Bankabgleich',
-        text: 'Kontoauszug einlesen, Umsätze werden Belegen zugeordnet. Denselben Auszug zweimal einzulesen ist harmlos — nichts wird doppelt verbucht.',
+        text: 'Kontoauszug einlesen, Umsätze werden Belegen zugeordnet. Denselben Auszug zweimal einzulesen ist harmlos — nichts wird doppelt verbucht, bestätigte Zuordnungen bleiben.',
       },
       {
         Icon: FileSpreadsheet,
         title: 'Monatsbündel fürs Steuerbüro',
-        text: 'Alle Belege eines Monats als ein PDF, auf Knopfdruck verschickt — mit einer Liste dessen, was noch fehlt.',
+        text: 'Alle Belege eines Monats als ein PDF, auf Knopfdruck gebaut und verschickt — mit einer Liste dessen, was noch fehlt. Zweimal verschicken verhindert das Programm.',
       },
       {
-        Icon: Search,
-        title: 'GAEB, Leistungsverzeichnisse, Import',
-        text: 'Ausschreibungen im GAEB-Format einlesen, Leistungsverzeichnisse pflegen, Artikel- und Kundenstamm aus bestehenden Listen übernehmen.',
+        Icon: Ruler,
+        title: 'GAEB & Leistungsverzeichnisse',
+        text: 'Ausschreibungen im GAEB-Format einlesen, Leistungsverzeichnisse pflegen und daraus Angebote bauen — statt Positionen aus einem PDF abzuschreiben.',
       },
       {
         Icon: Repeat,
-        title: 'Mahnwesen & Aufgaben',
-        text: 'Offene Posten, Zahlungserinnerungen und Wiedervorlagen laufen mit — inklusive dessen, was daraus an Arbeit folgt.',
+        title: 'Mahnwesen, Zahlungen, Aufgaben',
+        text: 'Offene Posten, Zahlungseingänge, Mahnstufen und Wiedervorlagen laufen mit — inklusive der Aufgaben, die daraus für einzelne Mitarbeiter entstehen.',
+      },
+      {
+        Icon: FileStack,
+        title: 'Import statt Nacherfassung',
+        text: 'Artikel, Kunden und ganze Altbestände an Dokumenten lassen sich übernehmen. Der Umstieg beginnt nicht bei null.',
+      },
+      {
+        Icon: Search,
+        title: 'Suche und Assistent',
+        text: 'Eine Suche über alle Belege, Kunden und Artikel — und ein KI-Assistent, der Fragen an den eigenen Datenbestand in normaler Sprache beantwortet.',
       },
       {
         Icon: Building2,
@@ -167,11 +233,28 @@ const PROGRAMS: Program[] = [
         text: 'Getrennte Nummernkreise, Briefköpfe und Auswertungen, wenn im Haus mehr als eine Firma geführt wird.',
       },
     ],
-    Mockup: InvoiceMockup,
-    note:
-      'Die Nachkalkulation: links das Angebot, rechts, was tatsächlich gebraucht wurde.',
-    Secondary: AccountingMockup,
-    secondaryNote: 'Die Gegenrichtung — Eingangsrechnungen, Skonto, Bankabgleich.',
+    modules: [
+      {
+        group: 'Verkauf',
+        items: ['Angebote', 'Lieferscheine', 'Rechnungen', 'Rechnungsarchiv', 'Mahnungen', 'Zahlungen'],
+      },
+      {
+        group: 'Stammdaten',
+        items: ['Artikel & Variationen', 'Kundenpreise', 'Kunden', 'Kategorien', 'Standardtexte', 'Briefköpfe'],
+      },
+      {
+        group: 'Kalkulation',
+        items: ['Leistungsverzeichnisse', 'GAEB-Import', 'Nachkalkulation Soll/Ist'],
+      },
+      {
+        group: 'Buchhaltung',
+        items: ['Eingangsrechnungen', 'Belegerkennung', 'Bankabgleich', 'Monatsbündel Steuerbüro'],
+      },
+      {
+        group: 'Organisation',
+        items: ['Aufgaben', 'Benachrichtigungen', 'Statistiken', 'KI-Assistent', 'Import'],
+      },
+    ],
     bg: 'bg-gallery-surface',
   },
   {
@@ -182,7 +265,14 @@ const PROGRAMS: Program[] = [
     claim: 'Post, die sich selbst einsortiert.',
     lead:
       'Mehrere Postfächer laufen in einem Eingang zusammen. Eine KI liest jede Mail samt Anhang, ordnet sie einer festen Kategorie zu und zieht bei Rechnungen die Zahlen heraus. Was in die Buchhaltung gehört, geht von dort automatisch weiter.',
-    forWhom: 'Betriebe mit mehreren Mailadressen, bei denen Belege zwischen info@, buchhaltung@ und dem Handy des Chefs verloren gehen.',
+    forWhom:
+      'Betriebe mit mehreren Mailadressen, bei denen Belege zwischen info@, buchhaltung@ und dem Handy des Chefs verloren gehen.',
+    views: [
+      {
+        Mockup: InboxMockup,
+        note: 'Ordner und Postfächer links, Kategorien als Filter, je Mail eine Karte mit Abzeichen und der Zusammenfassung der KI. Unten das, was aus Mail und PDF herausgelesen und weitergereicht wurde.',
+      },
+    ],
     features: [
       {
         Icon: Mails,
@@ -215,9 +305,6 @@ const PROGRAMS: Program[] = [
         text: 'Mehrbenutzer-System mit getrennten Posteingängen und Postfächern. Konten legt ein Administrator an — eine Selbstregistrierung gibt es nicht.',
       },
     ],
-    Mockup: InboxMockup,
-    note:
-      'Oben die Sortierung, unten das, was aus Mail und PDF herausgelesen wurde.',
     bg: 'bg-gallery-bg',
   },
 ]
@@ -319,123 +406,164 @@ export function Software() {
                 <a
                   key={item.id}
                   href={`#${item.id}`}
-                  className="inline-flex items-center gap-2 rounded-full border border-gallery-line bg-gallery-bg px-4 py-2 text-xs font-medium text-gallery-ink transition hover:border-stone-400 dark:hover:border-stone-600"
+                  className="inline-flex items-center gap-2 rounded-full border border-gallery-line bg-gallery-bg px-4 py-2 text-xs font-medium text-gallery-ink transition hover:border-stone-400 active:scale-[0.98] dark:hover:border-stone-600"
                 >
                   <span className="font-mono text-shell-subtle">{item.n}</span>
                   {item.label}
                 </a>
               ))}
             </motion.nav>
+
+            <motion.p
+              custom={4}
+              variants={fadeInUp}
+              className="mt-8 max-w-2xl border-l-2 border-gallery-line pl-4 text-sm leading-relaxed text-shell-subtle"
+            >
+              Die Ansichten auf dieser Seite sind nachgebaut: Aufbau, Menüs, Spalten und
+              Abzeichen entsprechen den Programmen, die Daten darin sind erfunden. Die
+              Akzentfarbe und das Logo kommen im Einsatz aus dem Erscheinungsbild des
+              Betriebs — hier stehen neutrale.
+            </motion.p>
           </motion.div>
         </div>
       </section>
 
       {/* Programme */}
-      {PROGRAMS.map((p, pi) => {
-        // Abwechselnd: erste Sektion Ansicht links, zweite rechts, …
-        const mockupRight = pi % 2 === 1
-        return (
-          <section
-            key={p.id}
-            id={p.id}
-            className={`scroll-mt-16 border-b border-gallery-line py-20 sm:py-28 ${p.bg}`}
-          >
-            <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: '-80px' }}
-                variants={staggerContainer}
-              >
-                {/* Kopfzeile */}
-                <div className="grid gap-8 sm:grid-cols-[1fr_2fr] sm:gap-20 sm:items-start">
-                  <div>
-                    <motion.p
-                      custom={0}
-                      variants={fadeInUp}
-                      className="font-mono text-xs text-shell-subtle"
-                    >
-                      {p.n}
-                    </motion.p>
-                    <motion.p
-                      custom={1}
-                      variants={fadeInUp}
-                      className="mt-2 text-xs font-medium uppercase tracking-widest text-shell-muted"
-                    >
-                      {p.eyebrow}
-                    </motion.p>
-                  </div>
-
-                  <div>
-                    <motion.h2
-                      custom={1}
-                      variants={fadeInUp}
-                      className="font-display text-3xl font-semibold leading-tight tracking-tight text-gallery-ink sm:text-4xl sm:leading-[1.12]"
-                    >
-                      {p.name} —{' '}
-                      <span className="text-shell-muted">{p.claim}</span>
-                    </motion.h2>
-
-                    <motion.p
-                      custom={2}
-                      variants={fadeInUp}
-                      className="mt-6 text-base leading-relaxed text-shell-muted sm:text-lg"
-                    >
-                      {p.lead}
-                    </motion.p>
-
-                    <motion.p
-                      custom={3}
-                      variants={fadeInUp}
-                      className="mt-5 border-l-2 border-gallery-line pl-4 text-sm leading-relaxed text-shell-subtle"
-                    >
-                      <span className="font-medium text-shell-muted">Für wen: </span>
-                      {p.forWhom}
-                    </motion.p>
-                  </div>
-                </div>
-
-                {/* Ansicht + Funktionen */}
-                <div
-                  className={`mt-14 grid gap-12 lg:grid-cols-2 lg:items-start lg:gap-16 ${
-                    mockupRight ? 'lg:[&>*:first-child]:order-2' : ''
-                  }`}
+      {PROGRAMS.map((p) => (
+        <section
+          key={p.id}
+          id={p.id}
+          className={`scroll-mt-16 border-b border-gallery-line py-20 sm:py-28 ${p.bg}`}
+        >
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-80px' }}
+              variants={staggerContainer}
+              className="grid gap-8 sm:grid-cols-[1fr_2fr] sm:gap-20 sm:items-start"
+            >
+              <div>
+                <motion.p
+                  custom={0}
+                  variants={fadeInUp}
+                  className="font-mono text-xs text-shell-subtle"
                 >
-                  <motion.div custom={4} variants={fadeInUp} className="min-w-0">
-                    <p.Mockup />
-                    <MockupNote>{p.note}</MockupNote>
+                  {p.n}
+                </motion.p>
+                <motion.p
+                  custom={1}
+                  variants={fadeInUp}
+                  className="mt-2 text-xs font-medium uppercase tracking-widest text-shell-muted"
+                >
+                  {p.eyebrow}
+                </motion.p>
+              </div>
 
-                    {p.Secondary ? (
-                      <div className="mt-8">
-                        <p.Secondary />
-                        {p.secondaryNote ? <MockupNote>{p.secondaryNote}</MockupNote> : null}
-                      </div>
-                    ) : null}
-                  </motion.div>
+              <div>
+                <motion.h2
+                  custom={1}
+                  variants={fadeInUp}
+                  className="font-display text-3xl font-semibold leading-tight tracking-tight text-gallery-ink sm:text-4xl sm:leading-[1.12]"
+                >
+                  {p.name} — <span className="text-shell-muted">{p.claim}</span>
+                </motion.h2>
 
-                  <motion.div
-                    custom={5}
-                    variants={fadeInUp}
-                    className="grid gap-x-8 gap-y-7 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2"
+                <motion.p
+                  custom={2}
+                  variants={fadeInUp}
+                  className="mt-6 text-base leading-relaxed text-shell-muted sm:text-lg"
+                >
+                  {p.lead}
+                </motion.p>
+
+                <motion.p
+                  custom={3}
+                  variants={fadeInUp}
+                  className="mt-5 border-l-2 border-gallery-line pl-4 text-sm leading-relaxed text-shell-subtle"
+                >
+                  <span className="font-medium text-shell-muted">Für wen: </span>
+                  {p.forWhom}
+                </motion.p>
+              </div>
+            </motion.div>
+
+            {/* Ansichten über die volle Breite */}
+            <div className="mt-14 space-y-10">
+              {groupViews(p.views).map((row, ri) => (
+                <Reveal key={ri} delay={ri === 0 ? 0 : 0.05}>
+                  <div
+                    className={
+                      row.length === 2
+                        ? 'grid gap-8 lg:grid-cols-[minmax(0,260px)_minmax(0,1fr)] lg:items-start'
+                        : ''
+                    }
                   >
-                    {p.features.map((f) => (
-                      <div key={f.title}>
-                        <f.Icon className="h-4 w-4 text-shell-subtle" aria-hidden />
-                        <p className="mt-3 font-display text-sm font-semibold text-gallery-ink">
-                          {f.title}
-                        </p>
-                        <p className="mt-1.5 text-sm leading-relaxed text-shell-muted">
-                          {f.text}
-                        </p>
+                    {row.map((v, vi) => (
+                      <div
+                        key={vi}
+                        className={v.narrow ? 'mx-auto w-full max-w-[260px]' : 'min-w-0'}
+                      >
+                        <v.Mockup />
+                        <MockupNote>{v.note}</MockupNote>
                       </div>
                     ))}
-                  </motion.div>
-                </div>
-              </motion.div>
+                  </div>
+                </Reveal>
+              ))}
             </div>
-          </section>
-        )
-      })}
+
+            {/* Funktionen */}
+            <Reveal delay={0.05}>
+              <div className="mt-16 grid gap-x-10 gap-y-8 border-t border-gallery-line pt-12 sm:grid-cols-2 lg:grid-cols-3">
+                {p.features.map((f) => (
+                  <div key={f.title}>
+                    <f.Icon className="h-4 w-4 text-shell-subtle" aria-hidden />
+                    <p className="mt-3 font-display text-sm font-semibold text-gallery-ink">
+                      {f.title}
+                    </p>
+                    <p className="mt-1.5 text-sm leading-relaxed text-shell-muted">{f.text}</p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+
+            {/* Was im Menü steht */}
+            {p.modules ? (
+              <Reveal delay={0.05}>
+                <div className="mt-12 rounded-2xl border border-gallery-line bg-gallery-bg p-6 sm:p-8">
+                  <p className="text-xs font-medium uppercase tracking-widest text-shell-muted">
+                    Was im Menü steht
+                  </p>
+                  <div className="mt-6 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-5">
+                    {p.modules.map((m) => (
+                      <div key={m.group}>
+                        <p className="font-display text-sm font-semibold text-gallery-ink">
+                          {m.group}
+                        </p>
+                        <ul className="mt-2.5 space-y-1.5">
+                          {m.items.map((i) => (
+                            <li
+                              key={i}
+                              className="flex gap-2 text-sm leading-snug text-shell-muted"
+                            >
+                              <span
+                                className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-shell-subtle"
+                                aria-hidden
+                              />
+                              {i}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
+            ) : null}
+          </div>
+        </section>
+      ))}
 
       {/* Zusammenspiel */}
       <section
