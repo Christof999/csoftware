@@ -5,6 +5,7 @@ import { HomeCta } from '../components/home/HomeCta'
 import { HomeManifesto } from '../components/home/HomeManifesto'
 import { HomePrint } from '../components/home/HomePrint'
 import { HomeProcess } from '../components/home/HomeProcess'
+import { HomeSoftware } from '../components/home/HomeSoftware'
 import { HomePromise } from '../components/home/HomePromise'
 import { HomeValueProps } from '../components/home/HomeValueProps'
 import { HomeWebsites } from '../components/home/HomeWebsites'
@@ -13,9 +14,10 @@ export function HomePage() {
   return (
     <>
       <Hero />
+      <HomeSoftware />
+      <HomeAutomation />
       <HomeWebsites />
       <HomeManifesto />
-      <HomeAutomation />
       <HomePrint />
       <HomeValueProps />
       <HomePromise />

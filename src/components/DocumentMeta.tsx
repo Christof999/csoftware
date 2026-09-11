@@ -6,6 +6,7 @@ import {
   faqPageJsonLd,
   howToHomeJsonLd,
   organizationWebsiteGraph,
+  softwareItemListJsonLd,
 } from '../seo/schema'
 import { SITE_NAME, siteOgImageUrl } from '../site'
 
@@ -131,6 +132,21 @@ export function DocumentMeta() {
     const scriptId = 'jsonld-howto'
     document.getElementById(scriptId)?.remove()
     const data = howToHomeJsonLd(pathname)
+    if (!data) return
+    const script = document.createElement('script')
+    script.id = scriptId
+    script.type = 'application/ld+json'
+    script.textContent = JSON.stringify(data)
+    document.head.appendChild(script)
+    return () => {
+      document.getElementById(scriptId)?.remove()
+    }
+  }, [pathname])
+
+  useEffect(() => {
+    const scriptId = 'jsonld-software'
+    document.getElementById(scriptId)?.remove()
+    const data = softwareItemListJsonLd(pathname)
     if (!data) return
     const script = document.createElement('script')
     script.id = scriptId

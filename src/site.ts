@@ -7,10 +7,10 @@ export const SITE_NAME_ASCII = 'SORGEL-design'
 
 /** Kurz für Meta-Titel / JSON-LD */
 export const SITE_TAGLINE =
-  'Webdesign, SEO, Google Ads, Web-Apps, Automatisierung & Media Design — online & offline'
+  'Unternehmenssoftware, Automatisierung & KI — dazu Webdesign, SEO, Google Ads und Media Design'
 
 export const SITE_DESCRIPTION =
-  `${SITE_NAME}: Webdesign, SEO, Google Ads, maßgeschneiderte Web-Lösungen, Business-Automatisierung mit n8n und KI sowie Media Design — Flyer, Print und einheitliche Marke online & offline.`
+  `${SITE_NAME}: eigene Unternehmenssoftware (Zeiterfassung, Auftrag & Rechnung, KI-Posteingang), Automatisierung von Abläufen mit n8n und KI — dazu Webdesign, SEO, Google Ads und Media Design für eine einheitliche Marke online & offline.`
 
 /** Canonical & Open-Graph: z. B. https://www.example.de (ohne Slash am Ende) */
 export const SITE_ORIGIN = (

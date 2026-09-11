@@ -34,6 +34,8 @@ export function breadcrumbJsonLd(pathname: string): object | null {
   ]
   if (path === '/leistungen') {
     items.push({ name: 'Leistungen', url: `${SITE_ORIGIN}/leistungen` })
+  } else if (path === '/software') {
+    items.push({ name: 'Software', url: `${SITE_ORIGIN}/software` })
   } else if (path === '/blog') {
     items.push({ name: 'Blog', url: `${SITE_ORIGIN}/blog` })
   } else if (path === '/kontakt') {
@@ -281,5 +283,65 @@ export function organizationWebsiteGraph(): object {
         publisher: { '@id': orgId },
       },
     ],
+  }
+}
+
+/**
+ * Die drei Programme als ItemList von SoftwareApplication — nur auf /software.
+ *
+ * Bewusst ohne `aggregateRating` oder `offers`: Bewertungen gibt es keine, und
+ * ein erfundener Preis im Markup wäre genau die Art Auszeichnung, die Google
+ * (zu Recht) abstraft.
+ */
+export function softwareItemListJsonLd(pathname: string): object | null {
+  if (!SITE_ORIGIN || normalizeRoutePath(pathname) !== '/software') return null
+
+  const programs = [
+    {
+      anchor: 'zeiterfassung',
+      name: 'Zeiterfassung',
+      category: 'BusinessApplication',
+      description:
+        'Mobile Zeiterfassung für Baustelle und Außendienst: Stempeln aufs Projekt, Material, Fotos und Fahrzeuge am Eintrag, Pausen nach Arbeitszeitgesetz, Urlaub und Überstunden — mit Projektbericht und DATEV-Nachweis der täglichen Arbeitszeit.',
+    },
+    {
+      anchor: 'auftrag-rechnung',
+      name: 'Auftrag & Rechnung',
+      category: 'FinanceApplication',
+      description:
+        'Angebot, Lieferschein, Rechnung und Mahnung bauen aufeinander auf. Dazu Nachkalkulation Soll/Ist aus der Zeiterfassung, Eingangsrechnungen mit KI-Belegerkennung, Bankabgleich und das Monatsbündel fürs Steuerbüro.',
+    },
+    {
+      anchor: 'posteingang',
+      name: 'Posteingang',
+      category: 'BusinessApplication',
+      description:
+        'Mehrere Postfächer in einem Eingang: KI sortiert jede Mail samt Anhang in feste Kategorien und liest bei Rechnungen Lieferant, Nummer, Betrag und Fälligkeit aus — Belege gehen von dort in die Buchhaltung.',
+    },
+  ]
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `Software von ${SITE_NAME}`,
+    itemListOrder: 'https://schema.org/ItemListUnordered',
+    itemListElement: programs.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'SoftwareApplication',
+        name: p.name,
+        applicationCategory: p.category,
+        operatingSystem: 'Web (Browser), iOS, Android',
+        description: p.description,
+        url: `${SITE_ORIGIN}/software#${p.anchor}`,
+        inLanguage: 'de-DE',
+        provider: {
+          '@type': 'Organization',
+          name: SITE_NAME,
+          url: `${SITE_ORIGIN}/`,
+        },
+      },
+    })),
   }
 }

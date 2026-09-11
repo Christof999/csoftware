@@ -17,9 +17,10 @@ const nav = [
     n: '01',
     end: true,
     subs: [
+      { label: 'Software',           to: '/#software' },
+      { label: 'Automatisierung',    to: '/#automatisierung' },
       { label: 'Websites',           to: '/#websites' },
       { label: 'Web Apps',           to: '/#webapps' },
-      { label: 'Automatisierung',    to: '/#automatisierung' },
       { label: 'Print & Media',      to: '/#print-media' },
       { label: 'Ihre Vorteile',      to: '/#ihre-vorteile' },
       { label: 'Unser Versprechen',  to: '/#unser-versprechen' },
@@ -28,30 +29,43 @@ const nav = [
     ],
   },
   {
+    to: '/software',
+    label: 'Software',
+    n: '02',
+    end: false,
+    subs: [
+      { label: 'Zeiterfassung',      to: '/software#zeiterfassung' },
+      { label: 'Auftrag & Rechnung', to: '/software#auftrag-rechnung' },
+      { label: 'Posteingang',        to: '/software#posteingang' },
+      { label: 'Zusammenspiel',      to: '/software#symbiose' },
+      { label: 'Praxisbeispiele',    to: '/software#praxis' },
+    ],
+  },
+  {
     to: '/leistungen',
     label: 'Leistungen',
-    n: '02',
+    n: '03',
     end: false,
     subs: [] as { label: string; to: string }[],
   },
   {
     to: '/blog',
     label: 'Blog',
-    n: '03',
+    n: '04',
     end: false,
     subs: [] as { label: string; to: string }[],
   },
   {
     to: '/ueber-uns',
     label: 'Über uns',
-    n: '04',
+    n: '05',
     end: false,
     subs: [] as { label: string; to: string }[],
   },
   {
     to: '/kontakt',
     label: 'Kontakt',
-    n: '05',
+    n: '06',
     end: false,
     subs: [] as { label: string; to: string }[],
   },
@@ -388,13 +402,19 @@ export function Layout() {
             <div>
               <p className="text-sm font-medium text-gallery-ink">{SITE_NAME}</p>
               <p className="mt-1 text-sm text-shell-muted">
-                Websites & digitale Lösungen — klar, direkt, für Sie gebaut.
+                Software, Automatisierung und Websites — klar, direkt, für Sie gebaut.
               </p>
             </div>
             <nav
               aria-label="Seiten und Profile"
               className="flex flex-col gap-3 text-xs text-shell-muted sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-2"
             >
+              <Link
+                to="/software"
+                className="transition hover:text-gallery-ink"
+              >
+                Software
+              </Link>
               <Link
                 to="/ueber-uns"
                 className="transition hover:text-gallery-ink"

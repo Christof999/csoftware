@@ -8,12 +8,13 @@ export type RouteMeta = {
 }
 
 /** Titel mit Marken-Unicode (Ø) — konsistent mit Logo und Schema name */
-const HOME_TITLE = `${SITE_NAME} | Webdesign & SEO · Ansbach`
+const HOME_TITLE = `${SITE_NAME} | Unternehmenssoftware, Automatisierung & Webdesign · Ansbach`
 
 /** Bekannte Pfade (ohne trailing slash), konsistent mit dem Router */
 export const KNOWN_PATHS = [
   '/',
   '/leistungen',
+  '/software',
   '/blog',
   '/kontakt',
   '/ueber-uns',
@@ -50,12 +51,17 @@ const ROUTE_META: Record<KnownPath, Omit<RouteMeta, 'indexable'>> = {
   '/': {
     title: HOME_TITLE,
     description:
-      'Webdesign, SEO, Web-Apps und Business-Automatisierung (n8n, KI-Workflows) für Unternehmen in Ansbach und Mittelfranken: schnelle Sites, klare Struktur, persönliche Betreuung. Jetzt unverbindlich anfragen.',
+      'Eigene Programme für Zeiterfassung, Abrechnung und Posteingang, Automatisierung von Abläufen mit n8n und KI sowie Webdesign und SEO — für Unternehmen in Ansbach und Mittelfranken. Jetzt unverbindlich anfragen.',
   },
   '/leistungen': {
     title: `Leistungen | Webdesign, SEO & Print · Ansbach | ${SITE_NAME}`,
     description:
       'Websites, lokale SEO, Google Ads, Web-Apps, Business-Automatisierung mit n8n und KI sowie Printdesign aus einer Hand — für Handwerk, Dienstleister und KMU in Ansbach und Mittelfranken. Leistungen ansehen und Kontakt aufnehmen.',
+  },
+  '/software': {
+    title: `Software für Unternehmen | Zeiterfassung, Rechnung & KI-Posteingang | ${SITE_NAME}`,
+    description:
+      'Eigene Programme für den Betrieb: mobile Zeiterfassung mit DATEV-Nachweis, Auftrags- und Rechnungsprogramm mit Nachkalkulation und Buchhaltung sowie KI-Posteingang für Belege. Einzeln oder als zusammenhängendes System — mit echten Praxisbeispielen.',
   },
   '/blog': {
     title: `Blog | Webdesign, SEO & Digitales · ${SITE_NAME}`,

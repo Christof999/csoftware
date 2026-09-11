@@ -24,7 +24,7 @@ export function Hero() {
             className="inline-flex items-center gap-3 text-xs font-medium uppercase tracking-widest text-shell-muted"
           >
             <span className="h-px w-8 bg-shell-subtle inline-block" aria-hidden />
-            Websites · WebApps · Automatisierung · SEO · Media
+            Software · Automatisierung · KI · Websites · Media
           </motion.p>
 
           <motion.h1
@@ -32,9 +32,9 @@ export function Hero() {
             variants={fadeInUp}
             className="mt-7 font-display text-5xl font-semibold tracking-tight text-gallery-ink sm:text-6xl sm:leading-[1.06] lg:text-7xl lg:leading-[1.04]"
           >
-            Individuelle Websites & WebApps –{' '}
+            Abläufe, die sich{' '}
             <br className="hidden sm:block" />
-            <span className="text-shell-muted">so einzigartig wie Ihr Unternehmen.</span>
+            <span className="text-shell-muted">weitgehend selbst erledigen.</span>
           </motion.h1>
 
           <motion.p
@@ -42,8 +42,9 @@ export function Hero() {
             variants={fadeInUp}
             className="mt-4 font-display text-xl font-semibold tracking-tight text-gallery-ink sm:text-2xl"
           >
-            Von der Idee zur digitalen Lösung – Websites, Web-Apps und Automatisierung aus
-            einer Hand.
+            Eigene Programme für Zeiterfassung, Abrechnung und Posteingang, KI und
+            Automatisierung dort, wo sie Tipparbeit sparen — und Websites, die dazu
+            passen.
           </motion.p>
 
           <motion.div
@@ -53,10 +54,16 @@ export function Hero() {
           >
             <HeroChromeCta to="/kontakt" />
             <Link
-              to="/leistungen"
-              className="inline-flex items-center justify-center rounded-lg border border-gallery-line bg-gallery-bg px-6 py-3.5 text-sm font-medium text-gallery-ink transition hover:border-stone-400 dark:hover:border-stone-600"
+              to="/software"
+              className="inline-flex items-center justify-center rounded-lg border border-gallery-line bg-gallery-bg px-6 py-3.5 text-sm font-medium text-gallery-ink transition hover:border-stone-400 active:scale-[0.98] dark:hover:border-stone-600"
             >
-              Leistungen ansehen
+              Software ansehen
+            </Link>
+            <Link
+              to="/leistungen"
+              className="inline-flex items-center justify-center rounded-lg px-6 py-3.5 text-sm font-medium text-shell-muted transition hover:text-gallery-ink"
+            >
+              Alle Leistungen
             </Link>
           </motion.div>
         </motion.div>
