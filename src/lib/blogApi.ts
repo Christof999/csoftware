@@ -1,9 +1,14 @@
 import { normalizeBlogHtml } from './blogContent'
+import { mergeBlogLists } from './blogMerge'
 import {
   fetchBlogListDirect,
   fetchBlogPostBySlugDirect,
   isFirestoreClientConfigured,
 } from './firestoreBlog'
+import {
+  getLocalBlogListItems,
+  getLocalBlogPostBySlug,
+} from './localBlogPosts'
 import type { BlogPost, BlogPostListItem } from '../types/blog'
 
 type ListResponse = {
@@ -55,16 +60,17 @@ async function readJson<T>(url: string): Promise<T> {
 
 /** Statisches Build-Manifest (sofort aus dem CDN, ohne Firestore im Browser). */
 export async function fetchBlogListManifest(): Promise<BlogPostListItem[] | null> {
+  const local = getLocalBlogListItems()
   try {
     const res = await fetch('/blog2-list.json', {
       headers: { Accept: 'application/json' },
     })
-    if (!res.ok) return null
+    if (!res.ok) return local.length > 0 ? local : null
     const data = (await res.json()) as { posts?: BlogPostListItem[] }
-    if (!Array.isArray(data.posts)) return null
-    return data.posts.map(parseListItem)
+    if (!Array.isArray(data.posts)) return local.length > 0 ? local : null
+    return mergeBlogLists(data.posts.map(parseListItem), local)
   } catch {
-    return null
+    return local.length > 0 ? local : null
   }
 }
 
@@ -73,32 +79,49 @@ export async function fetchBlogListManifest(): Promise<BlogPostListItem[] | null
  * (zuverlässig, kein Cold-Start) und fällt auf die Serverless-API zurück.
  */
 export async function fetchBlogListFromApi(): Promise<BlogPostListItem[]> {
+  const local = getLocalBlogListItems()
   if (isFirestoreClientConfigured()) {
     try {
-      return await fetchBlogListDirect()
+      return mergeBlogLists(await fetchBlogListDirect(), local)
     } catch {
       // Netz-/Berechtigungsproblem → Serverless-API als Fallback versuchen.
     }
   }
-  const data = await readJson<ListResponse>('/api/blog')
-  return data.posts.map(parseListItem)
+  try {
+    const data = await readJson<ListResponse>('/api/blog')
+    return mergeBlogLists(data.posts.map(parseListItem), local)
+  } catch (e) {
+    if (local.length > 0) return local
+    throw e
+  }
 }
 
 /**
- * Einzelbeitrag laden. Direkter Firestore-Lesepfad zuerst; ein dort
- * authoritatives "nicht gefunden" (null) wird respektiert. Bei Lesefehler
- * greift die Serverless-API als Fallback.
+ * Einzelbeitrag laden. Direkter Firestore-Lesepfad zuerst; fehlt der Slug
+ * dort, greifen die lokalen Software-Beiträge. Bei Lesefehler versucht
+ * die Serverless-API den Fallback.
  */
 export async function fetchBlogPostFromApi(slug: string): Promise<BlogPost | null> {
+  const local = getLocalBlogPostBySlug(slug)
+
   if (isFirestoreClientConfigured()) {
     try {
-      return await fetchBlogPostBySlugDirect(slug)
+      const remote = await fetchBlogPostBySlugDirect(slug)
+      if (remote) return remote
+      if (local) return local
+      return null
     } catch {
       // Direkter Lesepfad fehlgeschlagen → Serverless-API als Fallback.
     }
   }
-  const data = await readJson<PostResponse>(
-    `/api/blog?slug=${encodeURIComponent(slug)}`,
-  )
-  return parsePost(data.post)
+
+  try {
+    const data = await readJson<PostResponse>(
+      `/api/blog?slug=${encodeURIComponent(slug)}`,
+    )
+    return parsePost(data.post)
+  } catch (e) {
+    if (local) return local
+    throw e
+  }
 }

@@ -84,7 +84,8 @@ export function BlogPage() {
               variants={fadeInUp}
               className="mt-6 text-base leading-relaxed text-shell-muted"
             >
-              Neuigkeiten zu Webdesign, SEO und digitalen Themen aus der Praxis von{' '}
+              Praxisberichte zu Zeiterfassung, Auftrag & Rechnung und Posteingang —
+              plus Beiträge zu Webdesign, SEO und Digitalisierung aus der Arbeit von{' '}
               {SITE_NAME}.
             </motion.p>
           </motion.div>
