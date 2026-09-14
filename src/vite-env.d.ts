@@ -39,3 +39,14 @@ declare module 'virtual:blog-prerender-data' {
     content?: string
   }[]
 }
+
+declare module '*seo-posts.mjs' {
+  export const seoPosts: Array<{
+    id: string
+    slug: string
+    title: string
+    metaDescription: string
+    publishedAt: string
+    content: string
+  }>
+}

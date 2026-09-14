@@ -9,13 +9,14 @@
  */
 import { writeFile, mkdir, readFile } from 'node:fs/promises'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const outPath = path.resolve(__dirname, '../public/blog2-list.json')
 const sitemapPath = path.resolve(__dirname, '../public/sitemap.xml')
 const prerenderDataPath = path.resolve(__dirname, '../.blog-prerender.json')
 const localPostsPath = path.resolve(__dirname, '../src/content/blog/local-posts.json')
+const seoPostsPath = path.resolve(__dirname, '../src/content/blog/seo-posts.mjs')
 
 /** Statische Routen für die sitemap.xml (konsistent mit dem Router). */
 const STATIC_ROUTES = [
@@ -62,17 +63,31 @@ function withoutContent(posts) {
 }
 
 async function loadLocalPosts() {
+  const fromJson = []
   try {
     const raw = JSON.parse(await readFile(localPostsPath, 'utf8'))
     const posts = Array.isArray(raw?.posts) ? raw.posts : []
-    return posts.filter((p) => typeof p?.slug === 'string' && p.slug.length > 0)
+    fromJson.push(...posts.filter((p) => typeof p?.slug === 'string' && p.slug.length > 0))
   } catch (e) {
     console.warn(
-      '[blog-manifest] Lokale Beiträge nicht gelesen:',
+      '[blog-manifest] local-posts.json nicht gelesen:',
       e instanceof Error ? e.message : e,
     )
-    return []
   }
+
+  let fromSeo = []
+  try {
+    const mod = await import(pathToFileURL(seoPostsPath).href)
+    const posts = Array.isArray(mod.seoPosts) ? mod.seoPosts : []
+    fromSeo = posts.filter((p) => typeof p?.slug === 'string' && p.slug.length > 0)
+  } catch (e) {
+    console.warn(
+      '[blog-manifest] seo-posts.mjs nicht gelesen:',
+      e instanceof Error ? e.message : e,
+    )
+  }
+
+  return mergePosts(fromJson, fromSeo)
 }
 
 /** Erzeugt sitemap.xml mit statischen Routen + allen Blog-Beiträgen (für Google). */

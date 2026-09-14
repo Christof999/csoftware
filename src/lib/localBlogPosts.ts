@@ -1,5 +1,7 @@
 import type { BlogPost, BlogPostListItem } from '../types/blog'
+import { seoPosts } from '../content/blog/seo-posts.mjs'
 import localBlogFile from '../content/blog/local-posts.json' with { type: 'json' }
+import { mergeBlogLists } from './blogMerge'
 
 type LocalPostJson = {
   id: string
@@ -27,19 +29,25 @@ function asPosts(raw: unknown): LocalPostJson[] {
   )
 }
 
+function toBlogPost(post: LocalPostJson): BlogPost {
+  return {
+    id: post.id,
+    slug: post.slug,
+    title: post.title,
+    metaDescription: post.metaDescription,
+    publishedAt: new Date(post.publishedAt),
+    content: post.content,
+  }
+}
+
 /**
- * Redaktionelle Beiträge zu den Programmen unter /software.
- * Quelle: src/content/blog/local-posts.json — unabhängig von Firestore,
- * damit sie auf /blog erscheinen und beim Build vorgerendert werden.
+ * Programme unter /software plus suchstarke Praxistexte.
+ * Unabhängig von Firestore, damit sie auf /blog erscheinen und vorgerendert werden.
  */
-export const LOCAL_BLOG_POSTS: BlogPost[] = asPosts(localBlogFile).map((post) => ({
-  id: post.id,
-  slug: post.slug,
-  title: post.title,
-  metaDescription: post.metaDescription,
-  publishedAt: new Date(post.publishedAt),
-  content: post.content,
-}))
+export const LOCAL_BLOG_POSTS: BlogPost[] = mergeBlogLists(
+  asPosts(localBlogFile).map(toBlogPost),
+  (seoPosts as LocalPostJson[]).map(toBlogPost),
+)
 
 export function getLocalBlogListItems(): BlogPostListItem[] {
   return LOCAL_BLOG_POSTS.map((post) => ({

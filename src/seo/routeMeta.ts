@@ -64,9 +64,9 @@ const ROUTE_META: Record<KnownPath, Omit<RouteMeta, 'indexable'>> = {
       'Eigene Programme für den Betrieb: mobile Zeiterfassung mit DATEV-Nachweis, Auftrags- und Rechnungsprogramm mit Nachkalkulation und Buchhaltung sowie KI-Posteingang für Belege. Einzeln oder als zusammenhängendes System — mit echten Praxisbeispielen.',
   },
   '/blog': {
-    title: `Blog | Software, Webdesign & SEO · ${SITE_NAME}`,
+    title: `Blog | E-Rechnung, Zeiterfassung & Handwerk · ${SITE_NAME}`,
     description:
-      'Blog zu Unternehmenssoftware (Zeiterfassung, Auftrag & Rechnung, KI-Posteingang), Webdesign, SEO und Digitalisierung — aus der Praxis von SØRGEL-design in Ansbach und Mittelfranken.',
+      'Praxisblog für Handwerk und Bau: E-Rechnung, DATEV-Nachweis, Nachkalkulation, Zeiterfassung und KI-Posteingang — plus Webdesign und SEO von SØRGEL-design in Ansbach und Mittelfranken.',
   },
   '/kontakt': {
     title: `Kontakt & Projekt anfragen | ${SITE_NAME}`,
