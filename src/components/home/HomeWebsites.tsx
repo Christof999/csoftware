@@ -100,6 +100,12 @@ export function HomeWebsites() {
                 Umgesetzte Websites
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
+              <Link
+                to="/webdesign-ansbach"
+                className="inline-flex items-center gap-2 text-sm font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 transition hover:decoration-gallery-ink"
+              >
+                Webdesign Ansbach
+              </Link>
             </motion.div>
           </div>
         </motion.div>

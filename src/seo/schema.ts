@@ -18,6 +18,7 @@ import { CONTACT_FAQ_ITEMS } from './contactFaq'
 import { HOME_PROCESS_STEPS } from './homeProcessSteps'
 import type { BlogPost } from '../types/blog'
 import { isKnownPath, normalizeRoutePath } from './routeMeta'
+import { getWebdesignLocalByPath } from '../content/webdesignLocal'
 
 const TEL_E164 = SITE_PHONE_TEL.replace(/^tel:/, '')
 
@@ -34,6 +35,13 @@ export function breadcrumbJsonLd(pathname: string): object | null {
   ]
   if (path === '/leistungen') {
     items.push({ name: 'Leistungen', url: `${SITE_ORIGIN}/leistungen` })
+  } else if (path.startsWith('/webdesign-')) {
+    const local = getWebdesignLocalByPath(path)
+    items.push({ name: 'Leistungen', url: `${SITE_ORIGIN}/leistungen` })
+    items.push({
+      name: local?.breadcrumb ?? 'Webdesign',
+      url: `${SITE_ORIGIN}${path}`,
+    })
   } else if (path === '/software') {
     items.push({ name: 'Software', url: `${SITE_ORIGIN}/software` })
   } else if (path === '/referenzen') {
@@ -76,12 +84,20 @@ function sameAsUrls(): string[] {
 }
 
 export function faqPageJsonLd(pathname: string): object | null {
-  if (!SITE_ORIGIN || normalizeRoutePath(pathname) !== '/kontakt') return null
+  if (!SITE_ORIGIN) return null
+  const path = normalizeRoutePath(pathname)
+
+  const items =
+    path === '/kontakt'
+      ? CONTACT_FAQ_ITEMS
+      : getWebdesignLocalByPath(path)?.faqs
+
+  if (!items || items.length === 0) return null
 
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: CONTACT_FAQ_ITEMS.map((item) => ({
+    mainEntity: items.map((item) => ({
       '@type': 'Question',
       name: item.q,
       acceptedAnswer: {
@@ -89,6 +105,39 @@ export function faqPageJsonLd(pathname: string): object | null {
         text: item.a,
       },
     })),
+  }
+}
+
+export function webdesignServiceJsonLd(pathname: string): object | null {
+  if (!SITE_ORIGIN) return null
+  const page = getWebdesignLocalByPath(normalizeRoutePath(pathname))
+  if (!page) return null
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: page.breadcrumb,
+    serviceType: 'Webdesign',
+    description: page.metaDescription,
+    url: `${SITE_ORIGIN}${page.path}`,
+    areaServed: {
+      '@type': page.areaServedType,
+      name: page.areaServedName,
+    },
+    provider: {
+      '@type': 'LocalBusiness',
+      name: SITE_NAME,
+      url: `${SITE_ORIGIN}/`,
+      telephone: TEL_E164,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: SITE_STREET,
+        postalCode: SITE_POSTAL_CODE,
+        addressLocality: SITE_LOCALITY,
+        addressRegion: SITE_REGION_CODE,
+        addressCountry: SITE_COUNTRY,
+      },
+    },
   }
 }
 

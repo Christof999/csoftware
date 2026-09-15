@@ -1,6 +1,97 @@
 /** Suchstarke Praxisbeiträge — werden nach local-posts.json gemerged. */
 export const seoPosts = [
   {
+    id: 'local-website-handwerk',
+    slug: 'website-handwerk-leistungen-anfrage',
+    title: 'Website fürs Handwerk: Leistungen, Anfahrt, Anruf — der Rest ist Beiwerk',
+    metaDescription:
+      'Website für Handwerk: welche Seiten wirklich nötig sind, wie Leistungen gesucht werden und warum der Anruf auf dem Handy oben liegen muss — ohne Baukasten-Floskeln.',
+    publishedAt: '2026-09-15T12:00:00.000Z',
+    content: `
+<p>Eine Handwerker-Website scheitert selten am Logo. Sie scheitert, weil niemand in drei Sekunden versteht, was der Betrieb tut, wo er tätig ist und wie man ihn erreicht. Die Startseite erzählt von „Qualität und Tradition“. Die Suche lautete „Glastür Merkendorf“ oder „Holzernte Landkreis Ansbach“.</p>
+<p>Was drauf muss, ist kurz. Der Rest — Animationen, Zitate ohne Namen, ein Slider mit vier identischen Baustellenfotos — hält nur auf.</p>
+
+<h2>Drei Dinge, die oben stehen</h2>
+<ul>
+<li><strong>Das Gewerk in der Sprache der Suche.</strong> Duschkabinen, nicht „Glasarbeiten aller Art“. Durchforstung, nicht „alles rund um den Wald“.</li>
+<li><strong>Das Einsatzgebiet.</strong> Merkendorf, Ansbach, Mittelfranken — so, wie der Betrieb wirklich fährt. Nicht „deutschlandweit“, wenn der Radius 40 Kilometer ist.</li>
+<li><strong>Der Weg zur Anfrage.</strong> Telefon und Formular auf dem Handy ohne Scrollen durch ein Manifest. Anrufe kommen von der Baustelle, nicht vom Schreibtisch.</li>
+</ul>
+<p>Impressum, Datenschutz, echte Adresse: Pflicht, nicht Folie. Google prüft, ob Name, Adresse und Telefon auf der Seite dieselben sind wie im Unternehmensprofil. Weichen sie ab, gewinnt oft keins von beiden.</p>
+
+<h2>Welche Unterseiten sich lohnen</h2>
+<p>Eine Startseite mit vier Kacheln reicht, wenn das Angebot schmal ist. Sobald zwei Gewerke oder zwei Orte durcheinandergehen, brauchen sie eigene URLs. Sonst rankt nichts davon, und die Startseite bleibt eine Mischung, der Google kein Thema zuordnet.</p>
+<p>Beispiele, die online stehen: die Glaserei <a href="https://www.der-glasermeister.de">der-glasermeister.de</a>, der Forstbetrieb <a href="https://weiss-forst.de">weiss-forst.de</a>, die Vermittlung <a href="https://www.allinhandwerk.de">allinhandwerk.de</a> — beschrieben unter den <a href="/referenzen">Referenzen</a>. Nicht als Moodboard. Als Adressen.</p>
+
+<h2>Was Sie weglassen können</h2>
+<p>Stockfotos von Händeschütteln. „Ihre Zufriedenheit ist unser Antrieb.“ Eine Galerie ohne Beschriftung, in der niemand erkennt, ob das die eigene Baustelle war. Ein Chat-Widget, das nachts „gleich antwortet“ und tagsüber niemand liest.</p>
+<blockquote>Die Website ist die digitale Werkstatt-Einfahrt. Wer sie nicht findet, klingelt nicht.</blockquote>
+<p>Ob Baukasten oder eigene Seite, steht in <a href="/blog/website-baukasten-oder-individuell">Baukasten oder individuell</a>. Wie das Google-Profil dazugehört, in <a href="/blog/google-unternehmensprofil-handwerk">Google-Unternehmensprofil</a>. Webdesign vor Ort: <a href="/webdesign-ansbach">Ansbach</a>, <a href="/webdesign-merkendorf">Merkendorf</a>, <a href="/webdesign-mittelfranken">Mittelfranken</a>. <a href="/kontakt">Ablauf besprechen</a>.</p>
+`.trim(),
+  },
+  {
+    id: 'local-website-baukasten',
+    slug: 'website-baukasten-oder-individuell',
+    title: 'Website: Baukasten oder eigene Seite — wann die Vorlage kippt',
+    metaDescription:
+      'Wix, Jimdo, Homepage-Baukasten oder eigene Website: wann die Vorlage reicht, wann Google sie nicht zuordnen kann, und was eine individuelle Seite für Handwerk wirklich ändert.',
+    publishedAt: '2026-09-15T11:00:00.000Z',
+    content: `
+<p>Ein Baukasten ist nicht „unprofessionell“. Er ist schnell, oft günstig und für eine einmalige Ankündigung völlig in Ordnung. Er kippt, wenn die Seite gefunden werden soll — und zwar von Leuten, die nicht den Firmennamen googeln, sondern das Gewerk und den Ort.</p>
+<p>Dann sehen Vorlagen gleich aus: dieselben Überschriften, dieselben Ladezeiten, keine eigenen Adressen für Leistungen. Google hat wenig, woran es den Betrieb von zwölf anderen im Landkreis unterscheiden kann.</p>
+
+<h2>Der Baukasten reicht, wenn</h2>
+<ul>
+<li>Sie vor allem den Namen teilen („unsere neue Adresse“)</li>
+<li>eine Seite genügt, ohne Leistungs-URLs</li>
+<li>niemand die Texte später monatlich anfassen muss, außer Ihnen im Login</li>
+<li>Sie das Risiko akzeptieren, dass das Layout in zwei Jahren der Mode von 2024 folgt</li>
+</ul>
+
+<h2>Die Vorlage kippt, wenn</h2>
+<ul>
+<li>zwei Gewerke eigene Suchen haben (Dach und Sanitär sind nicht dieselbe Seite)</li>
+<li>Maps und die Website dieselben Daten tragen müssen, ohne dass jemand sie an drei Stellen pflegt</li>
+<li>die Seite später eine kleine App, ein Formular mit Logik oder eine Schnittstelle tragen soll</li>
+<li>der Baukasten die Domain, die E-Mails oder das SSL zur Verhandlungsmasse macht, sobald Sie wechseln</li>
+</ul>
+<p>Dann ist „individuell“ kein Geschmack. Es ist: eigene URLs, eigener Code, Hosting, das Ihnen gehört, Texte, die nicht in einem Theme-Slot enden. Unter <a href="/leistungen">Leistungen</a> ist das der Web-Teil. Die Programme unter <a href="/software">Software</a> sind derselbe Gedanke für den Betrieb hinter der Website.</p>
+
+<h2>Was individuell nicht heißen muss</h2>
+<p>Kein sechsmonatiges Branding-Projekt. Kein Shop, den niemand bestellt. Eine Unternehmensseite mit klaren Leistungen, Impressum, Kontakt, mobil bedienbar — in Wochen, nicht in Quartalen, wenn Texte und Bilder liegen.</p>
+<blockquote>Der Baukasten spart den Start. Er wird teuer, wenn Sie ihn verlassen müssen und nichts mitnehmen außer einem PDF-Export.</blockquote>
+<p>Was auf einer Handwerker-Seite stehen muss: <a href="/blog/website-handwerk-leistungen-anfrage">Leistungen, Anfahrt, Anruf</a>. Ortsseiten: <a href="/webdesign-ansbach">Webdesign Ansbach</a>. Beispiele: <a href="/referenzen">Referenzen</a>. <a href="/kontakt">An Ihrer bestehenden Seite festmachen</a>.</p>
+`.trim(),
+  },
+  {
+    id: 'local-google-unternehmensprofil',
+    slug: 'google-unternehmensprofil-handwerk',
+    title: 'Google-Unternehmensprofil fürs Handwerk: dieselbe Adresse wie auf der Website',
+    metaDescription:
+      'Google-Unternehmensprofil im Handwerk: Name, Adresse, Telefon wie im Impressum, Kategorien, Fotos, ohne dass Maps und Website zwei verschiedene Betriebe erzählen.',
+    publishedAt: '2026-09-15T10:00:00.000Z',
+    content: `
+<p>Viele Anfragen kommen nicht über die Website-Suche. Sie kommen über die Karte. Das Unternehmensprofil ist dann die Tür — und die Website die Werkstatt dahinter. Zeigen beide eine andere Adresse, eine andere Telefonnummer, einen anderen Namen, glaubt Google keinem von beiden so recht.</p>
+<p>Lokale Sichtbarkeit ist kein Trick mit Keywords in der Beschreibung. Es ist Konsistenz: NAP (Name, Adresse, Telefon) an einer Wahrheit, Kategorien, die zum Gewerk passen, Fotos, die den Betrieb zeigen, Öffnungszeiten, die stimmen.</p>
+
+<h2>Was im Profil stehen muss</h2>
+<ul>
+<li>Genau der Name wie im Impressum — ohne erfundenes „24h Notdienst“, wenn niemand nachts rangeht</li>
+<li>Straße, PLZ, Ort wie auf der Website</li>
+<li>Die Telefonnummer, die jemand wirklich abnimmt</li>
+<li>Die Website-URL, die auch geladen werden kann — nicht eine Facebook-Seite als Ersatz</li>
+<li>Eine Hauptkategorie, die das Gewerk trifft, plus wenige Zusatzkategorien, keine zwanzig</li>
+</ul>
+<p>Beschreibungen, die „bester Handwerker Mittelfranken“ behaupten, ohne Beleg, helfen nicht. Sätze, die sagen, was der Betrieb tut und wo, schon. Bewertungen kommen, wenn Kunden sie hinterlassen — nicht, wenn jemand welche erfindet. Erfundene Sterne sind ein Risiko, kein SEO-Hack.</p>
+
+<h2>Website und Profil zusammen denken</h2>
+<p>Das Profil schickt Leute auf die Seite. Die Seite muss denselben Betrieb zeigen: Kontakt, Leistungen, Impressum. Wenn die Website ein Baukasten ohne Ort ist, kann das Profil noch so gepflegt sein — die Landung überzeugt nicht.</p>
+<p>Für Betriebe in der Fläche (Merkendorf, Ansbach, Gunzenhausen) zählt das Profil oft mehr als ein Blogtext. Die Suche ist lokal und mit Absicht. Deshalb gehören <a href="/webdesign-ansbach">Webdesign Ansbach</a> und das Profil zusammen, nicht nacheinander „irgendwann“.</p>
+<blockquote>Maps ist die Einfahrt. Die Website ist, was man sieht, wenn man reinkommt. Beides muss denselben Hof zeigen.</blockquote>
+<p>Was die Website selbst tragen muss: <a href="/blog/website-handwerk-leistungen-anfrage">Website fürs Handwerk</a>. Wann ein Baukasten nicht mehr reicht: <a href="/blog/website-baukasten-oder-individuell">Baukasten oder individuell</a>. <a href="/kontakt">Profil und Seite gegeneinanderhalten</a>.</p>
+`.trim(),
+  },
+  {
     id: 'local-e-rechnung',
     slug: 'e-rechnung-handwerk-xrechnung-zugferd',
     title: 'E-Rechnung im Handwerk: XRechnung und ZUGFeRD, ohne den Ablauf umzubauen',

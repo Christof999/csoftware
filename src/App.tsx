@@ -3,6 +3,7 @@ import { CookieBanner } from './components/CookieBanner'
 import { DocumentMeta } from './components/DocumentMeta'
 import { Layout } from './components/Layout'
 import { ContactPage } from './pages/ContactPage'
+import { LocalWebdesignPage } from './pages/LocalWebdesignPage'
 import { DatenschutzPage } from './pages/DatenschutzPage'
 import { HomePage } from './pages/HomePage'
 import { ImpressumPage } from './pages/ImpressumPage'
@@ -21,6 +22,9 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="leistungen" element={<ServicesPage />} />
+          <Route path="webdesign-ansbach" element={<LocalWebdesignPage />} />
+          <Route path="webdesign-merkendorf" element={<LocalWebdesignPage />} />
+          <Route path="webdesign-mittelfranken" element={<LocalWebdesignPage />} />
           <Route path="referenzen" element={<ReferenzenPage />} />
           <Route path="software" element={<SoftwarePage />} />
           <Route path="blog" element={<BlogRoute />} />

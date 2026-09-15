@@ -728,6 +728,37 @@ export function Services() {
                 Neukundinnen — analog zu Schaufenster und Aushang, nur digital.
               </p>
               <p className="mt-4 text-sm leading-relaxed text-shell-muted">
+                Eigene Seiten dazu:{' '}
+                <Link
+                  to="/webdesign-ansbach"
+                  className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 hover:decoration-gallery-ink"
+                >
+                  Webdesign Ansbach
+                </Link>
+                ,{' '}
+                <Link
+                  to="/webdesign-merkendorf"
+                  className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 hover:decoration-gallery-ink"
+                >
+                  Webdesign Merkendorf
+                </Link>{' '}
+                und{' '}
+                <Link
+                  to="/webdesign-mittelfranken"
+                  className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 hover:decoration-gallery-ink"
+                >
+                  Website erstellen lassen in Mittelfranken
+                </Link>
+                . Umgesetzte Beispiele liegen unter den{' '}
+                <Link
+                  to="/referenzen"
+                  className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 hover:decoration-gallery-ink"
+                >
+                  Referenzen
+                </Link>
+                .
+              </p>
+              <p className="mt-4 text-sm leading-relaxed text-shell-muted">
                 <strong className="font-medium text-gallery-ink">Eine Web-App</strong>{' '}
                 ist eine webbasierte Anwendung mit Logik und Daten: z. B. Buchungen,
                 interne Übersichten oder Formularketten, die über den Browser laufen und
@@ -749,7 +780,14 @@ export function Services() {
                 Einschätzung — von schlanker Landingpage bis zu mehrsprachiger
                 Unternehmenswebsite. Wichtig ist: Sie erhalten keine versteckten Pakete,
                 sondern eine Aufteilung, die zu Ihren Prioritäten passt (Launch zuerst,
-                Erweiterungen später).
+                Erweiterungen später). Mehr zum Ort:{' '}
+                <Link
+                  to="/webdesign-ansbach"
+                  className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 hover:decoration-gallery-ink"
+                >
+                  Webdesign in Ansbach
+                </Link>
+                .
               </p>
             </div>
 
@@ -884,6 +922,16 @@ export function Services() {
                   datenschutzkonform und mit Ihrer Einwilligung, wo nötig.
                 </li>
               </ul>
+              <p className="mt-4 text-sm leading-relaxed text-shell-muted">
+                Ausführlich zur Region:{' '}
+                <Link
+                  to="/webdesign-mittelfranken"
+                  className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 hover:decoration-gallery-ink"
+                >
+                  Website erstellen lassen in Mittelfranken
+                </Link>
+                .
+              </p>
             </div>
           </div>
         </div>

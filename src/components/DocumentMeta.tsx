@@ -8,6 +8,7 @@ import {
   organizationWebsiteGraph,
   softwareItemListJsonLd,
   referenzenItemListJsonLd,
+  webdesignServiceJsonLd,
 } from '../seo/schema'
 import { SITE_NAME, siteOgImageUrl } from '../site'
 
@@ -163,6 +164,21 @@ export function DocumentMeta() {
     const scriptId = 'jsonld-referenzen'
     document.getElementById(scriptId)?.remove()
     const data = referenzenItemListJsonLd(pathname)
+    if (!data) return
+    const script = document.createElement('script')
+    script.id = scriptId
+    script.type = 'application/ld+json'
+    script.textContent = JSON.stringify(data)
+    document.head.appendChild(script)
+    return () => {
+      document.getElementById(scriptId)?.remove()
+    }
+  }, [pathname])
+
+  useEffect(() => {
+    const scriptId = 'jsonld-webdesign-service'
+    document.getElementById(scriptId)?.remove()
+    const data = webdesignServiceJsonLd(pathname)
     if (!data) return
     const script = document.createElement('script')
     script.id = scriptId

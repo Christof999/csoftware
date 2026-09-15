@@ -83,6 +83,27 @@ export function AboutPage() {
               >
                 Referenzen
               </Link>
+              . Webdesign vor Ort:{' '}
+              <Link
+                to="/webdesign-merkendorf"
+                className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 hover:decoration-gallery-ink"
+              >
+                Merkendorf
+              </Link>
+              ,{' '}
+              <Link
+                to="/webdesign-ansbach"
+                className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 hover:decoration-gallery-ink"
+              >
+                Ansbach
+              </Link>{' '}
+              und{' '}
+              <Link
+                to="/webdesign-mittelfranken"
+                className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 hover:decoration-gallery-ink"
+              >
+                Mittelfranken
+              </Link>
               .
             </motion.p>
             <motion.p

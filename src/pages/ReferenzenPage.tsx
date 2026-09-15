@@ -133,10 +133,10 @@ export function ReferenzenPage() {
               <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
             <Link
-              to="/leistungen"
+              to="/webdesign-merkendorf"
               className="inline-flex items-center justify-center rounded-lg border border-gallery-line bg-gallery-bg px-6 py-3.5 text-sm font-medium text-gallery-ink transition hover:border-stone-400 active:scale-[0.98] dark:hover:border-stone-600"
             >
-              Leistungen
+              Webdesign Merkendorf
             </Link>
           </div>
         </div>

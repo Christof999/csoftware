@@ -21,6 +21,7 @@ const nav = [
       { label: 'Automatisierung',    to: '/#automatisierung' },
       { label: 'Websites',           to: '/#websites' },
       { label: 'Referenzen',         to: '/#referenzen' },
+      { label: 'Blog',               to: '/#blog' },
       { label: 'Web Apps',           to: '/#webapps' },
       { label: 'Print & Media',      to: '/#print-media' },
       { label: 'Ihre Vorteile',      to: '/#ihre-vorteile' },
@@ -47,7 +48,12 @@ const nav = [
     label: 'Leistungen',
     n: '03',
     end: false,
-    subs: [] as { label: string; to: string }[],
+    subs: [
+      { label: 'Übersicht', to: '/leistungen' },
+      { label: 'Webdesign Ansbach', to: '/webdesign-ansbach' },
+      { label: 'Webdesign Merkendorf', to: '/webdesign-merkendorf' },
+      { label: 'Mittelfranken', to: '/webdesign-mittelfranken' },
+    ],
   },
   {
     to: '/referenzen',
@@ -428,16 +434,34 @@ export function Layout() {
                 Software
               </Link>
               <Link
+                to="/leistungen"
+                className="transition hover:text-gallery-ink"
+              >
+                Leistungen
+              </Link>
+              <Link
                 to="/referenzen"
                 className="transition hover:text-gallery-ink"
               >
                 Referenzen
               </Link>
               <Link
+                to="/blog"
+                className="transition hover:text-gallery-ink"
+              >
+                Blog
+              </Link>
+              <Link
                 to="/ueber-uns"
                 className="transition hover:text-gallery-ink"
               >
                 Über uns
+              </Link>
+              <Link
+                to="/kontakt"
+                className="transition hover:text-gallery-ink"
+              >
+                Kontakt
               </Link>
               {SITE_GOOGLE_BUSINESS_URL ? (
                 <a

@@ -7,6 +7,9 @@ Sprache: Deutsch (de-DE)
 
 Startseite: /
 Leistungen: /leistungen
+Webdesign Ansbach: /webdesign-ansbach
+Webdesign Merkendorf: /webdesign-merkendorf
+Website erstellen lassen Mittelfranken: /webdesign-mittelfranken
 Software (eigene Programme: Zeiterfassung, Auftrag & Rechnung, KI-Posteingang): /software
 Referenzen (umgesetzte Websites): /referenzen
 Blog: /blog

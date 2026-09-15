@@ -14,6 +14,9 @@ const HOME_TITLE = `${SITE_NAME} | Unternehmenssoftware, Automatisierung & Webde
 export const KNOWN_PATHS = [
   '/',
   '/leistungen',
+  '/webdesign-ansbach',
+  '/webdesign-merkendorf',
+  '/webdesign-mittelfranken',
   '/software',
   '/referenzen',
   '/blog',
@@ -58,6 +61,21 @@ const ROUTE_META: Record<KnownPath, Omit<RouteMeta, 'indexable'>> = {
     title: `Leistungen | Webdesign, SEO & Print · Ansbach | ${SITE_NAME}`,
     description:
       'Websites, lokale SEO, Google Ads, Web-Apps, Business-Automatisierung mit n8n und KI sowie Printdesign aus einer Hand — für Handwerk, Dienstleister und KMU in Ansbach und Mittelfranken. Leistungen ansehen und Kontakt aufnehmen.',
+  },
+  '/webdesign-ansbach': {
+    title: `Webdesign Ansbach | Website & lokale SEO | ${SITE_NAME}`,
+    description:
+      'Webdesign in Ansbach: Websites für Handwerk und Betriebe, die in der Stadt und im Landkreis gefunden werden sollen. Aus Merkendorf, mit Referenzen in der Region.',
+  },
+  '/webdesign-merkendorf': {
+    title: `Webdesign Merkendorf | Websites aus dem Ort | ${SITE_NAME}`,
+    description:
+      'Webdesign in Merkendorf: Websites für Betriebe vor Ort — Glaserei, Forst, Handwerk. Gebaut in Merkendorf, ohne Agentur aus der Großstadt dazwischen.',
+  },
+  '/webdesign-mittelfranken': {
+    title: `Website erstellen lassen Mittelfranken | Webdesign | ${SITE_NAME}`,
+    description:
+      'Website erstellen lassen in Mittelfranken: Webdesign und lokale Sichtbarkeit für Handwerk und KMU — Ansbach, Rothenburg, Gunzenhausen, Weißenburg und Umgebung.',
   },
   '/software': {
     title: `Software für Unternehmen | Zeiterfassung, Rechnung & KI-Posteingang | ${SITE_NAME}`,

@@ -22,6 +22,9 @@ const seoPostsPath = path.resolve(__dirname, '../src/content/blog/seo-posts.mjs'
 const STATIC_ROUTES = [
   { loc: '/', changefreq: 'weekly', priority: '1.0' },
   { loc: '/leistungen', changefreq: 'monthly', priority: '0.9' },
+  { loc: '/webdesign-ansbach', changefreq: 'monthly', priority: '0.88' },
+  { loc: '/webdesign-merkendorf', changefreq: 'monthly', priority: '0.88' },
+  { loc: '/webdesign-mittelfranken', changefreq: 'monthly', priority: '0.88' },
   { loc: '/software', changefreq: 'monthly', priority: '0.9' },
   { loc: '/referenzen', changefreq: 'monthly', priority: '0.85' },
   { loc: '/kontakt', changefreq: 'monthly', priority: '0.8' },
