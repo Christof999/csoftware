@@ -76,7 +76,35 @@ export function AboutPage() {
               gerne arbeite ich mit Handwerk, Dienstleistern und kleineren Teams
               zusammen, die eine verlässliche Partnerin oder einen verlässlichen
               Partner für digitale Themen suchen — ohne Agentur-Pathos, dafür mit
-              direkter Kommunikation.
+              direkter Kommunikation. Umgesetzte Websites liegen unter den{' '}
+              <Link
+                to="/referenzen"
+                className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 hover:decoration-gallery-ink"
+              >
+                Referenzen
+              </Link>
+              . Webdesign vor Ort:{' '}
+              <Link
+                to="/webdesign-merkendorf"
+                className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 hover:decoration-gallery-ink"
+              >
+                Merkendorf
+              </Link>
+              ,{' '}
+              <Link
+                to="/webdesign-ansbach"
+                className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 hover:decoration-gallery-ink"
+              >
+                Ansbach
+              </Link>{' '}
+              und{' '}
+              <Link
+                to="/webdesign-mittelfranken"
+                className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 hover:decoration-gallery-ink"
+              >
+                Mittelfranken
+              </Link>
+              .
             </motion.p>
             <motion.p
               custom={2}

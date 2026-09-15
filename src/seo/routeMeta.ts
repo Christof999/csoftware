@@ -14,7 +14,11 @@ const HOME_TITLE = `${SITE_NAME} | Unternehmenssoftware, Automatisierung & Webde
 export const KNOWN_PATHS = [
   '/',
   '/leistungen',
+  '/webdesign-ansbach',
+  '/webdesign-merkendorf',
+  '/webdesign-mittelfranken',
   '/software',
+  '/referenzen',
   '/blog',
   '/kontakt',
   '/ueber-uns',
@@ -58,15 +62,35 @@ const ROUTE_META: Record<KnownPath, Omit<RouteMeta, 'indexable'>> = {
     description:
       'Websites, lokale SEO, Google Ads, Web-Apps, Business-Automatisierung mit n8n und KI sowie Printdesign aus einer Hand — für Handwerk, Dienstleister und KMU in Ansbach und Mittelfranken. Leistungen ansehen und Kontakt aufnehmen.',
   },
+  '/webdesign-ansbach': {
+    title: `Webdesign Ansbach | Website & lokale SEO | ${SITE_NAME}`,
+    description:
+      'Webdesign in Ansbach: Websites für Handwerk und Betriebe, die in der Stadt und im Landkreis gefunden werden sollen. Aus Merkendorf, mit Referenzen in der Region.',
+  },
+  '/webdesign-merkendorf': {
+    title: `Webdesign Merkendorf | Websites aus dem Ort | ${SITE_NAME}`,
+    description:
+      'Webdesign in Merkendorf: Websites für Betriebe vor Ort — Glaserei, Forst, Handwerk. Gebaut in Merkendorf, ohne Agentur aus der Großstadt dazwischen.',
+  },
+  '/webdesign-mittelfranken': {
+    title: `Website erstellen lassen Mittelfranken | Webdesign | ${SITE_NAME}`,
+    description:
+      'Website erstellen lassen in Mittelfranken: Webdesign und lokale Sichtbarkeit für Handwerk und KMU — Ansbach, Rothenburg, Gunzenhausen, Weißenburg und Umgebung.',
+  },
   '/software': {
     title: `Software für Unternehmen | Zeiterfassung, Rechnung & KI-Posteingang | ${SITE_NAME}`,
     description:
       'Eigene Programme für den Betrieb: mobile Zeiterfassung mit DATEV-Nachweis, Auftrags- und Rechnungsprogramm mit Nachkalkulation und Buchhaltung sowie KI-Posteingang für Belege. Einzeln oder als zusammenhängendes System — mit echten Praxisbeispielen.',
   },
-  '/blog': {
-    title: `Blog | Webdesign, SEO & Digitales · ${SITE_NAME}`,
+  '/referenzen': {
+    title: `Referenzen | Umgesetzte Websites · ${SITE_NAME}`,
     description:
-      'Blog zu Webdesign, SEO, Performance und digitalen Themen — Einblicke und Tipps von SØRGEL-design aus Ansbach und Mittelfranken.',
+      'Umgesetzte Websites: Glaserei der-glasermeister.de, Forstbetrieb weiss-forst.de und Handwerkervermittlung allinhandwerk.de — Webdesign aus Merkendorf für Handwerk und Betriebe in Mittelfranken.',
+  },
+  '/blog': {
+    title: `Blog | E-Rechnung, Zeiterfassung & Handwerk · ${SITE_NAME}`,
+    description:
+      'Praxisblog für Handwerk und Bau: E-Rechnung, DATEV-Nachweis, Nachkalkulation, Zeiterfassung und KI-Posteingang — plus Webdesign und SEO von SØRGEL-design in Ansbach und Mittelfranken.',
   },
   '/kontakt': {
     title: `Kontakt & Projekt anfragen | ${SITE_NAME}`,

@@ -20,6 +20,8 @@ const nav = [
       { label: 'Software',           to: '/#software' },
       { label: 'Automatisierung',    to: '/#automatisierung' },
       { label: 'Websites',           to: '/#websites' },
+      { label: 'Referenzen',         to: '/#referenzen' },
+      { label: 'Blog',               to: '/#blog' },
       { label: 'Web Apps',           to: '/#webapps' },
       { label: 'Print & Media',      to: '/#print-media' },
       { label: 'Ihre Vorteile',      to: '/#ihre-vorteile' },
@@ -49,23 +51,34 @@ const nav = [
     subs: [] as { label: string; to: string }[],
   },
   {
+    to: '/referenzen',
+    label: 'Referenzen',
+    n: '04',
+    end: false,
+    subs: [
+      { label: 'der-glasermeister', to: '/referenzen#glasermeister' },
+      { label: 'Weiß Forst', to: '/referenzen#weiss-forst' },
+      { label: 'All In Handwerk', to: '/referenzen#allinhandwerk' },
+    ],
+  },
+  {
     to: '/blog',
     label: 'Blog',
-    n: '04',
+    n: '05',
     end: false,
     subs: [] as { label: string; to: string }[],
   },
   {
     to: '/ueber-uns',
     label: 'Über uns',
-    n: '05',
+    n: '06',
     end: false,
     subs: [] as { label: string; to: string }[],
   },
   {
     to: '/kontakt',
     label: 'Kontakt',
-    n: '06',
+    n: '07',
     end: false,
     subs: [] as { label: string; to: string }[],
   },
@@ -416,10 +429,34 @@ export function Layout() {
                 Software
               </Link>
               <Link
+                to="/leistungen"
+                className="transition hover:text-gallery-ink"
+              >
+                Leistungen
+              </Link>
+              <Link
+                to="/referenzen"
+                className="transition hover:text-gallery-ink"
+              >
+                Referenzen
+              </Link>
+              <Link
+                to="/blog"
+                className="transition hover:text-gallery-ink"
+              >
+                Blog
+              </Link>
+              <Link
                 to="/ueber-uns"
                 className="transition hover:text-gallery-ink"
               >
                 Über uns
+              </Link>
+              <Link
+                to="/kontakt"
+                className="transition hover:text-gallery-ink"
+              >
+                Kontakt
               </Link>
               {SITE_GOOGLE_BUSINESS_URL ? (
                 <a

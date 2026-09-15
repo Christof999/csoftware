@@ -80,6 +80,7 @@ type Program = {
   features: Feature[]
   /** Nur beim Rechnungsprogramm: was alles im Menü steht. */
   modules?: { group: string; items: string[] }[]
+  blog: { to: string; label: string }
   bg: string
 }
 
@@ -94,6 +95,10 @@ const PROGRAMS: Program[] = [
       'Eine App fürs Handy für alle, die draußen arbeiten — und eine Büroansicht für alle, die daraus Berichte, Löhne und Rechnungen machen müssen. Gestempelt wird auf das Projekt, nicht ins Leere: was dabei verbaut, gefahren und fotografiert wurde, hängt am selben Eintrag.',
     forWhom:
       'Handwerk, Bau, Montage, Außendienst — überall dort, wo die Arbeit nicht am Schreibtisch stattfindet.',
+    blog: {
+      to: '/blog/zeiterfassung-handwerk-baustelle-datev',
+      label: 'Im Blog: Stempeln aufs Projekt, DATEV-Nachweis, ohne Abtippen',
+    },
     views: [
       {
         Mockup: TimeTrackingPhoneMockup,
@@ -163,6 +168,10 @@ const PROGRAMS: Program[] = [
       'Hier läuft der kaufmännische Teil des Betriebs zusammen. In eine Richtung: Angebot, Lieferschein, Rechnung, Mahnung — jeder Beleg entsteht aus dem davor, keiner wird abgetippt. In die andere Richtung: Eingangsrechnungen, Zahlungen, Bankabgleich und das Monatsbündel fürs Steuerbüro. Dazwischen die Nachkalkulation, die beide Seiten mit der Zeiterfassung verbindet.',
     forWhom:
       'Betriebe, die mit Aufmaß, Nachträgen und Teilrechnungen arbeiten — und denen Standardsoftware zu eng oder zu groß ist.',
+    blog: {
+      to: '/blog/auftrag-rechnung-soll-ist-nachkalkulation',
+      label: 'Im Blog: Soll gegen Ist, bevor die Rechnung rausgeht',
+    },
     views: [
       {
         Mockup: InvoiceDashboardMockup,
@@ -267,6 +276,10 @@ const PROGRAMS: Program[] = [
       'Mehrere Postfächer laufen in einem Eingang zusammen. Eine KI liest jede Mail samt Anhang, ordnet sie einer festen Kategorie zu und zieht bei Rechnungen die Zahlen heraus. Was in die Buchhaltung gehört, geht von dort automatisch weiter.',
     forWhom:
       'Betriebe mit mehreren Mailadressen, bei denen Belege zwischen info@, buchhaltung@ und dem Handy des Chefs verloren gehen.',
+    blog: {
+      to: '/blog/ki-posteingang-lieferantenrechnungen',
+      label: 'Im Blog: Lieferantenrechnungen, die nicht im Postfach liegen bleiben',
+    },
     views: [
       {
         Mockup: InboxMockup,
@@ -484,6 +497,16 @@ export function Software() {
                 >
                   <span className="font-medium text-shell-muted">Für wen: </span>
                   {p.forWhom}
+                </motion.p>
+
+                <motion.p custom={4} variants={fadeInUp} className="mt-5">
+                  <Link
+                    to={p.blog.to}
+                    className="inline-flex items-center gap-2 text-sm font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 transition hover:decoration-gallery-ink"
+                  >
+                    {p.blog.label}
+                    <ArrowRight className="h-4 w-4" aria-hidden />
+                  </Link>
                 </motion.p>
               </div>
             </motion.div>

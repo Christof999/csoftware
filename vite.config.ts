@@ -218,6 +218,12 @@ export default defineConfig({
       additionalPrerenderRoutes: [
         '/ueber-uns',
         '/software',
+        '/referenzen',
+        '/leistungen',
+        '/kontakt',
+        '/webdesign-ansbach',
+        '/webdesign-merkendorf',
+        '/webdesign-mittelfranken',
         '/blog',
         // Jeder Beitrag als eigene statische Seite — sonst greift der
         // SPA-Fallback und Google sieht kein beitragsspezifisches Canonical.

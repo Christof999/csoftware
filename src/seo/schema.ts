@@ -18,6 +18,7 @@ import { CONTACT_FAQ_ITEMS } from './contactFaq'
 import { HOME_PROCESS_STEPS } from './homeProcessSteps'
 import type { BlogPost } from '../types/blog'
 import { isKnownPath, normalizeRoutePath } from './routeMeta'
+import { getWebdesignLocalByPath } from '../content/webdesignLocal'
 
 const TEL_E164 = SITE_PHONE_TEL.replace(/^tel:/, '')
 
@@ -34,8 +35,17 @@ export function breadcrumbJsonLd(pathname: string): object | null {
   ]
   if (path === '/leistungen') {
     items.push({ name: 'Leistungen', url: `${SITE_ORIGIN}/leistungen` })
+  } else if (path.startsWith('/webdesign-')) {
+    const local = getWebdesignLocalByPath(path)
+    items.push({ name: 'Leistungen', url: `${SITE_ORIGIN}/leistungen` })
+    items.push({
+      name: local?.breadcrumb ?? 'Webdesign',
+      url: `${SITE_ORIGIN}${path}`,
+    })
   } else if (path === '/software') {
     items.push({ name: 'Software', url: `${SITE_ORIGIN}/software` })
+  } else if (path === '/referenzen') {
+    items.push({ name: 'Referenzen', url: `${SITE_ORIGIN}/referenzen` })
   } else if (path === '/blog') {
     items.push({ name: 'Blog', url: `${SITE_ORIGIN}/blog` })
   } else if (path === '/kontakt') {
@@ -74,12 +84,20 @@ function sameAsUrls(): string[] {
 }
 
 export function faqPageJsonLd(pathname: string): object | null {
-  if (!SITE_ORIGIN || normalizeRoutePath(pathname) !== '/kontakt') return null
+  if (!SITE_ORIGIN) return null
+  const path = normalizeRoutePath(pathname)
+
+  const items =
+    path === '/kontakt'
+      ? CONTACT_FAQ_ITEMS
+      : getWebdesignLocalByPath(path)?.faqs
+
+  if (!items || items.length === 0) return null
 
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: CONTACT_FAQ_ITEMS.map((item) => ({
+    mainEntity: items.map((item) => ({
       '@type': 'Question',
       name: item.q,
       acceptedAnswer: {
@@ -87,6 +105,39 @@ export function faqPageJsonLd(pathname: string): object | null {
         text: item.a,
       },
     })),
+  }
+}
+
+export function webdesignServiceJsonLd(pathname: string): object | null {
+  if (!SITE_ORIGIN) return null
+  const page = getWebdesignLocalByPath(normalizeRoutePath(pathname))
+  if (!page) return null
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: page.breadcrumb,
+    serviceType: 'Webdesign',
+    description: page.metaDescription,
+    url: `${SITE_ORIGIN}${page.path}`,
+    areaServed: {
+      '@type': page.areaServedType,
+      name: page.areaServedName,
+    },
+    provider: {
+      '@type': 'LocalBusiness',
+      name: SITE_NAME,
+      url: `${SITE_ORIGIN}/`,
+      telephone: TEL_E164,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: SITE_STREET,
+        postalCode: SITE_POSTAL_CODE,
+        addressLocality: SITE_LOCALITY,
+        addressRegion: SITE_REGION_CODE,
+        addressCountry: SITE_COUNTRY,
+      },
+    },
   }
 }
 
@@ -343,5 +394,58 @@ export function softwareItemListJsonLd(pathname: string): object | null {
         },
       },
     })),
+  }
+}
+
+export function referenzenItemListJsonLd(pathname: string): object | null {
+  if (!SITE_ORIGIN || normalizeRoutePath(pathname) !== '/referenzen') return null
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `Umgesetzte Websites von ${SITE_NAME}`,
+    itemListOrder: 'https://schema.org/ItemListOrderAscending',
+    numberOfItems: 3,
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        item: {
+          '@type': 'WebSite',
+          name: 'der-glasermeister',
+          url: 'https://www.der-glasermeister.de',
+          description:
+            'Website der Glaserei Patrick Stettner in Merkendorf: Duschkabinen, Glastüren, Vordächer, Treppengeländer und Restaurierung.',
+          inLanguage: 'de-DE',
+          creator: { '@type': 'Organization', name: SITE_NAME, url: `${SITE_ORIGIN}/` },
+        },
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        item: {
+          '@type': 'WebSite',
+          name: 'Weiß Forst GbR',
+          url: 'https://weiss-forst.de',
+          description:
+            'Website der Weiß Forst GbR: Forstdienstleistungen in Merkendorf und Mittelfranken — Holzernte, Waldpflege, Brennholz.',
+          inLanguage: 'de-DE',
+          creator: { '@type': 'Organization', name: SITE_NAME, url: `${SITE_ORIGIN}/` },
+        },
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        item: {
+          '@type': 'WebSite',
+          name: 'All In Handwerk',
+          url: 'https://www.allinhandwerk.de',
+          description:
+            'Web-App zur Vermittlung geprüfter Handwerksbetriebe für Bau, Sanierung und Außenanlage.',
+          inLanguage: 'de-DE',
+          creator: { '@type': 'Organization', name: SITE_NAME, url: `${SITE_ORIGIN}/` },
+        },
+      },
+    ],
   }
 }

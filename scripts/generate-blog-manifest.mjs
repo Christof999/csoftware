@@ -7,20 +7,26 @@
  * (vite.config.ts). Diese Datei wird nicht ausgeliefert — der ausgelieferte
  * public/blog2-list.json bleibt schlank ohne Content.
  */
-import { writeFile, mkdir } from 'node:fs/promises'
+import { writeFile, mkdir, readFile } from 'node:fs/promises'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const outPath = path.resolve(__dirname, '../public/blog2-list.json')
 const sitemapPath = path.resolve(__dirname, '../public/sitemap.xml')
 const prerenderDataPath = path.resolve(__dirname, '../.blog-prerender.json')
+const localPostsPath = path.resolve(__dirname, '../src/content/blog/local-posts.json')
+const seoPostsPath = path.resolve(__dirname, '../src/content/blog/seo-posts.mjs')
 
 /** Statische Routen für die sitemap.xml (konsistent mit dem Router). */
 const STATIC_ROUTES = [
   { loc: '/', changefreq: 'weekly', priority: '1.0' },
   { loc: '/leistungen', changefreq: 'monthly', priority: '0.9' },
+  { loc: '/webdesign-ansbach', changefreq: 'monthly', priority: '0.88' },
+  { loc: '/webdesign-merkendorf', changefreq: 'monthly', priority: '0.88' },
+  { loc: '/webdesign-mittelfranken', changefreq: 'monthly', priority: '0.88' },
   { loc: '/software', changefreq: 'monthly', priority: '0.9' },
+  { loc: '/referenzen', changefreq: 'monthly', priority: '0.85' },
   { loc: '/kontakt', changefreq: 'monthly', priority: '0.8' },
   { loc: '/blog', changefreq: 'daily', priority: '0.8' },
   { loc: '/ueber-uns', changefreq: 'monthly', priority: '0.75' },
@@ -39,6 +45,53 @@ function envFirst(...keys) {
 function siteOrigin() {
   const raw = envFirst('VITE_SITE_URL', 'SITE_URL') || 'https://www.soergel-design.de'
   return raw.replace(/\/+$/, '')
+}
+
+function mergePosts(remote, local) {
+  const seen = new Set(remote.map((p) => p.slug).filter(Boolean))
+  const extra = local.filter((p) => p?.slug && !seen.has(p.slug))
+  return [...remote, ...extra].sort(
+    (a, b) =>
+      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
+  )
+}
+
+function withoutContent(posts) {
+  return posts.map((post) => ({
+    id: post.id,
+    slug: post.slug,
+    title: post.title,
+    metaDescription: post.metaDescription,
+    publishedAt: post.publishedAt,
+  }))
+}
+
+async function loadLocalPosts() {
+  const fromJson = []
+  try {
+    const raw = JSON.parse(await readFile(localPostsPath, 'utf8'))
+    const posts = Array.isArray(raw?.posts) ? raw.posts : []
+    fromJson.push(...posts.filter((p) => typeof p?.slug === 'string' && p.slug.length > 0))
+  } catch (e) {
+    console.warn(
+      '[blog-manifest] local-posts.json nicht gelesen:',
+      e instanceof Error ? e.message : e,
+    )
+  }
+
+  let fromSeo = []
+  try {
+    const mod = await import(pathToFileURL(seoPostsPath).href)
+    const posts = Array.isArray(mod.seoPosts) ? mod.seoPosts : []
+    fromSeo = posts.filter((p) => typeof p?.slug === 'string' && p.slug.length > 0)
+  } catch (e) {
+    console.warn(
+      '[blog-manifest] seo-posts.mjs nicht gelesen:',
+      e instanceof Error ? e.message : e,
+    )
+  }
+
+  return mergePosts(fromJson, fromSeo)
 }
 
 /** Erzeugt sitemap.xml mit statischen Routen + allen Blog-Beiträgen (für Google). */
@@ -227,29 +280,41 @@ async function runQuery(projectId, apiKey, collection) {
   return res.json()
 }
 
+async function writeManifest(postsWithContent) {
+  const listPosts = withoutContent(postsWithContent)
+  await writeFile(
+    outPath,
+    JSON.stringify({
+      posts: listPosts,
+      generatedAt: new Date().toISOString(),
+    }),
+  )
+  console.log(`[blog-manifest] ${listPosts.length} Beiträge → public/blog2-list.json`)
+  await writeSitemap(listPosts)
+  await writePrerenderData(postsWithContent)
+}
+
 async function main() {
   const projectId = envFirst('VITE_FIREBASE_PROJECT_ID', 'FIREBASE_PROJECT_ID')
   const apiKey = envFirst('VITE_FIREBASE_API_KEY', 'FIREBASE_API_KEY')
   const collection =
     envFirst('VITE_FIRESTORE_BLOG_COLLECTION', 'FIRESTORE_BLOG_COLLECTION') ||
     'articles'
+  const localPosts = await loadLocalPosts()
 
   await mkdir(path.dirname(outPath), { recursive: true })
 
   if (!projectId || !apiKey) {
-    console.warn('[blog-manifest] Firebase-Env fehlt — leeres Manifest.')
-    await writeFile(
-      outPath,
-      JSON.stringify({ posts: [], generatedAt: new Date().toISOString() }),
+    console.warn(
+      `[blog-manifest] Firebase-Env fehlt — ${localPosts.length} lokale Software-Beiträge.`,
     )
-    await writeSitemap([])
-    await writePrerenderData([])
+    await writeManifest(localPosts)
     return
   }
 
   try {
     const rows = await runQuery(projectId, apiKey, collection)
-    const posts = (Array.isArray(rows) ? rows : [])
+    const remotePosts = (Array.isArray(rows) ? rows : [])
       .filter((row) => row.document?.fields)
       .map((row) => {
         const fields = row.document.fields
@@ -275,32 +340,12 @@ async function main() {
         }
       })
       .filter(Boolean)
-      .sort(
-        (a, b) =>
-          new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
-      )
 
-    // Ausgeliefertes Manifest bleibt ohne Content (Ladezeit der Blog-Übersicht).
-    const listPosts = posts.map(({ content: _content, ...rest }) => rest)
-
-    await writeFile(
-      outPath,
-      JSON.stringify({
-        posts: listPosts,
-        generatedAt: new Date().toISOString(),
-      }),
-    )
-    console.log(`[blog-manifest] ${listPosts.length} Beiträge → public/blog2-list.json`)
-    await writeSitemap(listPosts)
-    await writePrerenderData(posts)
+    const posts = mergePosts(remotePosts, localPosts)
+    await writeManifest(posts)
   } catch (e) {
     console.warn('[blog-manifest] Fehler:', e instanceof Error ? e.message : e)
-    await writeFile(
-      outPath,
-      JSON.stringify({ posts: [], generatedAt: new Date().toISOString() }),
-    )
-    await writeSitemap([])
-    await writePrerenderData([])
+    await writeManifest(localPosts)
   }
 }
 

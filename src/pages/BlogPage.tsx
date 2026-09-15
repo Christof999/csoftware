@@ -84,8 +84,9 @@ export function BlogPage() {
               variants={fadeInUp}
               className="mt-6 text-base leading-relaxed text-shell-muted"
             >
-              Neuigkeiten zu Webdesign, SEO und digitalen Themen aus der Praxis von{' '}
-              {SITE_NAME}.
+              Praxis zu E-Rechnung, DATEV-Nachweis, Nachkalkulation und Posteingang
+              für Handwerk und Bau — plus ältere Beiträge zu Webdesign, SEO und
+              Digitalisierung von {SITE_NAME}.
             </motion.p>
           </motion.div>
         </div>
