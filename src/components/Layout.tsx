@@ -48,12 +48,7 @@ const nav = [
     label: 'Leistungen',
     n: '03',
     end: false,
-    subs: [
-      { label: 'Übersicht', to: '/leistungen' },
-      { label: 'Webdesign Ansbach', to: '/webdesign-ansbach' },
-      { label: 'Webdesign Merkendorf', to: '/webdesign-merkendorf' },
-      { label: 'Mittelfranken', to: '/webdesign-mittelfranken' },
-    ],
+    subs: [] as { label: string; to: string }[],
   },
   {
     to: '/referenzen',
