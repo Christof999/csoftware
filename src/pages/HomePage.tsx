@@ -8,6 +8,7 @@ import { HomeProcess } from '../components/home/HomeProcess'
 import { HomeSoftware } from '../components/home/HomeSoftware'
 import { HomePromise } from '../components/home/HomePromise'
 import { HomeValueProps } from '../components/home/HomeValueProps'
+import { HomeReferenzen } from '../components/home/HomeReferenzen'
 import { HomeWebsites } from '../components/home/HomeWebsites'
 
 export function HomePage() {
@@ -17,6 +18,7 @@ export function HomePage() {
       <HomeSoftware />
       <HomeAutomation />
       <HomeWebsites />
+      <HomeReferenzen />
       <HomeManifesto />
       <HomePrint />
       <HomeValueProps />

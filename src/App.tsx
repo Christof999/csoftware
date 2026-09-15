@@ -8,6 +8,7 @@ import { HomePage } from './pages/HomePage'
 import { ImpressumPage } from './pages/ImpressumPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import { AboutPage } from './pages/AboutPage'
+import { ReferenzenPage } from './pages/ReferenzenPage'
 import { ServicesPage } from './pages/ServicesPage'
 import { SoftwarePage } from './pages/SoftwarePage'
 import { BlogPostRoute, BlogRoute } from './routes/blogRoutes'
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="leistungen" element={<ServicesPage />} />
+          <Route path="referenzen" element={<ReferenzenPage />} />
           <Route path="software" element={<SoftwarePage />} />
           <Route path="blog" element={<BlogRoute />} />
           <Route path="blog/:slug" element={<BlogPostRoute />} />

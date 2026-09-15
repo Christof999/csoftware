@@ -6,6 +6,7 @@ import {
   howToHomeJsonLd,
   organizationWebsiteGraph,
   softwareItemListJsonLd,
+  referenzenItemListJsonLd,
 } from './schema'
 
 /** Für vite-prerender-plugin `head.elements` (Props nur Strings). */
@@ -115,6 +116,15 @@ export function buildPrerenderHeadElements(
       type: 'script',
       props: { type: 'application/ld+json', id: 'jsonld-software' },
       children: JSON.stringify(software),
+    })
+  }
+
+  const referenzen = referenzenItemListJsonLd(pathname)
+  if (referenzen) {
+    elements.push({
+      type: 'script',
+      props: { type: 'application/ld+json', id: 'jsonld-referenzen' },
+      children: JSON.stringify(referenzen),
     })
   }
 

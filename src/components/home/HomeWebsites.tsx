@@ -85,12 +85,19 @@ export function HomeWebsites() {
               ))}
             </motion.div>
 
-            <motion.div custom={6} variants={fadeInUp} className="mt-8">
+            <motion.div custom={6} variants={fadeInUp} className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
                 to="/leistungen#chapter-01"
                 className="inline-flex items-center gap-2 rounded-lg border border-gallery-line bg-gallery-bg px-5 py-2.5 text-sm font-medium text-gallery-ink transition hover:border-stone-400 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-300 dark:hover:border-stone-500 dark:hover:text-white"
               >
                 Mehr zu Websites
+                <ArrowRight className="h-4 w-4" aria-hidden />
+              </Link>
+              <Link
+                to="/referenzen"
+                className="inline-flex items-center gap-2 text-sm font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 transition hover:decoration-gallery-ink"
+              >
+                Umgesetzte Websites
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
             </motion.div>

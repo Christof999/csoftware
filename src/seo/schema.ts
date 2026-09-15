@@ -36,6 +36,8 @@ export function breadcrumbJsonLd(pathname: string): object | null {
     items.push({ name: 'Leistungen', url: `${SITE_ORIGIN}/leistungen` })
   } else if (path === '/software') {
     items.push({ name: 'Software', url: `${SITE_ORIGIN}/software` })
+  } else if (path === '/referenzen') {
+    items.push({ name: 'Referenzen', url: `${SITE_ORIGIN}/referenzen` })
   } else if (path === '/blog') {
     items.push({ name: 'Blog', url: `${SITE_ORIGIN}/blog` })
   } else if (path === '/kontakt') {
@@ -343,5 +345,58 @@ export function softwareItemListJsonLd(pathname: string): object | null {
         },
       },
     })),
+  }
+}
+
+export function referenzenItemListJsonLd(pathname: string): object | null {
+  if (!SITE_ORIGIN || normalizeRoutePath(pathname) !== '/referenzen') return null
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `Umgesetzte Websites von ${SITE_NAME}`,
+    itemListOrder: 'https://schema.org/ItemListOrderAscending',
+    numberOfItems: 3,
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        item: {
+          '@type': 'WebSite',
+          name: 'der-glasermeister',
+          url: 'https://www.der-glasermeister.de',
+          description:
+            'Website der Glaserei Patrick Stettner in Merkendorf: Duschkabinen, Glastüren, Vordächer, Treppengeländer und Restaurierung.',
+          inLanguage: 'de-DE',
+          creator: { '@type': 'Organization', name: SITE_NAME, url: `${SITE_ORIGIN}/` },
+        },
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        item: {
+          '@type': 'WebSite',
+          name: 'Weiß Forst GbR',
+          url: 'https://weiss-forst.de',
+          description:
+            'Website der Weiß Forst GbR: Forstdienstleistungen in Merkendorf und Mittelfranken — Holzernte, Waldpflege, Brennholz.',
+          inLanguage: 'de-DE',
+          creator: { '@type': 'Organization', name: SITE_NAME, url: `${SITE_ORIGIN}/` },
+        },
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        item: {
+          '@type': 'WebSite',
+          name: 'All In Handwerk',
+          url: 'https://www.allinhandwerk.de',
+          description:
+            'Web-App zur Vermittlung geprüfter Handwerksbetriebe für Bau, Sanierung und Außenanlage.',
+          inLanguage: 'de-DE',
+          creator: { '@type': 'Organization', name: SITE_NAME, url: `${SITE_ORIGIN}/` },
+        },
+      },
+    ],
   }
 }

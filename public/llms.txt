@@ -8,6 +8,7 @@ Sprache: Deutsch (de-DE)
 Startseite: /
 Leistungen: /leistungen
 Software (eigene Programme: Zeiterfassung, Auftrag & Rechnung, KI-Posteingang): /software
+Referenzen (umgesetzte Websites): /referenzen
 Blog: /blog
 Kontakt: /kontakt
 Über uns (Inhaber, E-E-A-T): /ueber-uns

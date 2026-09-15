@@ -23,6 +23,7 @@ const STATIC_ROUTES = [
   { loc: '/', changefreq: 'weekly', priority: '1.0' },
   { loc: '/leistungen', changefreq: 'monthly', priority: '0.9' },
   { loc: '/software', changefreq: 'monthly', priority: '0.9' },
+  { loc: '/referenzen', changefreq: 'monthly', priority: '0.85' },
   { loc: '/kontakt', changefreq: 'monthly', priority: '0.8' },
   { loc: '/blog', changefreq: 'daily', priority: '0.8' },
   { loc: '/ueber-uns', changefreq: 'monthly', priority: '0.75' },

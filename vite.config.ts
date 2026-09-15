@@ -218,6 +218,7 @@ export default defineConfig({
       additionalPrerenderRoutes: [
         '/ueber-uns',
         '/software',
+        '/referenzen',
         '/blog',
         // Jeder Beitrag als eigene statische Seite — sonst greift der
         // SPA-Fallback und Google sieht kein beitragsspezifisches Canonical.

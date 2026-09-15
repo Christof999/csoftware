@@ -76,7 +76,14 @@ export function AboutPage() {
               gerne arbeite ich mit Handwerk, Dienstleistern und kleineren Teams
               zusammen, die eine verlässliche Partnerin oder einen verlässlichen
               Partner für digitale Themen suchen — ohne Agentur-Pathos, dafür mit
-              direkter Kommunikation.
+              direkter Kommunikation. Umgesetzte Websites liegen unter den{' '}
+              <Link
+                to="/referenzen"
+                className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 hover:decoration-gallery-ink"
+              >
+                Referenzen
+              </Link>
+              .
             </motion.p>
             <motion.p
               custom={2}

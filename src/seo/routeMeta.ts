@@ -15,6 +15,7 @@ export const KNOWN_PATHS = [
   '/',
   '/leistungen',
   '/software',
+  '/referenzen',
   '/blog',
   '/kontakt',
   '/ueber-uns',
@@ -62,6 +63,11 @@ const ROUTE_META: Record<KnownPath, Omit<RouteMeta, 'indexable'>> = {
     title: `Software für Unternehmen | Zeiterfassung, Rechnung & KI-Posteingang | ${SITE_NAME}`,
     description:
       'Eigene Programme für den Betrieb: mobile Zeiterfassung mit DATEV-Nachweis, Auftrags- und Rechnungsprogramm mit Nachkalkulation und Buchhaltung sowie KI-Posteingang für Belege. Einzeln oder als zusammenhängendes System — mit echten Praxisbeispielen.',
+  },
+  '/referenzen': {
+    title: `Referenzen | Umgesetzte Websites · ${SITE_NAME}`,
+    description:
+      'Umgesetzte Websites: Glaserei der-glasermeister.de, Forstbetrieb weiss-forst.de und Handwerkervermittlung allinhandwerk.de — Webdesign aus Merkendorf für Handwerk und Betriebe in Mittelfranken.',
   },
   '/blog': {
     title: `Blog | E-Rechnung, Zeiterfassung & Handwerk · ${SITE_NAME}`,
