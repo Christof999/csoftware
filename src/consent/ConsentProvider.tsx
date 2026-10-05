@@ -36,9 +36,8 @@ function readStored(): InitialState {
     return {
       hasDecided: true,
       preferences: {
-        ...DEFAULT_PREFERENCES,
-        ...parsed.preferences,
         necessary: true,
+        fonts: parsed.preferences.fonts === true,
       },
       decidedAt: parsed.decidedAt ?? null,
     }
@@ -107,11 +106,11 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const acceptAll = useCallback(() => {
-    persist({ necessary: true, fonts: true, camera: true })
+    persist({ necessary: true, fonts: true })
   }, [persist])
 
   const rejectAll = useCallback(() => {
-    persist({ necessary: true, fonts: false, camera: false })
+    persist({ necessary: true, fonts: false })
   }, [persist])
 
   const save = useCallback(

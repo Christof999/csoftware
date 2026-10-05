@@ -9,14 +9,13 @@ export const CONSENT_STORAGE_KEY = 'sorgel-design-consent'
 
 /** Alle Kategorien, für die wir Einwilligung einholen. `necessary` ist
  *  technisch nötig und kann nicht abgewählt werden. */
-export type ConsentCategory = 'necessary' | 'fonts' | 'camera'
+export type ConsentCategory = 'necessary' | 'fonts'
 
 export type ConsentPreferences = Record<ConsentCategory, boolean>
 
 export const DEFAULT_PREFERENCES: ConsentPreferences = {
   necessary: true,
   fonts: false,
-  camera: false,
 }
 
 export interface StoredConsent {

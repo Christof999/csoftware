@@ -1,78 +1,8 @@
 import { ArrowRight } from 'lucide-react'
-import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useCookieConsent } from '../../consent/useCookieConsent'
-import { usePrefersReducedMotion } from './tech/usePrefersReducedMotion'
 
-/**
- * Primär-CTA im Hero: Chrom-Optik mit optionalem Kamera-Spiegel-Effekt.
- * Kamera nur bei Einwilligung (Cookie-Kategorie `camera`) und ohne
- * „prefers-reduced-motion“. Bei Verweigerung oder Fehler: statisches Metall.
- */
+/** Primär-CTA im Hero: statische Chrom-Optik. */
 export function HeroChromeCta({ to }: { to: string }) {
-  const { preferences, hasDecided } = useCookieConsent()
-  const reduced = usePrefersReducedMotion()
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [streamOk, setStreamOk] = useState(false)
-  const streamRef = useRef<MediaStream | null>(null)
-
-  const stopStream = useCallback(() => {
-    for (const t of streamRef.current?.getTracks() ?? []) {
-      t.stop()
-    }
-    streamRef.current = null
-    setStreamOk(false)
-    const v = videoRef.current
-    if (v) v.srcObject = null
-  }, [])
-
-  const tryCamera =
-    hasDecided && preferences.camera && !reduced && typeof navigator !== 'undefined'
-
-  useEffect(() => {
-    if (!tryCamera || !navigator.mediaDevices?.getUserMedia) {
-      stopStream()
-      return
-    }
-
-    let cancelled = false
-
-    async function run() {
-      try {
-        // Kurz warten, bis der Cookie-Dialog zu ist — sonst kann der Browser-Prompt
-        // leicht übersehen werden oder hinter dem Overlay hängen.
-        await new Promise<void>((resolve) => {
-          window.setTimeout(resolve, 400)
-        })
-        if (cancelled) return
-
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: 'user', width: { ideal: 720 }, height: { ideal: 480 } },
-          audio: false,
-        })
-        if (cancelled) {
-          for (const t of stream.getTracks()) t.stop()
-          return
-        }
-        streamRef.current = stream
-        const v = videoRef.current
-        if (v) {
-          v.srcObject = stream
-          await v.play().catch(() => {})
-        }
-        if (!cancelled) setStreamOk(true)
-      } catch {
-        if (!cancelled) stopStream()
-      }
-    }
-
-    void run()
-    return () => {
-      cancelled = true
-      stopStream()
-    }
-  }, [tryCamera, stopStream])
-
   return (
     <Link
       to={to}
@@ -83,22 +13,6 @@ export function HeroChromeCta({ to }: { to: string }) {
         aria-hidden
         className="absolute inset-0 bg-[linear-gradient(128deg,#ececec_0%,#b4b4b4_18%,#f6f6f6_38%,#9d9d9d_55%,#e4e4e4_72%,#c0c0c0_100%)] dark:bg-[linear-gradient(128deg,#5c5c5c_0%,#3a3a3a_22%,#6b6b6b_42%,#2f2f2f_58%,#555_78%,#404040_100%)]"
       />
-
-      {/* Kamera-Feed: nur bei Einwilligung gemountet, damit die Ref beim Stream bereit ist */}
-      {tryCamera ? (
-        <video
-          ref={videoRef}
-          muted
-          playsInline
-          autoPlay
-          className={
-            streamOk
-              ? 'absolute inset-0 z-[1] h-full w-full scale-x-[-1] object-cover opacity-[0.92] blur-[1.5px] saturate-[0.85] contrast-[1.05] transition-opacity duration-300 dark:opacity-90'
-              : 'pointer-events-none absolute inset-0 z-[1] h-full w-full scale-x-[-1] object-cover opacity-0 blur-[1.5px]'
-          }
-          aria-hidden
-        />
-      ) : null}
 
       {/* Chrom-Glanz & Kantenlicht */}
       <span
