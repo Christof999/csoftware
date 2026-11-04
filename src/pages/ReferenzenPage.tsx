@@ -35,9 +35,10 @@ export function ReferenzenPage() {
               variants={fadeInUp}
               className="mt-8 max-w-2xl text-lg leading-relaxed text-shell-muted"
             >
-              Drei Projekte aus der Praxis: eine Glaserei und ein Forstbetrieb in
-              Merkendorf, dazu eine Vermittlung für Handwerksbetriebe. Keine
-              Mockups — die Adressen funktionieren.
+              Vier Projekte aus der Praxis: eine Glaserei und ein Forstbetrieb in
+              Merkendorf, eine Vermittlung für Handwerksbetriebe und die
+              Landingpage der Handwerkersoftware Werkbank. Keine Mockups — die
+              Adressen funktionieren.
             </motion.p>
           </motion.div>
         </div>

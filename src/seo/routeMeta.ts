@@ -85,7 +85,7 @@ const ROUTE_META: Record<KnownPath, Omit<RouteMeta, 'indexable'>> = {
   '/referenzen': {
     title: `Referenzen | Umgesetzte Websites · ${SITE_NAME}`,
     description:
-      'Umgesetzte Websites: Glaserei der-glasermeister.de, Forstbetrieb weiss-forst.de und Handwerkervermittlung allinhandwerk.de — Webdesign aus Merkendorf für Handwerk und Betriebe in Mittelfranken.',
+      'Umgesetzte Websites: Glaserei der-glasermeister.de, Forstbetrieb weiss-forst.de, Handwerkervermittlung allinhandwerk.de und Handwerkersoftware werkbank.info — Webdesign aus Merkendorf für Handwerk und Betriebe in Mittelfranken.',
   },
   '/blog': {
     title: `Blog | E-Rechnung, Zeiterfassung & Handwerk · ${SITE_NAME}`,

@@ -41,14 +41,15 @@ export function HomeReferenzen() {
               variants={fadeInUp}
               className="mt-6 text-base leading-relaxed text-shell-muted sm:text-lg"
             >
-              Drei Auftritte aus der Region und darüber hinaus: Glaserei,
-              Forstbetrieb, Handwerkervermittlung. Gebaut, erreichbar, mit
-              dem, was der jeweilige Betrieb wirklich anbietet.
+              Vier Auftritte aus der Region und darüber hinaus: Glaserei,
+              Forstbetrieb, Handwerkervermittlung und die Landingpage einer
+              Handwerkersoftware. Gebaut, erreichbar, mit dem, was der
+              jeweilige Betrieb wirklich anbietet.
             </motion.p>
           </div>
         </motion.div>
 
-        <div className="mt-14 grid gap-8 sm:grid-cols-3">
+        <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {REFERENZEN.map((r, i) => (
             <motion.article
               key={r.id}

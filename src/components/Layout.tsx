@@ -59,6 +59,7 @@ const nav = [
       { label: 'der-glasermeister', to: '/referenzen#glasermeister' },
       { label: 'Weiß Forst', to: '/referenzen#weiss-forst' },
       { label: 'All In Handwerk', to: '/referenzen#allinhandwerk' },
+      { label: 'Werkbank', to: '/referenzen#werkbank' },
     ],
   },
   {
