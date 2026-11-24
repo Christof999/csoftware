@@ -16,6 +16,7 @@ export const KNOWN_PATHS = [
   '/leistungen',
   '/webdesign-ansbach',
   '/webdesign-merkendorf',
+  '/webdesign-gunzenhausen',
   '/webdesign-mittelfranken',
   '/software',
   '/referenzen',
@@ -71,6 +72,11 @@ const ROUTE_META: Record<KnownPath, Omit<RouteMeta, 'indexable'>> = {
     title: `Webdesign Merkendorf | Websites aus dem Ort | ${SITE_NAME}`,
     description:
       'Webdesign in Merkendorf: Websites für Betriebe vor Ort — Glaserei, Forst, Handwerk. Gebaut in Merkendorf, ohne Agentur aus der Großstadt dazwischen.',
+  },
+  '/webdesign-gunzenhausen': {
+    title: `Webdesign & SEO Gunzenhausen | Website für Betriebe | ${SITE_NAME}`,
+    description:
+      'Webdesign und lokale SEO in Gunzenhausen: Websites für Handwerk, Handel und Gastgeber im Landkreis Weißenburg-Gunzenhausen — aus Merkendorf, die B13 hinunter.',
   },
   '/webdesign-mittelfranken': {
     title: `Website erstellen lassen Mittelfranken | Webdesign | ${SITE_NAME}`,

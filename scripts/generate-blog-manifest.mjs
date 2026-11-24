@@ -24,6 +24,7 @@ const STATIC_ROUTES = [
   { loc: '/leistungen', changefreq: 'monthly', priority: '0.9' },
   { loc: '/webdesign-ansbach', changefreq: 'monthly', priority: '0.88' },
   { loc: '/webdesign-merkendorf', changefreq: 'monthly', priority: '0.88' },
+  { loc: '/webdesign-gunzenhausen', changefreq: 'monthly', priority: '0.88' },
   { loc: '/webdesign-mittelfranken', changefreq: 'monthly', priority: '0.88' },
   { loc: '/software', changefreq: 'monthly', priority: '0.9' },
   { loc: '/referenzen', changefreq: 'monthly', priority: '0.85' },

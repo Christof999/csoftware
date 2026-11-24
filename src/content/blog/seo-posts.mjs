@@ -26,7 +26,7 @@ export const seoPosts = [
 <h2>Was Sie weglassen können</h2>
 <p>Stockfotos von Händeschütteln. „Ihre Zufriedenheit ist unser Antrieb.“ Eine Galerie ohne Beschriftung, in der niemand erkennt, ob das die eigene Baustelle war. Ein Chat-Widget, das nachts „gleich antwortet“ und tagsüber niemand liest.</p>
 <blockquote>Die Website ist die digitale Werkstatt-Einfahrt. Wer sie nicht findet, klingelt nicht.</blockquote>
-<p>Ob Baukasten oder eigene Seite, steht in <a href="/blog/website-baukasten-oder-individuell">Baukasten oder individuell</a>. Wie das Google-Profil dazugehört, in <a href="/blog/google-unternehmensprofil-handwerk">Google-Unternehmensprofil</a>. Webdesign vor Ort: <a href="/webdesign-ansbach">Ansbach</a>, <a href="/webdesign-merkendorf">Merkendorf</a>, <a href="/webdesign-mittelfranken">Mittelfranken</a>. <a href="/kontakt">Ablauf besprechen</a>.</p>
+<p>Ob Baukasten oder eigene Seite, steht in <a href="/blog/website-baukasten-oder-individuell">Baukasten oder individuell</a>. Wie das Google-Profil dazugehört, in <a href="/blog/google-unternehmensprofil-handwerk">Google-Unternehmensprofil</a>. Webdesign vor Ort: <a href="/webdesign-ansbach">Ansbach</a>, <a href="/webdesign-merkendorf">Merkendorf</a>, <a href="/webdesign-gunzenhausen">Gunzenhausen</a>, <a href="/webdesign-mittelfranken">Mittelfranken</a>. <a href="/kontakt">Ablauf besprechen</a>.</p>
 `.trim(),
   },
   {
@@ -86,7 +86,7 @@ export const seoPosts = [
 
 <h2>Website und Profil zusammen denken</h2>
 <p>Das Profil schickt Leute auf die Seite. Die Seite muss denselben Betrieb zeigen: Kontakt, Leistungen, Impressum. Wenn die Website ein Baukasten ohne Ort ist, kann das Profil noch so gepflegt sein — die Landung überzeugt nicht.</p>
-<p>Für Betriebe in der Fläche (Merkendorf, Ansbach, Gunzenhausen) zählt das Profil oft mehr als ein Blogtext. Die Suche ist lokal und mit Absicht. Deshalb gehören <a href="/webdesign-ansbach">Webdesign Ansbach</a> und das Profil zusammen, nicht nacheinander „irgendwann“.</p>
+<p>Für Betriebe in der Fläche (Merkendorf, Ansbach, Gunzenhausen) zählt das Profil oft mehr als ein Blogtext. Die Suche ist lokal und mit Absicht. Deshalb gehören die Ortsseiten wie <a href="/webdesign-ansbach">Webdesign Ansbach</a> oder <a href="/webdesign-gunzenhausen">Webdesign Gunzenhausen</a> und das Profil zusammen, nicht nacheinander „irgendwann“.</p>
 <blockquote>Maps ist die Einfahrt. Die Website ist, was man sieht, wenn man reinkommt. Beides muss denselben Hof zeigen.</blockquote>
 <p>Was die Website selbst tragen muss: <a href="/blog/website-handwerk-leistungen-anfrage">Website fürs Handwerk</a>. Wann ein Baukasten nicht mehr reicht: <a href="/blog/website-baukasten-oder-individuell">Baukasten oder individuell</a>. <a href="/kontakt">Profil und Seite gegeneinanderhalten</a>.</p>
 `.trim(),
@@ -418,7 +418,7 @@ export const seoPosts = [
     publishedAt: '2026-09-14T08:00:00.000Z',
     content: `
 <p>Excel ist das beste Werkzeug der Welt — bis drei Leute dieselbe Datei meinen, der Polier sie auf dem Handy nicht bedienen kann und die Version „final_wirklich_v3“ die Wahrheit ist. Dann ist die Tabelle kein Werkzeug mehr, sondern ein Ort, an dem Arbeit verschwindet.</p>
-<p>Eine Web-App ist keine Website. Die Website wirbt. Die App erledigt denselben Schritt jeden Tag: stempeln, Auftrag anlegen, Status sehen, Beleg prüfen. Der bestehende Text <a href="/blog/webapps-vs-webseite-ihre-individuelle-digitale-loesung-aus-ansbach">WebApps vs. Webseite</a> trennt die beiden. Hier geht es um die Schwelle, an der Excel kippt.</p>
+<p>Eine Web-App ist keine Website. Die Website wirbt. Die App erledigt denselben Schritt jeden Tag: stempeln, Auftrag anlegen, Status sehen, Beleg prüfen. Hier geht es um die Schwelle, an der Excel kippt.</p>
 
 <h2>Excel reicht, wenn</h2>
 <ul>

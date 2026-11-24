@@ -96,6 +96,13 @@ export function AboutPage() {
                 className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 hover:decoration-gallery-ink"
               >
                 Ansbach
+              </Link>
+              ,{' '}
+              <Link
+                to="/webdesign-gunzenhausen"
+                className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 hover:decoration-gallery-ink"
+              >
+                Gunzenhausen
               </Link>{' '}
               und{' '}
               <Link

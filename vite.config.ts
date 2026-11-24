@@ -223,6 +223,7 @@ export default defineConfig({
         '/kontakt',
         '/webdesign-ansbach',
         '/webdesign-merkendorf',
+        '/webdesign-gunzenhausen',
         '/webdesign-mittelfranken',
         '/blog',
         // Jeder Beitrag als eigene statische Seite — sonst greift der

@@ -244,6 +244,8 @@ export function organizationWebsiteGraph(): object {
       SITE_NAME_ASCII,
       'Sorgel design',
       'SØRGEL design',
+      'Sörgel Design',
+      'Soergel Design',
     ],
     url: SITE_ORIGIN,
     email: SITE_EMAIL,
@@ -277,7 +279,7 @@ export function organizationWebsiteGraph(): object {
     '@type': 'LocalBusiness',
     '@id': localId,
     name: SITE_NAME,
-    alternateName: [SITE_NAME_ASCII],
+    alternateName: [SITE_NAME_ASCII, 'Sörgel Design', 'Soergel Design'],
     url: SITE_ORIGIN,
     email: SITE_EMAIL,
     telephone: TEL_E164,
@@ -298,6 +300,8 @@ export function organizationWebsiteGraph(): object {
     },
     areaServed: [
       { '@type': 'City', name: 'Ansbach' },
+      { '@type': 'City', name: 'Gunzenhausen' },
+      { '@type': 'City', name: 'Merkendorf' },
       { '@type': 'AdministrativeArea', name: 'Mittelfranken' },
     ],
   }

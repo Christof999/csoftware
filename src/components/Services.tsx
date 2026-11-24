@@ -741,6 +741,13 @@ export function Services() {
                   className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 hover:decoration-gallery-ink"
                 >
                   Webdesign Merkendorf
+                </Link>
+                ,{' '}
+                <Link
+                  to="/webdesign-gunzenhausen"
+                  className="font-medium text-gallery-ink underline decoration-gallery-line underline-offset-4 hover:decoration-gallery-ink"
+                >
+                  Webdesign Gunzenhausen
                 </Link>{' '}
                 und{' '}
                 <Link

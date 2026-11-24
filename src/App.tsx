@@ -24,6 +24,7 @@ export default function App() {
           <Route path="leistungen" element={<ServicesPage />} />
           <Route path="webdesign-ansbach" element={<LocalWebdesignPage />} />
           <Route path="webdesign-merkendorf" element={<LocalWebdesignPage />} />
+          <Route path="webdesign-gunzenhausen" element={<LocalWebdesignPage />} />
           <Route path="webdesign-mittelfranken" element={<LocalWebdesignPage />} />
           <Route path="referenzen" element={<ReferenzenPage />} />
           <Route path="software" element={<SoftwarePage />} />

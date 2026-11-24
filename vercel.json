@@ -13,7 +13,12 @@
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "^soergel-design\\.de$" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "^soergel-design\\.de$"
+        }
+      ],
       "destination": "https://www.soergel-design.de/:path*",
       "permanent": true
     },
@@ -41,13 +46,191 @@
       "source": "/:path+/index.html",
       "destination": "/:path+",
       "permanent": true
+    },
+    {
+      "source": "/blog/seo-optimierung-ansbach-unternehmen",
+      "destination": "/webdesign-ansbach",
+      "permanent": true
+    },
+    {
+      "source": "/blog/seo-optimierung-ansbach-unternehmen-leitfaden",
+      "destination": "/webdesign-ansbach",
+      "permanent": true
+    },
+    {
+      "source": "/blog/ci-design-ansbach-marke-bleibt-im-kopf",
+      "destination": "/webdesign-ansbach",
+      "permanent": true
+    },
+    {
+      "source": "/blog/webapps-vs-webseite-individuelle-loesungen-ansbach",
+      "destination": "/webdesign-ansbach",
+      "permanent": true
+    },
+    {
+      "source": "/blog/digitaler-wandel-handwerk-ansbach-hilfe",
+      "destination": "/webdesign-ansbach",
+      "permanent": true
+    },
+    {
+      "source": "/blog/modernes-webdesign-unternehmen-gunzenhausen",
+      "destination": "/webdesign-gunzenhausen",
+      "permanent": true
+    },
+    {
+      "source": "/blog/suchmaschinen-check-einzelhandel-gunzenhausen",
+      "destination": "/webdesign-gunzenhausen",
+      "permanent": true
+    },
+    {
+      "source": "/blog/google-my-business-optimieren-sichtbar-gunzenhausen",
+      "destination": "/webdesign-gunzenhausen",
+      "permanent": true
+    },
+    {
+      "source": "/blog/local-seo-dinkelsbuehl-unterschied",
+      "destination": "/webdesign-mittelfranken",
+      "permanent": true
+    },
+    {
+      "source": "/blog/e-commerce-loesungen-dinkelsbuehl-einzelhandel",
+      "destination": "/webdesign-mittelfranken",
+      "permanent": true
+    },
+    {
+      "source": "/blog/webdesign-seo-franken-kunden-gewinnen",
+      "destination": "/webdesign-mittelfranken",
+      "permanent": true
+    },
+    {
+      "source": "/blog/lokales-marketing-mittelfranken-vorteile-erfolg",
+      "destination": "/webdesign-mittelfranken",
+      "permanent": true
+    },
+    {
+      "source": "/blog/digitalisierungs-check-kmu-mittelfranken-zukunft",
+      "destination": "/webdesign-mittelfranken",
+      "permanent": true
+    },
+    {
+      "source": "/blog/logo-design-trends-mittelfranken-professioneller-auftritt",
+      "destination": "/webdesign-mittelfranken",
+      "permanent": true
+    },
+    {
+      "source": "/blog/lokal-ranken-nuernberg-seo-tipps-dienstleister",
+      "destination": "/webdesign-mittelfranken",
+      "permanent": true
+    },
+    {
+      "source": "/blog/responsive-design-nuernberg-mobile-optimierung-pflicht",
+      "destination": "/webdesign-mittelfranken",
+      "permanent": true
+    },
+    {
+      "source": "/blog/landingpage-optimierung-nuernberg-dienstleister",
+      "destination": "/webdesign-mittelfranken",
+      "permanent": true
+    },
+    {
+      "source": "/blog/branding-strategien-nuernberg-firmen",
+      "destination": "/webdesign-mittelfranken",
+      "permanent": true
+    },
+    {
+      "source": "/blog/ki-kundenakquise-nuernberg-unternehmen",
+      "destination": "/webdesign-mittelfranken",
+      "permanent": true
+    },
+    {
+      "source": "/blog/ui-ux-design-trends-2026-fraenkische-startups",
+      "destination": "/webdesign-mittelfranken",
+      "permanent": true
+    },
+    {
+      "source": "/blog/workflows-automatisieren-n8n-zeit-sparen-buero",
+      "destination": "/blog/n8n-automatisierung-handwerk-buero",
+      "permanent": true
+    },
+    {
+      "source": "/blog/igxUJYOFBjTbm5ewVpdE",
+      "destination": "/blog/n8n-automatisierung-handwerk-buero",
+      "permanent": true
+    },
+    {
+      "source": "/blog/individuelle-ki-tools-bauen-n8n-workflows",
+      "destination": "/blog/n8n-automatisierung-handwerk-buero",
+      "permanent": true
+    },
+    {
+      "source": "/blog/crm-automatisierung-n8n-mittelstand",
+      "destination": "/blog/n8n-automatisierung-handwerk-buero",
+      "permanent": true
+    },
+    {
+      "source": "/blog/n8n-vs-zapier-profis-waehlen-kontrolle",
+      "destination": "/blog/n8n-automatisierung-handwerk-buero",
+      "permanent": true
+    },
+    {
+      "source": "/blog/vercel-n8n-power-duo-moderne-webanwendungen",
+      "destination": "/blog/n8n-automatisierung-handwerk-buero",
+      "permanent": true
+    },
+    {
+      "source": "/blog/automatisierte-rechnungsstellung-n8n-workflows",
+      "destination": "/blog/n8n-automatisierung-handwerk-buero",
+      "permanent": true
+    },
+    {
+      "source": "/blog/lead-management-n8n-google-sheets-automatisieren",
+      "destination": "/blog/n8n-automatisierung-handwerk-buero",
+      "permanent": true
+    },
+    {
+      "source": "/blog/daten-synchronisieren-n8n-bruecke-apps",
+      "destination": "/blog/n8n-automatisierung-handwerk-buero",
+      "permanent": true
+    },
+    {
+      "source": "/blog/ki-agenten-n8n-unternehmen-implementieren",
+      "destination": "/blog/n8n-automatisierung-handwerk-buero",
+      "permanent": true
+    },
+    {
+      "source": "/blog/prozessoptimierung-mittelfranken-automation-moeglich",
+      "destination": "/blog/n8n-automatisierung-handwerk-buero",
+      "permanent": true
+    },
+    {
+      "source": "/blog/ci-design-einheitliches-erscheinungsbild-erfolg",
+      "destination": "/leistungen",
+      "permanent": true
+    },
+    {
+      "source": "/blog/conversion-rate-steigern-mehr-anfragen-website",
+      "destination": "/leistungen",
+      "permanent": true
+    },
+    {
+      "source": "/blog/nextjs-vercel-webentwicklung-schnell-sicher",
+      "destination": "/leistungen",
+      "permanent": true
+    },
+    {
+      "source": "/blog/high-performance-hosting-vercel-zukunft-web",
+      "destination": "/leistungen",
+      "permanent": true
     }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "has": [
-        { "type": "host", "value": ".*\\.vercel\\.app" }
+        {
+          "type": "host",
+          "value": ".*\\.vercel\\.app"
+        }
       ],
       "headers": [
         {

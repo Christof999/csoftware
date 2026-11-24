@@ -133,6 +133,63 @@ export const WEBDESIGN_LOCAL_PAGES: WebdesignLocalPage[] = [
     ],
   },
   {
+    path: '/webdesign-gunzenhausen',
+    place: 'Gunzenhausen',
+    breadcrumb: 'Webdesign Gunzenhausen',
+    h1: 'Webdesign und SEO in Gunzenhausen',
+    h1Muted: 'für Betriebe am Altmühlsee und im Landkreis.',
+    metaTitle: `Webdesign & SEO Gunzenhausen | Website für Betriebe | SØRGEL-design`,
+    metaDescription:
+      'Webdesign und lokale SEO in Gunzenhausen: Websites für Handwerk, Handel und Gastgeber im Landkreis Weißenburg-Gunzenhausen — aus Merkendorf, die B13 hinunter.',
+    lead:
+      'Gunzenhausen lebt vom Handwerk, vom Handel in der Altstadt und von Gästen am Altmühlsee. Wer hier sucht, sucht mit Ort: „Schreiner Gunzenhausen“, „Ferienwohnung Altmühlsee“, „Elektriker Muhr am See“. Eine Website muss genau diese Suchen bedienen — mit klaren Leistungen, richtigem Ort und einem Anfrageweg, der auf dem Handy funktioniert.',
+    areaServedType: 'City',
+    areaServedName: 'Gunzenhausen',
+    sections: [
+      {
+        heading: 'Was SEO in Gunzenhausen konkret bedeutet',
+        paragraphs: [
+          'Die Suchen in Gunzenhausen sind klein, aber eindeutig. Wer „Dachdecker Gunzenhausen“ eingibt, will heute noch anrufen. Dafür braucht es keine Kampagne, sondern Grundlagen: eine eigene Seite je Leistung, den Ort in Titel und Text, dieselbe Adresse auf Website und Google-Unternehmensprofil, schnelle Ladezeit.',
+          'Viele Betriebe im Landkreis haben eine Seite, die vor Jahren gebaut wurde und seitdem niemand angefasst hat. Oft reicht es nicht, das Logo zu tauschen. Die Struktur muss zu dem passen, wonach heute gesucht wird.',
+        ],
+      },
+      {
+        heading: 'Für wen wir in Gunzenhausen bauen',
+        paragraphs: [
+          'Handwerksbetriebe, die Anfragen aus der Stadt und den Orten drumherum wollen — Muhr am See, Gnotzheim, Theilenhofen, Absberg. Händler in der Altstadt, die neben dem Laden online auffindbar sein müssen. Gastgeber am See, die direkte Buchungsanfragen statt nur Portalprovisionen wollen.',
+          'Wenn zusätzlich Abläufe im Büro hängen — Stundenzettel, Rechnungen, Belege — bauen wir auf Wunsch auch die passende Software. Website und Programm laufen dann auf derselben Technik.',
+        ],
+      },
+      {
+        heading: 'Kurzer Weg aus Merkendorf',
+        paragraphs: [
+          'SØRGEL-design sitzt in Merkendorf, über die B13 schnell in Gunzenhausen. Ein Termin vor Ort ist kein Projektzuschlag. Sie sprechen mit dem, der die Seite baut, nicht mit einer Agentur-Hotline.',
+          'Die umgesetzten Websites stehen unter den Referenzen — eine Glaserei und ein Forstbetrieb aus dem Nachbarlandkreis, beide mit echten Adressen und Telefonnummern.',
+        ],
+      },
+    ],
+    pointsHeading: 'Was die Seite leisten muss',
+    points: [
+      'Gefunden werden bei Suchen mit Gewerk und Ort — Gunzenhausen und die Gemeinden im Landkreis',
+      'Google-Unternehmensprofil und Website mit denselben Angaben',
+      'Anruf oder Anfrage in zwei Tipps, auch vom Handy',
+    ],
+    faqs: [
+      {
+        q: 'Was kostet eine Website für einen Betrieb in Gunzenhausen?',
+        a: 'Eine klar abgegrenzte Unternehmenswebsite liegt typischerweise im unteren bis mittleren vierstelligen Bereich. Den Preis macht der Umfang: Anzahl der Leistungsseiten, Texte, Funktionen wie Buchung oder Formulare. Im Erstgespräch trennen wir, was zum Start nötig ist und was später kommen kann.',
+      },
+      {
+        q: 'Übernehmen Sie auch SEO für eine bestehende Website?',
+        a: 'Ja. Zuerst prüfen wir, was Google aktuell von der Seite sieht: Indexierung, Titel, Ladezeit, Google-Unternehmensprofil. Oft sind es wenige Punkte, die eine Seite für Suchen in Gunzenhausen unsichtbar machen. Lohnt sich die alte Technik nicht mehr, sagen wir das offen.',
+      },
+      {
+        q: 'Kommen Sie für ein Gespräch nach Gunzenhausen?',
+        a: 'Ja. Von Merkendorf ist es nicht weit. Vieles geht danach auch per Bildschirm, aber den Betrieb sehen wir uns gern vorher an.',
+      },
+    ],
+  },
+  {
     path: '/webdesign-mittelfranken',
     place: 'Mittelfranken',
     breadcrumb: 'Webdesign Mittelfranken',
